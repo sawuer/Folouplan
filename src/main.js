@@ -6,7 +6,6 @@ import('./../node_modules/vuetify/dist/vuetify.min.css')
 import('./assets/css/style.css')
 import('./../node_modules/vuetify/dist/vuetify.min.js')
 Vue.config.productionTip = false
-
 Vue.use(Vuetify)
 
 /* eslint-disable no-new */

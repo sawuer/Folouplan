@@ -30,3 +30,9 @@ a {
 .application--light .list .list__tile:not(.list__tile--active) {
 	border-bottom: 1px solid #eee;
 }
+.delete-todo {
+	width: 45px !important;
+}
+.completed-todos {
+	opacity: .4;
+}

@@ -18,7 +18,7 @@
     </v-navigation-drawer>
     <v-toolbar class="purple lighten-1" dark>
       <v-flex xs10>
-        <v-toolbar-title>{{appName}} &mdash; {{tagLine}}</v-toolbar-title>
+        <v-toolbar-title>{{appName}}<!--  &mdash; {{tagLine}} --></v-toolbar-title>
       </v-flex>  
       <v-flex xs2>
         <user></user>
