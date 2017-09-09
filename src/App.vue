@@ -1,10 +1,13 @@
 <template>
-  <div v-if="start">
-   <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
-    <div id="app">
-      <navigation></navigation>
+  <div>
+    <div v-if="!loaded">
+      <v-progress-circular id="main-preloader" indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
     </div>
-    
+    <div v-else>
+      <div id="app">
+        <navigation></navigation>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,9 +18,15 @@
     components: {
       Navigation
     },
+    mounted () {
+      var self = this
+      setTimeout(function () {
+        self.loaded = true
+      }, 2000)
+    },
     data () {
       return {
-        start: true
+        loaded: false
       }
     }
   }

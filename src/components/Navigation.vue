@@ -1,4 +1,6 @@
 <template>
+    <div v-cloak>
+
   <v-app id="" toolbar>
     <v-navigation-drawer permanent floating light>
       <v-list dense class="pt-0">
@@ -29,6 +31,7 @@
       </v-container>
     </main>
   </v-app>
+  </div>
 </template>
 
 
