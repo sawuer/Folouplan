@@ -1,6 +1,8 @@
 <template>
-      <h2>{{ msg }}</h2>
-     
+	<div>
+   <h4>Diary</h4>
+
+	</div>  
 </template>
 
 <script>

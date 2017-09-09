@@ -10,6 +10,7 @@ import Configs from '@/components/Configs'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     { path: '/todolist', component: Todo },
     { path: '/mindmaps', component: Mindmaps },
