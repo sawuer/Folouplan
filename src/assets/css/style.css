@@ -36,3 +36,16 @@ a {
 .completed-todos {
 	opacity: .4;
 }
+nav {
+	position: fixed !important;
+}
+main {
+	padding-top: 64px;
+}
+.floatR {
+	float: right;
+}
+.user-wrapper {
+	display: block;
+	padding-top: 14px;
+}

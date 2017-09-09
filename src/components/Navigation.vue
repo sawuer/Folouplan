@@ -1,7 +1,5 @@
 <template>
-    <div v-cloak>
-
-  <v-app id="" toolbar>
+  <v-app id="navigation" toolbar>
     <v-navigation-drawer permanent floating light>
       <v-list dense class="pt-0">
         <v-list-tile v-for="item in items" :key="item.title" @click="">
@@ -17,10 +15,10 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar class="purple lighten-1" dark>
-      <v-flex xs10>
+      <v-flex xs9>
         <v-toolbar-title>{{appName}}<!--  &mdash; {{tagLine}} --></v-toolbar-title>
       </v-flex>  
-      <v-flex xs2>
+      <v-flex xs3>
         <user></user>
       </v-flex>
 
@@ -31,7 +29,6 @@
       </v-container>
     </main>
   </v-app>
-  </div>
 </template>
 
 

@@ -8,12 +8,7 @@
         </v-flex>
         <v-flex xs3 offset-xs1>
           <v-dialog persistent v-model="modalDate" lazy color="green--title" full-width>
-            <v-text-field
-              slot="activator"
-              label="Date"
-              v-model="e3"
-              readonly
-            ></v-text-field>
+            <v-text-field slot="activator" label="Date" v-model="e3" readonly></v-text-field>
             <v-date-picker v-model="e3" scrollable >
               <template scope="{ save, cancel }">
                 <v-card-actions>
@@ -30,13 +25,11 @@
     </v-form>
     <br>
     <v-layout row>
-
       <v-flex xs12>
           <v-list two-line>
             <template v-for="item in todos">
               <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
               <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-              
               <v-list-tile avatar v-else v-bind:key="item.title" @click="" download>
                 <v-list-tile-action>
                   <v-checkbox v-bind:label="null" v-model="item.ex" color="green lighten-1" light></v-checkbox>
@@ -49,7 +42,6 @@
                   <v-icon class="grey--text">delete</v-icon>
                 </v-btn>
               </v-list-tile>
-
             </template>
           </v-list>
       </v-flex>
@@ -73,12 +65,8 @@
           </v-list>
       </v-flex>
     </v-layout>
-
   </div>
 </template>
-
-
-
 
 <script>
   export default {
