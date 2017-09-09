@@ -1,0 +1,13 @@
+.application--light .navigation-drawer {
+	border-right: 1px solid #eee;
+	background: #f9f9f9 !important;
+}
+.application .theme--light.navigation-drawer .list {
+	background: #f9f9f9 !important;
+}
+.white-text {
+	color: #fff !important;
+}
+.application--light {
+	background: #fff !important;
+}
