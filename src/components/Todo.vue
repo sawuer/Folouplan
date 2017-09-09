@@ -108,14 +108,6 @@
         ],
 
         completedTodos: [
-          {
-            title: 'Купить слона',
-            date: '2017-09-09'
-          },
-          {
-            title: 'Помыть слона',
-            date: '2017-09-09'
-          }
         ]
       }
     },
@@ -137,10 +129,17 @@
         var parent = e.target.parentElement.parentElement
         var title = parent.querySelector('.list__tile__title').innerHTML
         for (var i = 0; i < Object.keys(this.todos).length; i++) {
-          if (title === this.todos[i].title) {
+          if (title === this.todos[i].title && this.todos[i].ex) {
             var deleted = this.todos.splice(this.todos.indexOf[i], 1)[0]
             this.completedTodos.unshift(deleted)
+          } else {
+            this.todos.splice(this.todos.indexOf[i], 1)[0]
+            console.log('Else')
           }
+        }
+        if (Object.keys(this.completedTodos).length > 10) {
+          console.log(this.completedTodos)
+          this.completedTodos.pop()
         }
       }
     }
