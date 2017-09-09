@@ -96,12 +96,22 @@
 
         todos: [
           {
-            title: 'Купить продукты в магазине',
+            title: '1Купить продукты в магазине',
             date: '2017-09-09',
             ex: false
           },
           {
-            title: 'Создать программу на Vue.js',
+            title: '2Создать программу на Vue.js',
+            date: '2017-09-09',
+            ex: false
+          },
+          {
+            title: '3Создать программу на Vue.js',
+            date: '2017-09-09',
+            ex: false
+          },
+          {
+            title: '4Создать программу на Vue.js',
             date: '2017-09-09',
             ex: false
           }
@@ -116,30 +126,30 @@
         this.$refs.form.validate()
         var todo = this.$refs.form.$el[0].value
         var date = this.$refs.form.$el[1].value
-        this.todos.push({
-          title: todo,
-          date: date,
-          ex: false
-        })
+        // console.log(todo === '')
+        if (todo !== '') {
+          this.todos.push({
+            title: todo,
+            date: date,
+            ex: false
+          })
+        }
       },
       clear () {
         this.$refs.form.reset()
       },
-      deleteTodo (e) {
-        var parent = e.target.parentElement.parentElement
+      deleteTodo (event) {
+        var parent = event.target.parentElement.parentElement
         var title = parent.querySelector('.list__tile__title').innerHTML
-        for (var i = 0; i < Object.keys(this.todos).length; i++) {
-          if (title === this.todos[i].title && this.todos[i].ex) {
-            var deleted = this.todos.splice(this.todos.indexOf[i], 1)[0]
-            this.completedTodos.unshift(deleted)
-          } else {
-            this.todos.splice(this.todos.indexOf[i], 1)[0]
-            console.log('Else')
+        var todosLength = Object.keys(this.todos).length
+        for (var i = 0; i < todosLength; i++) {
+          if (title === this.todos[i].title) {
+            if (this.todos[i].ex === true) {
+              this.completedTodos.unshift(this.todos.splice(i, 1)[0])
+              return
+            }
+            this.todos.splice(i, 1)[0]
           }
-        }
-        if (Object.keys(this.completedTodos).length > 10) {
-          console.log(this.completedTodos)
-          this.completedTodos.pop()
         }
       }
     }
