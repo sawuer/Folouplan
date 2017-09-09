@@ -15,7 +15,13 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar class="purple darken-1" dark>
-      <v-toolbar-title>{{appName}} &mdash; {{tagLine}}</v-toolbar-title>
+      <v-flex xs10>
+        <v-toolbar-title>{{appName}} &mdash; {{tagLine}}</v-toolbar-title>
+      </v-flex>  
+      <v-flex xs2>
+        <user></user>
+      </v-flex>
+
     </v-toolbar>
     <main>
       <v-container fluid>
@@ -27,8 +33,13 @@
 
 
 <script>
+  import User from '@/components/User'
+
   export default {
     name: 'navigation',
+    components: {
+      User
+    },
     data () {
       return {
         appName: 'Ramona',

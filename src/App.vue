@@ -1,24 +1,24 @@
 <template>
-  <div id="app">
-    <navigation></navigation>
+  <div v-if="start">
+   <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
+    <div id="app">
+      <navigation></navigation>
+    </div>
+    
   </div>
 </template>
 
 <script>
   import Navigation from '@/components/Navigation'
-  // import Todo from '@/components/Todo'
-  // import Mindmaps from '@/components/Mindmaps'
-  // import Money from '@/components/Money'
-  // import Challenges from '@/components/Challenges'
-
   export default {
     name: 'app',
     components: {
       Navigation
-      // Todo,
-      // Mindmaps,
-      // Money,
-      // Challenges
+    },
+    data () {
+      return {
+        start: true
+      }
     }
   }
 </script>

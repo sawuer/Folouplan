@@ -12,7 +12,7 @@
         label="Description"
       ></v-text-field>
 
-      <v-btn class="green lighten-" @click="submit">
+      <v-btn class="green lighten-1" @click="submit">
         <v-icon class="white-text">add</v-icon>
       </v-btn>
       <v-btn @click="clear">Clear</v-btn>

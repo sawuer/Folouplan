@@ -5,6 +5,7 @@ import Mindmaps from '@/components/Mindmaps'
 import Money from '@/components/Money'
 import Diary from '@/components/Diary'
 import Challenges from '@/components/Challenges'
+import Configs from '@/components/Configs'
 
 Vue.use(Router)
 
@@ -14,6 +15,7 @@ export default new Router({
     { path: '/mindmaps', component: Mindmaps },
     { path: '/money', component: Money },
     { path: '/diary', component: Diary },
-    { path: '/challenges', component: Challenges }
+    { path: '/challenges', component: Challenges },
+    { path: '/configs', component: Configs }
   ]
 })
