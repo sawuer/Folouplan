@@ -1,6 +1,6 @@
 <template>
   <div>
-  	conf
+  	<h4>Configs</h4>
   </div>
 </template>
 
