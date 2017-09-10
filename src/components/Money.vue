@@ -25,7 +25,7 @@
 		            </template>
 		          </v-date-picker>
 		        </v-menu>
-	          <v-btn class="green--text darken-1" @click="addPurchase" flat>Add</v-btn>
+	          <v-btn class="green--text darken-1" @click="addPurchase" @click.native="dialog = false" flat>Add</v-btn>
 	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
 		      </v-form>
         </v-card-text>
@@ -183,7 +183,6 @@
             date: date,
             income: income
           })
-          this.dialog = true
         }
         this.cashSum += +income
       },

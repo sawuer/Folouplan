@@ -50,7 +50,7 @@ main {
 	padding-top: 14px;
 }
 .list__tile--link {
-	font-size: 14px !important;
+	font-size: 13px !important;
 }
 .list__tile--active {
 	border-bottom: 1px solid #eee !important;
@@ -86,7 +86,7 @@ main {
 	font-weight: bold !important;
 }
 .list__tile .avatar, .list__tile__action {
-	min-width: 35px !important;
+	min-width: 33px !important;
 }
 .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~main, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~main {
 	padding-left: 150px !important;

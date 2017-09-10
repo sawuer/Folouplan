@@ -1,5 +1,8 @@
 <template>
-      <h4>{{ msg }}</h4>
+	<div>
+    <h5 class="light-text">Mindmaps</h5>
+		
+	</div>
      
 </template>
 
@@ -8,7 +11,6 @@
     name: 'Mindmaps',
     data () {
       return {
-        msg: 'Mindmaps'
       }
     }
   }
