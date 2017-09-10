@@ -32,7 +32,7 @@
       </v-card>
     </v-dialog>
 
-
+sdfsd
 		<br>
 
 	  <v-data-table v-bind:headers="spendingHeader" :items="spendingItems">
