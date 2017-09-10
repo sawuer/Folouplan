@@ -55,11 +55,15 @@
 	      :filter="Date"
 	      class="elevation-1"
 	    >
+
 	    <template slot="items" scope="props">
-	      <td>{{ props.item.name }}</td>
-	      <td class="text-xs-left">{{ props.item.date }}</td>
-	      <td class="text-xs-left">{{ props.item.type }}</td>
-	      <td class="cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+	      <td class="pur-name">
+		      <v-btn class="" @click="deletePurchase" icon>
+		        <v-icon class="grey--text">delete</v-icon>
+		      </v-btn>{{ props.item.name }}</td>
+	      <td class="pur-date text-xs-left">{{ props.item.date }}</td>
+	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
+	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
 	    </template>
 	  </v-data-table>
 
@@ -157,14 +161,33 @@
             date: date,
             type: type
           })
+        }, 600)
+        setTimeout(function () {
           self.cashSum -= cost
-        }, 500)
+        }, 800)
       },
       computeMoney () {
-        console.log(this.items)
         var itemsL = Object.keys(this.items).length
         for (var i = 0; i < itemsL; i++) {
           this.cashSum -= this.items[i].cost
+        }
+      },
+      deletePurchase (e) {
+        var itemsL = Object.keys(this.items).length
+        var row = e.target.parentNode.parentNode.parentNode
+        var name = row.querySelector('.pur-name').innerText.replace('delete', '').trim()
+        var type = row.querySelector('.pur-type').innerText
+        var date = row.querySelector('.pur-date').innerText
+        var cost = row.querySelector('.pur-cost').innerText.replace(this.currentCurrency, '').trim()
+        // console.log(name)
+        // console.log(type)
+        // console.log(date)
+        // console.log(cost)
+        for (var i = 0; i < itemsL; i++) {
+          if (this.items[i].name === name && this.items[i].type === type && this.items[i].date === date) {
+            this.items.splice(i, 1)
+            this.cashSum += +cost
+          }
         }
       }
     }
