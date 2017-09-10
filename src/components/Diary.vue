@@ -10,7 +10,7 @@
 		</v-layout>
 		<br>
 		<br>
-		<h5>Posts</h5>
+		<h5 class="light-text">Posts</h5>
 	  <v-layout>
 	    <v-flex xs12>
 	      <div class="diary-item" v-for="item in posts">
@@ -19,7 +19,7 @@
 						<p class="diary-p">{{item.text}}</p>
           </div>
 				  <v-btn class="diary-delete" @click.native.stop="item.dialog" @click="item.dialog = true"  icon>
-            <v-icon class="grey--text">delete</v-icon>
+            <v-icon class="grey--text completed-todos">delete</v-icon>
           </v-btn>
 			    <v-dialog v-model="item.dialog">
 			      <v-card>

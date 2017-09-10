@@ -48,22 +48,37 @@
     </v-dialog>
 
 
-    <h5 class="cash-text">Your cash today: <b>{{cashSum}} {{currentCurrency}}</b></h5>
-	  <v-data-table
-	      v-bind:headers="headers"
-	      :items="items"
-	      :filter="Date"
-	      class="elevation-1"
-	    >
-
+    <h5 class="cash-text">{{cashSum}} {{currentCurrency}}</h5>
+		<br>
+		<br>
+    <h5 class="light-text">Spending</h5>
+	  <v-data-table v-bind:headers="spendingHeader" :items="spendingItems">
 	    <template slot="items" scope="props">
 	      <td class="pur-name">
-		      <v-btn class="" @click="deletePurchase" icon>
+	      	{{ props.item.name }}
+		      <v-btn class="completed-todos" @click="deletePurchase" icon>
 		        <v-icon class="grey--text">delete</v-icon>
-		      </v-btn>{{ props.item.name }}</td>
+		      </v-btn>
+		    </td>
 	      <td class="pur-date text-xs-left">{{ props.item.date }}</td>
 	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
 	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+	    </template>
+	  </v-data-table>	
+
+	  <br>
+		<br>
+    <h5 class="light-text">Income</h5>
+	  <v-data-table v-bind:headers="incomeHeader" :items="incomeItems">
+	    <template slot="items" scope="props">
+	      <td class="pur-date text-xs-left">
+	        {{ props.item.date }}
+	        <v-btn class="completed-todos" @click="deletePurchase" icon>
+		        <v-icon class="grey--text">delete</v-icon>
+		      </v-btn>
+	       </td>
+	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
+	      <td class="pur-cost cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
 	    </template>
 	  </v-data-table>
 
@@ -74,7 +89,7 @@
 <script>
   export default {
     mounted () {
-      this.computeMoney()
+      this.takeOf()
     },
     name: 'Money',
     data () {
@@ -83,65 +98,34 @@
         valid: false,
         e3: null,
         menu: false,
-        currency: ['тг', 'руб'],
         cashSum: 50000,
         currentCurrency: 'тг',
-        headers: [
+        spendingHeader: [
           { text: 'Item', align: 'left', sortable: false, value: 'name' },
           { text: 'Date', align: 'left', sortable: true, aria_sort: 'descending', value: 'date' },
           { text: 'Type', align: 'left', value: 'type' },
           { text: 'Cost', align: 'right', value: 'cost' }
         ],
-        items: [
-          {
-            value: false,
-            name: 'Frozen Yogurt',
-            cost: 159,
-            date: '2017-09-04',
-            type: 'Food'
-          },
-          {
-            value: false,
-            name: 'Bus',
-            cost: 237,
-            date: '2017-09-03',
-            type: 'Passage'
-          },
-          {
-            value: false,
-            name: 'Table',
-            cost: 262,
-            date: '2017-09-02',
-            type: 'Home'
-          },
-          {
-            value: false,
-            name: 'Cupcake',
-            cost: 305,
-            date: '2017-09-01',
-            type: 'Food'
-          },
-          {
-            value: false,
-            name: 'Another buss',
-            cost: 237,
-            date: '2017-09-03',
-            type: 'Passage'
-          },
-          {
-            value: false,
-            name: 'Chair',
-            cost: 2632,
-            date: '2017-09-02',
-            type: 'Home'
-          },
-          {
-            value: false,
-            name: 'Chai',
-            cost: 3205,
-            date: '2017-09-01',
-            type: 'Food'
-          }
+        incomeHeader: [
+          { text: 'Date', align: 'left', sortable: true, aria_sort: 'descending', value: 'date' },
+          { text: 'Type', align: 'left', value: 'type' },
+          { text: 'Income', align: 'right', value: 'income' }
+        ],
+        spendingItems: [
+          { name: 'Frozen Yogurt', cost: 159, date: '2017-09-04', type: 'Food' },
+          { name: 'Bus', cost: 159, date: '2017-09-02', type: 'Passage' },
+          { name: 'Table', cost: 159, date: '2017-09-03', type: 'Home' },
+          { name: 'Cupcake', cost: 305, date: '2017-09-01', type: 'Food' },
+          { name: 'Another buss', cost: 237, date: '2017-09-03', type: 'Passage' },
+          { name: 'Chair', cost: 2632, date: '2017-09-02', type: 'Home' },
+          { name: 'Chai', cost: 3205, date: '2017-09-01', type: 'Food' }
+        ],
+        incomeItems: [
+          { type: 'Work', date: '2017-09-12', income: 3000 },
+          { type: 'Freelance', date: '2017-09-02', income: 13000 },
+          { type: 'Work', date: '2017-08-12', income: 30000 },
+          { type: 'Work', date: '2017-07-12', income: 30000 },
+          { type: 'Freelance', date: '2017-07-08', income: 1000 }
         ]
       }
     },
@@ -154,38 +138,32 @@
         var type = form.$el[2].previousSibling.textContent
         var date = form.$el[3].value
         setTimeout(function () {
-          self.items.unshift({
+          self.spendingItems.unshift({
             value: false,
             name: purchase,
             cost: cost,
             date: date,
             type: type
           })
-        }, 600)
-        setTimeout(function () {
           self.cashSum -= cost
-        }, 800)
+        }, 600)
       },
-      computeMoney () {
-        var itemsL = Object.keys(this.items).length
+      takeOf () {
+        var itemsL = Object.keys(this.spendingItems).length
         for (var i = 0; i < itemsL; i++) {
-          this.cashSum -= this.items[i].cost
+          this.cashSum -= this.spendingItems[i].cost
         }
       },
       deletePurchase (e) {
-        var itemsL = Object.keys(this.items).length
+        var itemsL = Object.keys(this.spendingItems).length
         var row = e.target.parentNode.parentNode.parentNode
         var name = row.querySelector('.pur-name').innerText.replace('delete', '').trim()
         var type = row.querySelector('.pur-type').innerText
         var date = row.querySelector('.pur-date').innerText
         var cost = row.querySelector('.pur-cost').innerText.replace(this.currentCurrency, '').trim()
-        // console.log(name)
-        // console.log(type)
-        // console.log(date)
-        // console.log(cost)
         for (var i = 0; i < itemsL; i++) {
-          if (this.items[i].name === name && this.items[i].type === type && this.items[i].date === date) {
-            this.items.splice(i, 1)
+          if (this.spendingItems[i].name === name && this.spendingItems[i].type === type && this.spendingItems[i].date === date) {
+            this.spendingItems.splice(i, 1)
             this.cashSum += +cost
           }
         }

@@ -31,7 +31,7 @@ a {
 	border-bottom: 1px solid #eee;
 }
 .delete-todo {
-	width: 45px !important;
+	width: 43px !important;
 }
 .completed-todos {
 	opacity: .5;
@@ -87,15 +87,18 @@ main {
 	font-weight: bold !important;
 }
 .list__tile .avatar, .list__tile__action {
-	min-width: 45px !important;
+	min-width: 35px !important;
 }
 .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~main, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~main {
-	padding-left: 180px !important;
+	padding-left: 150px !important;
 }
 .navigation-drawer {
-	width: 180px !important;
+	width: 150px !important;
 }
 .cash-text {
 	float: right;
 	padding: 10px 0;
+}
+.light-text {
+	font-weight: lighter !important;
 }

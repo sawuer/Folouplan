@@ -37,7 +37,7 @@
                   <v-list-tile-title v-html="item.title"></v-list-tile-title>
                   <v-list-tile-sub-title v-html="item.date"></v-list-tile-sub-title>
                 </v-list-tile-content>
-                <v-btn class="delete-todo" @click="deleteTodo" icon>
+                <v-btn class="delete-todo completed-todos" @click="deleteTodo" icon>
                   <v-icon class="grey--text">delete</v-icon>
                 </v-btn>
               </v-list-tile>
@@ -47,7 +47,7 @@
     </v-layout>
     <br>
     <br>
-    <h5>Completed</h5>
+    <h5 class="light-text">Completed</h5>
     <v-layout row>
       <v-flex xs12>
           <v-list two-line>
