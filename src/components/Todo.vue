@@ -19,7 +19,7 @@
           </v-dialog>
         </v-flex>
       </v-layout>
-      <v-btn class="purple lighten-2 white-text" @click="submit">Add todo</v-btn>
+      <v-btn class="green lighten-3 white-text" @click="submit">Add todo</v-btn>
       <v-btn class="grey--text" @click="clear">Clear</v-btn>
     </v-form>
     <br>
@@ -31,7 +31,7 @@
               <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
               <v-list-tile avatar v-else v-bind:key="item.title" @click="" download>
                 <v-list-tile-action>
-                  <v-checkbox v-bind:label="null" v-model="item.ex" color="green lighten-1" light></v-checkbox>
+                  <v-checkbox v-bind:label="null" v-model="item.ex" color="green lighten-3" light></v-checkbox>
                 </v-list-tile-action>
                 <v-list-tile-content>
                   <v-list-tile-title v-html="item.title"></v-list-tile-title>
@@ -82,29 +82,16 @@
         ],
 
         todos: [
-          {
-            title: '1Купить продукты в магазине',
-            date: '2017-09-09',
-            ex: false
-          },
-          {
-            title: '2Создать программу на Vue.js',
-            date: '2017-09-09',
-            ex: false
-          },
-          {
-            title: '3Создать программу на Vue.js',
-            date: '2017-09-09',
-            ex: false
-          },
-          {
-            title: '4Создать программу на Vue.js',
-            date: '2017-09-09',
-            ex: false
-          }
+          { title: 'Купить продукты в магазине', date: '2017-09-09', ex: false },
+          { title: 'Написать программу на Vue.js', date: '2017-09-10', ex: true },
+          { title: 'Отвезти документы', date: '2017-09-04', ex: false },
+          { title: 'Сходить на работу', date: '2017-09-05', ex: false }
         ],
 
         completedTodos: [
+          { title: 'Купить слона', date: '2017-09-09', ex: false },
+          { title: 'Продать слона', date: '2017-09-09', ex: false },
+          { title: 'Развести котят', date: '2017-09-09', ex: false }
         ]
       }
     },

@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h5 class="text-xs-right"><b>{{cashSum}} {{currentCurrency}}</b></h5>
+    <h5 class="all-sum text-xs-right">{{cashSum}} {{currentCurrency}}
+    </h5>
     <h5 class="light-text">Spending</h5>
 		<v-dialog v-model="dialog" persistent>
-      <v-btn primary class="purple lighten-2" dark slot="activator">Add new</v-btn>
+      <v-btn primary class="green lighten-3" dark slot="activator">Add new spend</v-btn>
       <v-card>
         <v-card-title>
-          <span class="headline">Add new</span>
+          <span class="headline">Add new spend</span>
         </v-card-title>
         <v-card-text>
         	<v-form v-model="valid" ref="form">
@@ -51,10 +52,10 @@
 
     <h5 class="light-text">Income</h5>
     <v-dialog v-model="dialog2" persistent>
-      <v-btn primary class="purple lighten-2" dark slot="activator">Add new</v-btn>
+      <v-btn primary class="green lighten-3" dark slot="activator">Add new income</v-btn>
       <v-card>
         <v-card-title>
-          <span class="headline">Add new</span>
+          <span class="headline">Add new income</span>
         </v-card-title>
         <v-card-text>
         	<v-form v-model="valid" ref="form1">
@@ -139,7 +140,8 @@
           { type: 'Freelance', date: '2017-09-02', income: 13000 },
           { type: 'Work', date: '2017-08-12', income: 30000 },
           { type: 'Work', date: '2017-07-12', income: 30000 },
-          { type: 'Freelance', date: '2017-07-08', income: 1000 }
+          { type: 'Freelance', date: '2017-07-08', income: 1000 },
+          { type: 'Freelance', date: '2017-07-10', income: 12000 }
         ]
       }
     },

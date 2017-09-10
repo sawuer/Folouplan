@@ -102,3 +102,11 @@ main {
 .light-text {
 	font-weight: lighter !important;
 }
+.all-sum {
+	position: fixed;
+	right: 0;
+	background: #fff;
+	padding: 5px 15px;
+	top: 65px;
+	opacity: .6;
+}

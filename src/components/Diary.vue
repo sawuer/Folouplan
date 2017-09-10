@@ -5,7 +5,7 @@
 			  <v-form ref="form">
 			    <v-text-field name="input-12-4" label="Type your post" value="" multi-line></v-text-field>
 				</v-form>
-				<v-btn class="purple lighten-2 white-text" @click="addPost">Add post</v-btn>
+				<v-btn class="green lighten-3 white-text" @click="addPost">Add post</v-btn>
 		  </v-flex>
 		</v-layout>
 		<br>
