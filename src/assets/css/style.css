@@ -75,3 +75,6 @@ main {
 .navigation-drawer {
 	transition: none !important;
 }
+.modal-id {
+	display: none;
+}

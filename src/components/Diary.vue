@@ -6,7 +6,7 @@
 			  <v-form ref="form">
 			    <v-text-field name="input-12-4" label="Type your post" value="" multi-line></v-text-field>
 				</v-form>
-				<v-btn class="green lighten-1 white-text" @click="addPost">Add todo</v-btn>
+				<v-btn class="green lighten-1 white-text" @click="addPost">Add post</v-btn>
 		  </v-flex>
 		</v-layout>
 		<br>
@@ -24,7 +24,7 @@
           </v-btn>
 			    <v-dialog v-model="item.dialog">
 			      <v-card>
-			        <v-card-title class=""><b>Delete:</b> <div>{{item.text.slice(0, 100) + '...'}}</div></v-card-title>
+			        <v-card-title class=""><div><b>Delete:</b> <span class="modal-id">{{item.modId}}</span>{{item.text.slice(0, 150) + '...'}}</div></v-card-title>
 			        <v-card-actions>
 			          <v-spacer></v-spacer>
 			          <v-btn class="green--text darken-1" flat="flat" @click.native.stop="item.dialog=false">Disagree</v-btn>
@@ -39,6 +39,9 @@
 </template>
 <script>
   export default {
+    mounted () {
+      this.setModalIds()
+    },
     name: 'Diary',
     data () {
       return {
@@ -63,24 +66,26 @@
     },
     methods: {
       addPost () {
+        this.setModalIds()
         var postText = this.$refs.form.$el[0].value
         var today = new Date()
         var dateString = today.getDate() + '-' + today.getMonth() + '-' + today.getFullYear()
         this.posts.unshift({
           date: dateString,
-          text: postText
+          text: postText,
+          dialog: false
         })
       },
       deletePost (e) {
-        var parent = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-        var text = parent.querySelector('.diary-p').innerText
-        var postsLength = Object.keys(this.posts).length
-        for (var i = 0; i < postsLength; i++) {
-          console.log(this.posts[i].text)
-          if (text === this.posts[i].text) {
-            this.posts.splice(i, 1)[0]
-            return
-          }
+        var parent = e.target.parentElement.parentElement.parentElement
+        var IDinModal = parent.querySelector('.modal-id').innerText
+        this.posts.splice(this.posts[IDinModal].modId, 1)
+        this.setModalIds()
+      },
+      setModalIds () {
+        var arrL = Object.keys(this.posts).length
+        for (var i = 0; i < arrL; i++) {
+          this.posts[i].modId = i
         }
       }
     }
