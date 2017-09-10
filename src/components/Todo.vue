@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h4>Todolist</h4>
     <v-form v-model="valid" ref="form">
       <v-layout row wrap>
         <v-flex xs6>

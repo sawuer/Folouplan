@@ -1,6 +1,5 @@
 <template>
 	<div>
-   <h4>Diary</h4>
 		<v-layout row>
 		  <v-flex xs12>
 			  <v-form ref="form">
@@ -66,7 +65,6 @@
     },
     methods: {
       addPost () {
-        this.setModalIds()
         var postText = this.$refs.form.$el[0].value
         var today = new Date()
         var dateString = today.getDate() + '-' + today.getMonth() + '-' + today.getFullYear()
@@ -75,6 +73,7 @@
           text: postText,
           dialog: false
         })
+        this.setModalIds()
       },
       deletePost (e) {
         var parent = e.target.parentElement.parentElement.parentElement

@@ -1,5 +1,5 @@
 .application--light .navigation-drawer {
-	border-right: 1px solid #eee;
+	/*border-right: 1px solid #eee;*/
 	background: #f5f5f5 !important;
 }
 .application .theme--light.navigation-drawer .list {
@@ -55,6 +55,7 @@ main {
 }
 .list__tile--active {
 	border-bottom: 1px solid #eee !important;
+	background: #fff;
 }
 .card {
 	margin-bottom: 20px;
@@ -77,4 +78,10 @@ main {
 }
 .modal-id {
 	display: none;
+}
+.dialog, .menu__content {
+	box-shadow: none !important;
+}
+.cost-td {
+	font-weight: bold !important;
 }

@@ -46,9 +46,9 @@
         tagLine: 'your life under control',
         items: [
           { title: 'Todolist', path: '/todolist', icon: 'storage' },
-          { title: 'Mindmaps', path: '/mindmaps', icon: 'device_hub' },
-          { title: 'Money', path: '/money', icon: 'attach_money' },
           { title: 'Diary', path: '/diary', icon: 'book' },
+          { title: 'Money', path: '/money', icon: 'attach_money' },
+          { title: 'Mindmaps', path: '/mindmaps', icon: 'device_hub' },
           { title: 'Challenges', path: '/challenges', icon: 'flash_on' }
         ]
       }
