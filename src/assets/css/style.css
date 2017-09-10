@@ -108,5 +108,8 @@ main {
 	background: #fff;
 	padding: 5px 15px;
 	top: 65px;
-	opacity: .6;
+	opacity: .9;
+}
+.application .theme--light.input-group--selection-controls .icon, .application .theme--light.input-group--selection-controls:not(.input-group--active) .input-group__input {
+	color: rgba(0,0,0,.20);
 }

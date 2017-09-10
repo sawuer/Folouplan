@@ -1,14 +1,15 @@
 <template>
   <div>
+    <h5 class="light-text">Add todo</h5>
+
     <v-form v-model="valid" ref="form">
-      <v-layout row wrap>
-        <v-flex xs6>
+        <v-flex xs5>
           <v-text-field id="todo" label="Todo" v-model="todo" :rules="nameRules" :counter="50" required></v-text-field>
         </v-flex>
-        <v-flex xs3 offset-xs1>
+        <v-flex xs5>
           <v-dialog persistent v-model="modalDate" lazy color="green--title" full-width>
-            <v-text-field slot="activator" label="Date" v-model="e3" readonly></v-text-field>
-            <v-date-picker v-model="e3" scrollable >
+            <v-text-field slot="activator" label="Date" v-model="datePicker" readonly></v-text-field>
+            <v-date-picker v-model="datePicker" autosave year-icon scrollable >
               <template scope="{ save, cancel }">
                 <v-card-actions>
                   <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
@@ -18,10 +19,9 @@
             </v-date-picker>
           </v-dialog>
         </v-flex>
-      </v-layout>
       <v-btn class="green lighten-3 white-text" @click="submit">Add todo</v-btn>
-      <v-btn class="grey--text" @click="clear">Clear</v-btn>
     </v-form>
+    <br>
     <br>
     <v-layout row>
       <v-flex xs12>
@@ -29,9 +29,9 @@
             <template v-for="item in todos">
               <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
               <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-              <v-list-tile avatar v-else v-bind:key="item.title" @click="" download>
+              <v-list-tile avatar v-else v-bind:key="item.title" download>
                 <v-list-tile-action>
-                  <v-checkbox v-bind:label="null" v-model="item.ex" color="green lighten-3" light></v-checkbox>
+                  <v-checkbox append-icon light v-bind:label="null" v-model="item.ex" color="green lighten-3" light></v-checkbox>
                 </v-list-tile-action>
                 <v-list-tile-content>
                   <v-list-tile-title v-html="item.title"></v-list-tile-title>
@@ -46,7 +46,6 @@
       </v-flex>
     </v-layout>
     <br>
-    <br>
     <h5 class="light-text">Completed</h5>
     <v-layout row>
       <v-flex xs12>
@@ -54,7 +53,7 @@
             <template v-for="item in completedTodos">
               <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
               <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-              <v-list-tile avatar v-else v-bind:key="item.title" @click="" download>
+              <v-list-tile avatar v-else v-bind:key="item.title" download>
                 <v-list-tile-content class="completed-todos">
                   <v-list-tile-title v-html="item.title"></v-list-tile-title>
                   <v-list-tile-sub-title v-html="item.date"></v-list-tile-sub-title>
@@ -73,11 +72,11 @@
     data () {
       return {
         todo: '',
-        e3: null,
+        datePicker: null,
         modalDate: false,
         valid: false,
         nameRules: [
-          (v) => !!v || 'Todo is required',
+          (v) => !!v || 'You didn\'t fill out the field',
           (v) => v && v.length <= 50 || 'Todo must be less than 50 characters'
         ],
 
@@ -107,9 +106,6 @@
             ex: false
           })
         }
-      },
-      clear () {
-        this.$refs.form.reset()
       },
       deleteTodo (event) {
         var parent = event.target.parentElement.parentElement

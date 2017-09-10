@@ -13,7 +13,7 @@
         	<v-form v-model="valid" ref="form">
 	          <v-text-field label="Purchase name" required hint="example of helper text only on focus"></v-text-field>
 	          <v-text-field label="Cost" required hint="example of helper text only on focus"></v-text-field>
-	          <v-select id="type" label="Type" required :items="['Food', 'Passage', 'Home']"></v-select>
+	          <v-select id="type" label="Type" required :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
 		        <v-menu lazy :close-on-content-click="false" v-model="date1" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
 		          <v-text-field slot="activator" label="Picker in menu" v-model="e3" prepend-icon="event" readonly></v-text-field>
 		          <v-date-picker v-model="e3" no-title scrollable actions>
