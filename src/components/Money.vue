@@ -1,34 +1,21 @@
 <template>
   <div>
+    <h4 class=""><span class="light-text">All:</span> {{cashSum}} {{currentCurrency}}</h4>
+    <h5 class="light-text">Spending</h5>
 
 		<v-dialog v-model="dialog" persistent>
-      <v-btn primary class="purple lighten-2" dark slot="activator">Add purchase</v-btn>
+      <v-btn primary class="purple lighten-2" dark slot="activator">Add new</v-btn>
       <v-card>
         <v-card-title>
-          <span class="headline">Add purchase</span>
+          <span class="headline">Add new</span>
         </v-card-title>
         <v-card-text>
         	<v-form v-model="valid" ref="form">
 	          <v-text-field label="Purchase name" required hint="example of helper text only on focus"></v-text-field>
 	          <v-text-field label="Cost" required hint="example of helper text only on focus"></v-text-field>
 	          <v-select id="type" label="Type" required :items="['Food', 'Passage', 'Home']"></v-select>
-		        <v-menu
-		          lazy
-		          :close-on-content-click="false"
-		          v-model="menu"
-		          transition="scale-transition"
-		          offset-y
-		          full-width
-		          :nudge-left="40"
-		          max-width="290px"
-		        >
-		          <v-text-field
-		            slot="activator"
-		            label="Picker in menu"
-		            v-model="e3"
-		            prepend-icon="event"
-		            readonly
-		          ></v-text-field>
+		        <v-menu lazy :close-on-content-click="false" v-model="menu" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
+		          <v-text-field slot="activator" label="Picker in menu" v-model="e3" prepend-icon="event" readonly></v-text-field>
 		          <v-date-picker v-model="e3" no-title scrollable actions>
 		            <template scope="{ save, cancel }">
 		              <v-card-actions>
@@ -42,16 +29,12 @@
 	          <v-btn class="blue--text darken-1" @click="addPurchase" @click.native="dialog = false" flat>Save</v-btn>
 		      </v-form>
         </v-card-text>
-
-
       </v-card>
     </v-dialog>
 
 
-    <h5 class="cash-text">{{cashSum}} {{currentCurrency}}</h5>
 		<br>
-		<br>
-    <h5 class="light-text">Spending</h5>
+
 	  <v-data-table v-bind:headers="spendingHeader" :items="spendingItems">
 	    <template slot="items" scope="props">
 	      <td class="pur-name">
@@ -66,7 +49,6 @@
 	    </template>
 	  </v-data-table>	
 
-	  <br>
 		<br>
     <h5 class="light-text">Income</h5>
 	  <v-data-table v-bind:headers="incomeHeader" :items="incomeItems">
@@ -90,6 +72,7 @@
   export default {
     mounted () {
       this.takeOf()
+      this.incomeAppending()
     },
     name: 'Money',
     data () {
@@ -152,6 +135,12 @@
         var itemsL = Object.keys(this.spendingItems).length
         for (var i = 0; i < itemsL; i++) {
           this.cashSum -= this.spendingItems[i].cost
+        }
+      },
+      incomeAppending () {
+        var itemsL = Object.keys(this.incomeItems).length
+        for (var i = 0; i < itemsL; i++) {
+          this.cashSum += this.incomeItems[i].income
         }
       },
       deletePurchase (e) {
