@@ -14,9 +14,9 @@
 	          <v-text-field label="Purchase name" required hint="example of helper text only on focus"></v-text-field>
 	          <v-text-field label="Cost" required hint="example of helper text only on focus"></v-text-field>
 	          <v-select id="type" label="Type" required :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
-		        <v-menu lazy :close-on-content-click="false" v-model="date1" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-		          <v-text-field slot="activator" label="Picker in menu" v-model="e3" prepend-icon="event" readonly></v-text-field>
-		          <v-date-picker v-model="e3" no-title scrollable actions>
+		        <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
+		          <v-text-field slot="activator" label="Picker in menu" v-model="picker" prepend-icon="event" readonly></v-text-field>
+		          <v-date-picker v-model="picker" autosave no-title scrollable actions>
 		            <template scope="{ save, cancel }">
 		              <v-card-actions>
 		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
@@ -62,8 +62,8 @@
 	          <v-text-field label="Income cash" required hint="example of helper text only on focus"></v-text-field>
 	          <v-select id="type" label="Type" required :items="['Work', 'Freelance']"></v-select>
 		        <v-menu lazy :close-on-content-click="false" v-model="date2" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-		          <v-text-field slot="activator" label="Picker in menu" v-model="e4" prepend-icon="event" readonly></v-text-field>
-		          <v-date-picker v-model="e4" no-title scrollable actions>
+		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" prepend-icon="event" readonly></v-text-field>
+		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
 		            <template scope="{ save, cancel }">
 		              <v-card-actions>
 		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
@@ -109,9 +109,9 @@
         dialog2: false,
         valid: false,
         valid2: false,
-        e3: null,
-        e4: null,
-        date1: false,
+        picker: null,
+        picker2: null,
+        date: false,
         date2: false,
         cashSum: 50000,
         currentCurrency: 'тг',
@@ -136,9 +136,9 @@
           { name: 'Chai', cost: 3205, date: '2017-09-01', type: 'Food' }
         ],
         incomeItems: [
-          { type: 'Work', date: '2017-09-12', income: 3000 },
+          { type: 'Work', date: '2017-09-09', income: 3000 },
           { type: 'Freelance', date: '2017-09-02', income: 13000 },
-          { type: 'Work', date: '2017-08-12', income: 30000 },
+          { type: 'Work', date: '2017-08-12', income: 2000 },
           { type: 'Work', date: '2017-07-12', income: 30000 },
           { type: 'Freelance', date: '2017-07-08', income: 1000 },
           { type: 'Freelance', date: '2017-07-10', income: 12000 }
@@ -147,36 +147,30 @@
     },
     methods: {
       addPurchase () {
-        var self = this
         var form = this.$refs.form
         var purchase = form.$el[0].value
         var cost = form.$el[1].value
         var type = form.$el[2].previousSibling.textContent
         var date = form.$el[3].value
-        setTimeout(function () {
-          self.spendingItems.unshift({
-            name: purchase,
-            cost: cost,
-            date: date,
-            type: type
-          })
-          self.cashSum -= +cost
-        }, 600)
+        this.spendingItems.unshift({
+          name: purchase,
+          cost: cost,
+          date: date,
+          type: type
+        })
+        this.cashSum -= +cost
       },
       addIncome () {
-        var self = this
         var form = this.$refs.form1
         var income = form.$el[0].value
         var type = form.$el[1].previousSibling.textContent
         var date = form.$el[2].value
-        setTimeout(function () {
-          self.incomeItems.push({
-            type: type,
-            date: date,
-            income: income
-          })
-          self.cashSum += +income
-        }, 600)
+        this.incomeItems.push({
+          type: type,
+          date: date,
+          income: income
+        })
+        this.cashSum += +income
       },
       takeOf () {
         var itemsL = Object.keys(this.spendingItems).length

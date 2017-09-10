@@ -14,9 +14,9 @@
           </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="purple lighten-2" dark>
+    <v-toolbar class="deep-purple lighten-2" dark>
       <v-flex xs9>
-        <v-toolbar-title class="light-text">{{appName}}<!--  &mdash; {{tagLine}} --></v-toolbar-title>
+        <v-toolbar-title>{{appName}}</v-toolbar-title>
       </v-flex>  
       <v-flex xs3>
         <user></user>
@@ -43,7 +43,6 @@
     data () {
       return {
         appName: 'Ramona',
-        tagLine: 'your life under control',
         items: [
           { title: 'Todolist', path: '/todolist', icon: 'storage' },
           { title: 'Diary', path: '/diary', icon: 'book' },

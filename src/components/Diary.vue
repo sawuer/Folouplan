@@ -1,16 +1,17 @@
 <template>
 	<div>
-		<v-layout row>
-		  <v-flex xs12>
-			  <v-form ref="form">
-			    <v-text-field name="input-12-4" label="Type your post" value="" multi-line></v-text-field>
-				</v-form>
-				<v-btn class="green lighten-3 white-text" @click="addPost">Add post</v-btn>
-		  </v-flex>
-		</v-layout>
-		<br>
-		<br>
-		<h5 class="light-text">Posts</h5>
+		<h5 class="light-text">Add new post</h5>
+    <v-layout row>
+      <v-flex xs12>
+        <v-form ref="form">
+          <v-text-field v-model="post" name="input-12-4" label="Type your post" required :rules="textRules" value="" multi-line></v-text-field>
+        </v-form>
+        <v-btn class="green lighten-3 white-text" @click="addPost">Add post</v-btn>
+      </v-flex>
+    </v-layout>
+    <br>
+    <br>
+    <h5 class="light-text">Last posts</h5>
 	  <v-layout>
 	    <v-flex xs12>
 	      <div class="diary-item" v-for="item in posts">
@@ -44,6 +45,11 @@
     name: 'Diary',
     data () {
       return {
+        post: '',
+        valid: false,
+        textRules: [
+          (v) => !!v || 'You didn\'t fill out the field'
+        ],
         posts: [
           {
             date: '23-23-2003',
@@ -68,11 +74,13 @@
         var postText = this.$refs.form.$el[0].value
         var today = new Date()
         var dateString = today.getDate() + '-' + today.getMonth() + '-' + today.getFullYear()
-        this.posts.unshift({
-          date: dateString,
-          text: postText,
-          dialog: false
-        })
+        if (postText !== '') {
+          this.posts.unshift({
+            date: dateString,
+            text: postText,
+            dialog: false
+          })
+        }
         this.setModalIds()
       },
       deletePost (e) {

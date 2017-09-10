@@ -24,10 +24,9 @@
 <script>
   export default {
     name: 'user',
-
     data () {
       return {
-        userName: 'sowyer'
+        userName: 'Sowyer'
       }
     },
     methods: {
