@@ -19,7 +19,7 @@
           </v-dialog>
         </v-flex>
       </v-layout>
-      <v-btn class="green lighten-1 white-text" @click="submit">Add todo</v-btn>
+      <v-btn class="purple lighten-2 white-text" @click="submit">Add todo</v-btn>
       <v-btn class="grey--text" @click="clear">Clear</v-btn>
     </v-form>
     <br>

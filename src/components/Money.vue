@@ -48,19 +48,17 @@
     </v-dialog>
 
 
-      <br>
-      <br>
-    
+    <h5 class="cash-text">Your cash today: <b>{{cashSum}} {{currentCurrency}}</b></h5>
 	  <v-data-table
 	      v-bind:headers="headers"
 	      :items="items"
-	      hide-actions
+	      :filter="Date"
 	      class="elevation-1"
 	    >
 	    <template slot="items" scope="props">
 	      <td>{{ props.item.name }}</td>
-	      <td class="text-xs-left">{{ props.item.type }}</td>
 	      <td class="text-xs-left">{{ props.item.date }}</td>
+	      <td class="text-xs-left">{{ props.item.type }}</td>
 	      <td class="cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
 	    </template>
 	  </v-data-table>
@@ -72,6 +70,7 @@
 <script>
   export default {
     mounted () {
+      this.computeMoney()
     },
     name: 'Money',
     data () {
@@ -80,14 +79,13 @@
         valid: false,
         e3: null,
         menu: false,
-        currency: [
-          'тг', 'руб'
-        ],
+        currency: ['тг', 'руб'],
+        cashSum: 50000,
         currentCurrency: 'тг',
         headers: [
-          { text: 'Item', align: 'left', value: 'name' },
+          { text: 'Item', align: 'left', sortable: false, value: 'name' },
+          { text: 'Date', align: 'left', sortable: true, aria_sort: 'descending', value: 'date' },
           { text: 'Type', align: 'left', value: 'type' },
-          { text: 'Date', align: 'left', value: 'date' },
           { text: 'Cost', align: 'right', value: 'cost' }
         ],
         items: [
@@ -118,25 +116,56 @@
             cost: 305,
             date: '2017-09-01',
             type: 'Food'
+          },
+          {
+            value: false,
+            name: 'Another buss',
+            cost: 237,
+            date: '2017-09-03',
+            type: 'Passage'
+          },
+          {
+            value: false,
+            name: 'Chair',
+            cost: 2632,
+            date: '2017-09-02',
+            type: 'Home'
+          },
+          {
+            value: false,
+            name: 'Chai',
+            cost: 3205,
+            date: '2017-09-01',
+            type: 'Food'
           }
         ]
       }
     },
     methods: {
       addPurchase () {
+        var self = this
         var form = this.$refs.form
         var purchase = form.$el[0].value
         var cost = form.$el[1].value
         var type = form.$el[2].previousSibling.textContent
         var date = form.$el[3].value
-        console.log(purchase, cost, type, date)
-        this.items.unshift({
-          value: false,
-          name: purchase,
-          cost: cost,
-          date: date,
-          type: type
-        })
+        setTimeout(function () {
+          self.items.unshift({
+            value: false,
+            name: purchase,
+            cost: cost,
+            date: date,
+            type: type
+          })
+          self.cashSum -= cost
+        }, 500)
+      },
+      computeMoney () {
+        console.log(this.items)
+        var itemsL = Object.keys(this.items).length
+        for (var i = 0; i < itemsL; i++) {
+          this.cashSum -= this.items[i].cost
+        }
       }
     }
   }

@@ -1,5 +1,5 @@
 .application--light .navigation-drawer {
-	/*border-right: 1px solid #eee;*/
+	border-right: 1px solid #f1f1f1;
 	background: #f5f5f5 !important;
 }
 .application .theme--light.navigation-drawer .list {
@@ -34,7 +34,7 @@ a {
 	width: 45px !important;
 }
 .completed-todos {
-	opacity: .4;
+	opacity: .5;
 }
 nav {
 	position: fixed !important;
@@ -55,7 +55,8 @@ main {
 }
 .list__tile--active {
 	border-bottom: 1px solid #eee !important;
-	background: #fff;
+	background: #fefefe;
+	color: rgba(0,0,0,.87) !important;
 }
 .card {
 	margin-bottom: 20px;
@@ -84,4 +85,17 @@ main {
 }
 .cost-td {
 	font-weight: bold !important;
+}
+.list__tile .avatar, .list__tile__action {
+	min-width: 45px !important;
+}
+.navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~main, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~main {
+	padding-left: 180px !important;
+}
+.navigation-drawer {
+	width: 180px !important;
+}
+.cash-text {
+	float: right;
+	padding: 10px 0;
 }
