@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>Todos</h4>
+    <h4>Todolist</h4>
     <v-form v-model="valid" ref="form">
       <v-layout row wrap>
         <v-flex xs6>
@@ -114,7 +114,6 @@
         this.$refs.form.validate()
         var todo = this.$refs.form.$el[0].value
         var date = this.$refs.form.$el[1].value
-        // console.log(todo === '')
         if (todo !== '') {
           this.todos.push({
             title: todo,

@@ -1,16 +1,87 @@
 <template>
 	<div>
    <h4>Diary</h4>
-
+		<v-layout row>
+		  <v-flex xs12>
+			  <v-form ref="form">
+			    <v-text-field name="input-12-4" label="Type your post" value="" multi-line></v-text-field>
+				</v-form>
+				<v-btn class="green lighten-1 white-text" @click="addPost">Add todo</v-btn>
+		  </v-flex>
+		</v-layout>
+		<br>
+		<br>
+		<h5>Posts</h5>
+	  <v-layout>
+	    <v-flex xs12>
+	      <div class="diary-item" v-for="item in posts">
+          <div>
+            <span class="grey--text">{{item.date}}</span><br>
+						<p class="diary-p">{{item.text}}</p>
+          </div>
+				  <v-btn class="diary-delete" @click.native.stop="item.dialog" @click="item.dialog = true"  icon>
+            <v-icon class="grey--text">delete</v-icon>
+          </v-btn>
+			    <v-dialog v-model="item.dialog">
+			      <v-card>
+			        <v-card-title class=""><b>Delete:</b> <div>{{item.text.slice(0, 100) + '...'}}</div></v-card-title>
+			        <v-card-actions>
+			          <v-spacer></v-spacer>
+			          <v-btn class="green--text darken-1" flat="flat" @click.native.stop="item.dialog=false">Disagree</v-btn>
+			          <v-btn class="green--text darken-1" flat="flat" @click="deletePost">Agree</v-btn>
+			        </v-card-actions>
+			      </v-card>
+			    </v-dialog>
+        </div>
+	    </v-flex>
+	  </v-layout>
 	</div>  
 </template>
-
 <script>
   export default {
     name: 'Diary',
     data () {
       return {
-        msg: 'Diary'
+        posts: [
+          {
+            date: '23-23-2003',
+            text: '1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blanditiis pariatur quod sunt dolores consequuntur, tempora, quis error facere maxime fuga laudantium molestias quae magnam voluptates molestiae amet qui tenetur tempore rem quo! Numquam accusantium, alias repellat rem voluptatibus.',
+            dialog: false
+          },
+          {
+            date: '24-23-2003',
+            text: '2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sit blanditiis pariatur quod sunt dolores consequuntur, tempora, quis error facere maxime fuga laudantium molestias quae magnam voluptates molestiae amet qu ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit i tenetur tempore rem quo! Numquam accusantium, alias repellat rem voluptatibus.',
+            dialog: false
+          },
+          {
+            date: '25-23-2003',
+            text: '3Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sit blanditiis pariatur quod sunt dolores consequuntur, tempora, quis error facere maxime fuga laudantium molestias quae magnam voluptates molestiae amet qui tenetur tempore rem quo! Numquam accusantium, alias repectetur adipisicing elit. Provident, sit blanditctetur adipisicing elit. Provident, sit blanditctetur adipisicing elit. Provident, sit blanditllat rem voluptatibus.',
+            dialog: false
+          }
+        ]
+      }
+    },
+    methods: {
+      addPost () {
+        var postText = this.$refs.form.$el[0].value
+        var today = new Date()
+        var dateString = today.getDate() + '-' + today.getMonth() + '-' + today.getFullYear()
+        this.posts.unshift({
+          date: dateString,
+          text: postText
+        })
+      },
+      deletePost (e) {
+        var parent = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+        var text = parent.querySelector('.diary-p').innerText
+        var postsLength = Object.keys(this.posts).length
+        for (var i = 0; i < postsLength; i++) {
+          console.log(this.posts[i].text)
+          if (text === this.posts[i].text) {
+            this.posts.splice(i, 1)[0]
+            return
+          }
+        }
       }
     }
   }

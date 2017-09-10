@@ -56,3 +56,22 @@ main {
 .list__tile--active {
 	border-bottom: 1px solid #eee !important;
 }
+.card {
+	margin-bottom: 20px;
+}
+.diary-item {
+	padding: 30px 0 15px 0;
+	border-bottom: 1px solid #eee;
+	overflow: hidden;
+}
+.diary-p {
+	margin-bottom: 0;
+	padding: 5px 0;
+
+}
+.diary-delete {
+	float: right;
+}
+.navigation-drawer {
+	transition: none !important;
+}
