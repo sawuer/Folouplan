@@ -11,11 +11,11 @@
         </v-card-title>
         <v-card-text>
         	<v-form v-model="valid" ref="form">
-	          <v-text-field label="Purchase name" required hint="example of helper text only on focus"></v-text-field>
-	          <v-text-field label="Cost" required hint="example of helper text only on focus"></v-text-field>
-	          <v-select id="type" label="Type" required :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
+	          <v-text-field v-model="purName" :rules="purRules" :counter="20"  label="Purchase name" required></v-text-field>
+	          <v-text-field label="Cost" :rules="costRules" required hint="example of helper text only on focus"></v-text-field>
+	          <v-select :rules="typeRules" label="Type" required :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
 		        <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-		          <v-text-field slot="activator" label="Picker in menu" v-model="picker" prepend-icon="event" readonly></v-text-field>
+		          <v-text-field slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
 		          <v-date-picker v-model="picker" autosave no-title scrollable actions>
 		            <template scope="{ save, cancel }">
 		              <v-card-actions>
@@ -25,8 +25,8 @@
 		            </template>
 		          </v-date-picker>
 		        </v-menu>
-	          <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-	          <v-btn class="blue--text darken-1" @click="addPurchase" @click.native="dialog = false" flat>Save</v-btn>
+	          <v-btn class="green--text darken-1" @click="addPurchase" flat>Add</v-btn>
+	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
 		      </v-form>
         </v-card-text>
       </v-card>
@@ -62,7 +62,7 @@
 	          <v-text-field label="Income cash" required hint="example of helper text only on focus"></v-text-field>
 	          <v-select id="type" label="Type" required :items="['Work', 'Freelance']"></v-select>
 		        <v-menu lazy :close-on-content-click="false" v-model="date2" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" prepend-icon="event" readonly></v-text-field>
+		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
 		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
 		            <template scope="{ save, cancel }">
 		              <v-card-actions>
@@ -105,6 +105,18 @@
     name: 'Money',
     data () {
       return {
+        purName: '',
+        purRules: [
+          (v) => !!v || 'You didn\'t fill out the field',
+          (v) => v && v.length <= 20 || 'Purchase name must be less than 20 characters'
+        ],
+        costRules: [
+          (v) => !!v || 'You didn\'t fill out the field'
+        ],
+        typeRules: [
+          (v) => !!v || 'You didn\'t fill out the field'
+        ],
+
         dialog: false,
         dialog2: false,
         valid: false,
@@ -165,11 +177,14 @@
         var income = form.$el[0].value
         var type = form.$el[1].previousSibling.textContent
         var date = form.$el[2].value
-        this.incomeItems.push({
-          type: type,
-          date: date,
-          income: income
-        })
+        if (income !== '' && type !== '' && date !== '') {
+          this.incomeItems.push({
+            type: type,
+            date: date,
+            income: income
+          })
+          this.dialog = true
+        }
         this.cashSum += +income
       },
       takeOf () {
