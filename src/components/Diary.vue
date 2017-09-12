@@ -1,4 +1,5 @@
 <template>
+  <transition enter-active-class="animated fadeIn">
 	<div>
 		<h5 class="light-text">Add new post</h5>
     <v-layout row>
@@ -6,7 +7,7 @@
         <v-form ref="form">
           <v-text-field v-model="post" name="input-12-4" label="Type your post" required :rules="textRules" value="" multi-line></v-text-field>
         </v-form>
-        <v-btn class="green lighten-3 white-text" @click="addPost">Add post</v-btn>
+        <v-btn class="green lighten-2 white-text" @click="addPost">Add post</v-btn>
       </v-flex>
     </v-layout>
     <br>
@@ -35,7 +36,9 @@
         </div>
 	    </v-flex>
 	  </v-layout>
-	</div>  
+	</div>
+  </transition>
+
 </template>
 <script>
   export default {

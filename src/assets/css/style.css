@@ -109,6 +109,13 @@ main {
 	top: 65px;
 	opacity: .9;
 }
-.application .theme--light.input-group--selection-controls .icon, .application .theme--light.input-group--selection-controls:not(.input-group--active) .input-group__input {
+.application .theme--light.input-group--selection-controls .icon, 
+.application .theme--light.input-group--selection-controls:not(.input-group--active) .input-group__input {
 	color: rgba(0,0,0,.20);
+}
+
+.input-group--text-field input, 
+.input-group--text-field textare,
+.input-group--select .input-group__selections__comma {
+	font-size: 13px !important;
 }

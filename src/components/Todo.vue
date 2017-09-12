@@ -1,8 +1,10 @@
 <template>
+  <transition enter-active-class="animated fadeIn">
+
   <div>
     <h5 class="light-text">Add todo</h5>
 
-    <v-form v-model="valid" ref="form">
+    <v-form transition="fade-transition" v-model="valid" ref="form">
         <v-flex xs5>
           <v-text-field id="todo" label="Todo" v-model="todo" :rules="nameRules" :counter="50" required></v-text-field>
         </v-flex>
@@ -19,7 +21,7 @@
             </v-date-picker>
           </v-dialog>
         </v-flex>
-      <v-btn class="green lighten-3 white-text" @click="submit">Add todo</v-btn>
+      <v-btn class="green lighten-2 white-text" @click="submit">Add todo</v-btn>
     </v-form>
     <br>
     <br>
@@ -31,7 +33,7 @@
               <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
               <v-list-tile avatar v-else v-bind:key="item.title" download>
                 <v-list-tile-action>
-                  <v-checkbox append-icon light v-bind:label="null" v-model="item.ex" color="green lighten-3" light></v-checkbox>
+                  <v-checkbox append-icon light v-bind:label="null" v-model="item.ex" color="green lighten-2" light></v-checkbox>
                 </v-list-tile-action>
                 <v-list-tile-content>
                   <v-list-tile-title v-html="item.title"></v-list-tile-title>
@@ -64,6 +66,8 @@
       </v-flex>
     </v-layout>
   </div>
+  </transition>
+
 </template>
 
 <script>

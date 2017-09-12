@@ -1,10 +1,28 @@
 <template>
+  <transition enter-active-class="animated fadeIn">
   <div>
-    <h5 class="all-sum text-xs-right">{{cashSum}} {{currentCurrency}}
-    </h5>
+
+  
+
+
+
+    <div class="all-sum">
+      <span v-if="!addCapitalMode">
+        <h5 class="">{{cashSum}} {{currentCurrency}}</h5>
+        <v-btn @click="addCapitalMode = true">Change capital</v-btn>
+      </span>
+      <form v-else="addCapitalMode" v-model="valid3">
+        <v-text-field
+          required
+          v-model="cashSum"
+          :rules="capitalRules"
+        ></v-text-field>
+        <v-btn @click="addCapitalMode = false">submit</v-btn>
+      </form>
+    </div>
     <h5 class="light-text">Spending</h5>
 		<v-dialog v-model="dialog" persistent>
-      <v-btn primary class="green lighten-3" dark slot="activator">Add new spend</v-btn>
+      <v-btn primary class="green lighten-2" dark slot="activator">Add new spend</v-btn>
       <v-card>
         <v-card-title>
           <span class="headline">Add new spend</span>
@@ -52,7 +70,7 @@
 
     <h5 class="light-text">Income</h5>
     <v-dialog v-model="dialog2" persistent>
-      <v-btn primary class="green lighten-3" dark slot="activator">Add new income</v-btn>
+      <v-btn primary class="green lighten-2" dark slot="activator">Add new income</v-btn>
       <v-card>
         <v-card-title>
           <span class="headline">Add new income</span>
@@ -93,7 +111,7 @@
 	  </v-data-table>
 
   </div>
-       
+       </transition>
 </template>
 
 <script>
@@ -105,7 +123,12 @@
     name: 'Money',
     data () {
       return {
+        addCapitalMode: false,
         purName: '',
+        capitalRules: [
+          (v) => !!v || 'Empty',
+          (v) => /^\d+$/.test(v) || 'E-mail must be valid'
+        ],
         purRules: [
           (v) => !!v || 'You didn\'t fill out the field',
           (v) => v && v.length <= 20 || 'Purchase name must be less than 20 characters'
@@ -116,16 +139,16 @@
         typeRules: [
           (v) => !!v || 'You didn\'t fill out the field'
         ],
-
         dialog: false,
         dialog2: false,
         valid: false,
         valid2: false,
+        valid3: false,
         picker: null,
         picker2: null,
         date: false,
         date2: false,
-        cashSum: 50000,
+        cashSum: 0,
         currentCurrency: 'тг',
         spendingHeader: [
           { text: 'Date', align: 'left', sortable: true, value: 'date' },
