@@ -17,7 +17,7 @@
           v-model="cashSum"
           :rules="capitalRules"
         ></v-text-field>
-        <v-btn @click="addCapitalMode = false">submit</v-btn>
+        <v-btn @click="cashSumToNumber">submit</v-btn>
       </form>
     </div>
     <h5 class="light-text">Spending</h5>
@@ -181,6 +181,10 @@
       }
     },
     methods: {
+      cashSumToNumber () {
+        this.addCapitalMode = false
+        this.cashSum = +this.cashSum
+      },
       addPurchase () {
         var form = this.$refs.form
         var purchase = form.$el[0].value
