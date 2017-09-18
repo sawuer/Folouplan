@@ -73,17 +73,16 @@
 
 <script>
   import Firebase from 'firebase'
-  import toastr from 'toastr'
-  console.log(toastr)
-  let config = {
+
+  const app = Firebase.initializeApp({
     apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',
     authDomain: 'ramona-6e161.firebaseapp.com',
     databaseURL: 'https://ramona-6e161.firebaseio.com',
     projectId: 'ramona-6e161',
     storageBucket: 'ramona-6e161.appspot.com',
     messagingSenderId: '73956155263'
-  }
-  let app = Firebase.initializeApp(config)
+  })
+
   let db = app.database()
   let todosRef = db.ref('todos')
   let doneTodosRef = db.ref('doneTodos')
@@ -124,40 +123,22 @@
             ex: false
           })
         }
-        toastr.success('Todo added!')
       },
-      doneTodo (todo) {
-        // console.log({
-        //   title: todo.title,
-        //   date: todo.date,
-        //   ex: true
-        // })
-        if (!todo.ex) {
-          todo.ex = true
-          let update = {
-            title: todo.title,
-            date: todo.date,
-            ex: true
-          }
-          todosRef.child(todo['.key']).update(update)
-          // console.log(todosRef.child(todo['.key']).add)
-          // doneTodosRef.push({
-          //   title: todo.title,
-          //   date: todo.date,
-          //   ex: true
-          // })
-        } else {
-          todo.ex = false
-          let update = {
-            title: todo.title,
-            date: todo.date,
-            ex: false
-          }
-          todosRef.child(todo['.key']).update(update)
 
-          // doneTodosRef.child(todo['.key']).remove()
+      doneTodo (todo) {
+        var update = {
+          title: todo.title,
+          date: todo.date
         }
+        if (!todo.ex) {
+          update.ex = true
+        } else {
+          update.ex = false
+        }
+        todosRef.child(todo['.key']).update(update)
+        todo.ex = !todo.ex
       },
+
       deleteTodo (todo) {
         if (todo.ex) {
           doneTodosRef.push({
@@ -168,8 +149,8 @@
         }
         todosRef.child(todo['.key']).remove()
       }
-    }
 
+    }
   }
 </script>
 
