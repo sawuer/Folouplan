@@ -11,7 +11,7 @@
         <v-flex xs5>
           <v-dialog persistent v-model="modalDate" lazy color="green--title" full-width>
             <v-text-field slot="activator" label="Date" v-model="datePicker" readonly></v-text-field>
-            <v-date-picker v-model="datePicker" autosave year-icon scrollable >
+            <v-date-picker v-model="datePicker" autosave year-icon scrollables>
               <template scope="{ save, cancel }">
                 <v-card-actions>
                   <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
@@ -28,17 +28,17 @@
     <v-layout row>
       <v-flex xs12>
           <v-list two-line>
-            <template v-for="item in todos">
-              {{item.ex}}
-              <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
-              <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-              <v-list-tile avatar v-else v-bind:key="item.title" download>
+            <template v-for="todo in todos">
+              <!-- {{todo.ex}} -->
+              <v-subheader v-if="todo.header" v-text="todo.header"></v-subheader>
+              <v-divider v-else-if="todo.divider" v-bind:inset="todo.inset"></v-divider>
+              <v-list-tile avatar v-else v-bind:key="todo.title" download>
                 <v-list-tile-action>
-                  <v-checkbox append-icon light v-bind:label="null" v-model="item.ex" color="green lighten-2" light></v-checkbox>
+                  <v-checkbox append-icon light v-bind:label="null" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                  <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                  <v-list-tile-sub-title v-html="item.date"></v-list-tile-sub-title>
+                  <v-list-tile-title v-html="todo.title"></v-list-tile-title>
+                  <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-btn class="delete-todo completed-todos" @click="deleteTodo(todo)" icon>
                   <v-icon class="grey--text">delete</v-icon>
@@ -123,8 +123,10 @@
       },
       doneTodo () {},
       deleteTodo (todo) {
-        console.log(todosRef.child(todo['.key']))
-        // todosRef.child(['.key']).remove()
+        // console.log(todo.target.parentElement.parentElement)
+        // console.log(todosRef.child(todo['.key']))
+        // console.log(todo)
+        todosRef.child(todo['.key']).remove()
         // var parent = event.target.parentElement.parentElement
         // var title = parent.querySelector('.list__tile__title').innerHTML
         // var todosLength = Object.keys(this.todos).length
