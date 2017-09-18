@@ -3,7 +3,7 @@
 
   <div>
     <h5 class="light-text">Add todo</h5>
-
+    
     <v-form transition="fade-transition" v-model="valid" ref="form">
         <v-flex xs5>
           <v-text-field id="todo" label="Todo" v-model="todo" :rules="nameRules" :counter="50" required></v-text-field>
@@ -29,6 +29,7 @@
       <v-flex xs12>
           <v-list two-line>
             <template v-for="item in todos">
+              {{item.ex}}
               <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
               <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
               <v-list-tile avatar v-else v-bind:key="item.title" download>
@@ -71,8 +72,24 @@
 </template>
 
 <script>
+  import Firebase from 'firebase'
+  let config = {
+    apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',
+    authDomain: 'ramona-6e161.firebaseapp.com',
+    databaseURL: 'https://ramona-6e161.firebaseio.com',
+    projectId: 'ramona-6e161',
+    storageBucket: 'ramona-6e161.appspot.com',
+    messagingSenderId: '73956155263'
+  }
+  let app = Firebase.initializeApp(config)
+  let db = app.database()
+  let todosRef = db.ref('todos')
+  console.log(todosRef)
   export default {
     name: 'Todo',
+    firebase: {
+      todos: todosRef
+    },
     data () {
       return {
         todo: '',
@@ -83,13 +100,12 @@
           (v) => !!v || 'You didn\'t fill out the field',
           (v) => v && v.length <= 50 || 'Todo must be less than 50 characters'
         ],
-
-        todos: [
-          { title: 'Купить продукты в магазине', date: '2017-09-09', ex: false },
-          { title: 'Написать программу на Vue.js', date: '2017-09-10', ex: true },
-          { title: 'Отвезти документы', date: '2017-09-04', ex: false },
-          { title: 'Сходить на работу', date: '2017-09-05', ex: false }
-        ],
+      // todos: [
+        //   { title: 'Купить продукты в магазине', date: '2017-09-09', ex: false },
+        //   { title: 'Написать программу на Vue.js', date: '2017-09-10', ex: true },
+        //   { title: 'Отвезти документы', date: '2017-09-04', ex: false },
+        //   { title: 'Сходить на работу', date: '2017-09-05', ex: false }
+        // ],
 
         completedTodos: [
           { title: 'Купить слона', date: '2017-09-09', ex: false },

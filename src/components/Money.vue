@@ -8,7 +8,7 @@
 
     <div class="all-sum">
       <span v-if="!addCapitalMode">
-        <h5 class="">{{cashSum}} {{currentCurrency}}</h5>
+        <h5 class="text-xs-right">{{cashSum}} {{currentCurrency}}</h5>
         <v-btn @click="addCapitalMode = true">Change capital</v-btn>
       </span>
       <form v-else="addCapitalMode" v-model="valid3">

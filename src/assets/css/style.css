@@ -119,3 +119,10 @@ main {
 .input-group--select .input-group__selections__comma {
 	font-size: 13px !important;
 }
+
+.all-sum h5 {
+	margin-bottom: 0;
+}
+.all-sum .input-group {
+	padding-top: 0;
+}
