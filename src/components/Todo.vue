@@ -40,7 +40,7 @@
                   <v-list-tile-title v-html="item.title"></v-list-tile-title>
                   <v-list-tile-sub-title v-html="item.date"></v-list-tile-sub-title>
                 </v-list-tile-content>
-                <v-btn class="delete-todo completed-todos" @click="deleteTodo" icon>
+                <v-btn class="delete-todo completed-todos" @click="deleteTodo(todo)" icon>
                   <v-icon class="grey--text">delete</v-icon>
                 </v-btn>
               </v-list-tile>
@@ -84,7 +84,6 @@
   let app = Firebase.initializeApp(config)
   let db = app.database()
   let todosRef = db.ref('todos')
-  console.log(todosRef)
   export default {
     name: 'Todo',
     firebase: {
@@ -100,12 +99,6 @@
           (v) => !!v || 'You didn\'t fill out the field',
           (v) => v && v.length <= 50 || 'Todo must be less than 50 characters'
         ],
-      // todos: [
-        //   { title: 'Купить продукты в магазине', date: '2017-09-09', ex: false },
-        //   { title: 'Написать программу на Vue.js', date: '2017-09-10', ex: true },
-        //   { title: 'Отвезти документы', date: '2017-09-04', ex: false },
-        //   { title: 'Сходить на работу', date: '2017-09-05', ex: false }
-        // ],
 
         completedTodos: [
           { title: 'Купить слона', date: '2017-09-09', ex: false },
@@ -116,30 +109,36 @@
     },
     methods: {
       submit () {
+        console.log(todosRef)
         this.$refs.form.validate()
         var todo = this.$refs.form.$el[0].value
         var date = this.$refs.form.$el[1].value
         if (todo !== '') {
-          this.todos.push({
+          todosRef.push({
             title: todo,
             date: date,
             ex: false
           })
         }
       },
-      deleteTodo (event) {
-        var parent = event.target.parentElement.parentElement
-        var title = parent.querySelector('.list__tile__title').innerHTML
-        var todosLength = Object.keys(this.todos).length
-        for (var i = 0; i < todosLength; i++) {
-          if (title === this.todos[i].title) {
-            if (this.todos[i].ex === true) {
-              this.completedTodos.unshift(this.todos.splice(i, 1)[0])
-              return
-            }
-            this.todos.splice(i, 1)[0]
-          }
-        }
+      doneTodo () {},
+      deleteTodo (todo) {
+        console.log(todosRef.child(todo['.key']))
+        // todosRef.child(['.key']).remove()
+        // var parent = event.target.parentElement.parentElement
+        // var title = parent.querySelector('.list__tile__title').innerHTML
+        // var todosLength = Object.keys(this.todos).length
+        // for (var i = 0; i < todosLength; i++) {
+        //   console.log(title)
+        //   if (title === this.todos[i].title) {
+        //     if (this.todos[i].ex === true) {
+        //       this.completedTodos.unshift(this.todos.splice(i, 1)[0])
+        //       return
+        //     }
+        //     console.log(i)
+        //     todosRef.remove(i)
+        //   }
+        // }
       }
     }
 
