@@ -6,6 +6,7 @@ import Money from '@/components/Money'
 import Diary from '@/components/Diary'
 import Challenges from '@/components/Challenges'
 import Configs from '@/components/Configs'
+import Auth from '@/components/Auth'
 
 Vue.use(Router)
 
@@ -18,6 +19,7 @@ export default new Router({
     { path: '/money', component: Money },
     { path: '/diary', component: Diary },
     { path: '/challenges', component: Challenges },
-    { path: '/configs', component: Configs }
+    { path: '/configs', componnent: Configs },
+    { path: '/auth', componnent: Auth }
   ]
 })

@@ -7,18 +7,10 @@
 
 
     <div class="all-sum">
-      <span v-if="!addCapitalMode">
+      <span>
         <h5 class="text-xs-right">{{cashSum}} {{currentCurrency}}</h5>
-        <v-btn @click="addCapitalMode = true">Change capital</v-btn>
       </span>
-      <form v-else="addCapitalMode" v-model="valid3">
-        <v-text-field
-          required
-          v-model="cashSum"
-          :rules="capitalRules"
-        ></v-text-field>
-        <v-btn @click="cashSumToNumber">submit</v-btn>
-      </form>
+      
     </div>
     <h5 class="light-text">Spending</h5>
 		<v-dialog v-model="dialog" persistent>
@@ -120,10 +112,8 @@
       this.takeOf()
       this.incomeAppending()
     },
-    name: 'Money',
     data () {
       return {
-        addCapitalMode: false,
         purName: '',
         capitalRules: [
           (v) => !!v || 'Empty',

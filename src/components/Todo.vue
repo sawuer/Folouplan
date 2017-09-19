@@ -3,7 +3,6 @@
 
   <div>
     <h5 class="light-text">Add todo</h5>
-    
     <v-form transition="fade-transition" v-model="valid" ref="form">
         <v-flex xs5>
           <v-text-field id="todo" label="Todo" v-model="todo" :rules="nameRules" :counter="50" required></v-text-field>
@@ -28,7 +27,7 @@
     <v-layout row>
       <v-flex xs12>
           <v-list two-line>
-            <template v-for="todo in todos">
+            <template v-for="todo in this.$root.todos">
               <!-- {{todo.ex}} -->
               <v-subheader v-if="todo.header" v-text="todo.header"></v-subheader>
               <v-divider v-else-if="todo.divider" v-bind:inset="todo.inset"></v-divider>
@@ -53,7 +52,7 @@
     <v-layout row>
       <v-flex xs12>
           <v-list two-line>
-            <template v-for="todo in doneTodos">
+            <template v-for="todo in this.$root.doneTodos">
               <v-subheader v-if="todo.header" v-text="todo.header"></v-subheader>
               <v-divider v-else-if="todo.divider" v-bind:inset="todo.inset"></v-divider>
               <v-list-tile avatar v-else v-bind:key="todo.title" download>
@@ -72,26 +71,9 @@
 </template>
 
 <script>
-  import Firebase from 'firebase'
-
-  const app = Firebase.initializeApp({
-    apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',
-    authDomain: 'ramona-6e161.firebaseapp.com',
-    databaseURL: 'https://ramona-6e161.firebaseio.com',
-    projectId: 'ramona-6e161',
-    storageBucket: 'ramona-6e161.appspot.com',
-    messagingSenderId: '73956155263'
-  })
-
-  let db = app.database()
-  let todosRef = db.ref('todos')
-  let doneTodosRef = db.ref('doneTodos')
-
   export default {
     name: 'Todo',
-    firebase: {
-      todos: todosRef,
-      doneTodos: doneTodosRef
+    mounted () {
     },
     data () {
       return {
@@ -102,12 +84,6 @@
         nameRules: [
           (v) => !!v || 'You didn\'t fill out the field',
           (v) => v && v.length <= 50 || 'Todo must be less than 50 characters'
-        ],
-
-        completedTodos: [
-          { title: 'Купить слона', date: '2017-09-09', ex: false },
-          { title: 'Продать слона', date: '2017-09-09', ex: false },
-          { title: 'Развести котят', date: '2017-09-09', ex: false }
         ]
       }
     },
@@ -117,7 +93,7 @@
         var todo = this.$refs.form.$el[0].value
         var date = this.$refs.form.$el[1].value
         if (todo !== '') {
-          todosRef.push({
+          this.$root.todosRef.push({
             title: todo,
             date: date,
             ex: false
@@ -135,19 +111,19 @@
         } else {
           update.ex = false
         }
-        todosRef.child(todo['.key']).update(update)
+        this.$root.todosRef.child(todo['.key']).update(update)
         todo.ex = !todo.ex
       },
 
       deleteTodo (todo) {
         if (todo.ex) {
-          doneTodosRef.push({
+          this.$root.doneTodosRef.push({
             title: todo.title,
             date: todo.date,
             ex: true
           })
         }
-        todosRef.child(todo['.key']).remove()
+        this.$root.todosRef.child(todo['.key']).remove()
       }
 
     }
