@@ -93,7 +93,7 @@
         var todo = this.$refs.form.$el[0].value
         var date = this.$refs.form.$el[1].value
         if (todo !== '') {
-          this.$root.todosRef.push({
+          this.$root.$firebaseRefs.todos.push({
             title: todo,
             date: date,
             ex: false
@@ -111,19 +111,19 @@
         } else {
           update.ex = false
         }
-        this.$root.todosRef.child(todo['.key']).update(update)
+        this.$root.$firebaseRefs.todos.child(todo['.key']).update(update)
         todo.ex = !todo.ex
       },
 
       deleteTodo (todo) {
         if (todo.ex) {
-          this.$root.doneTodosRef.push({
+          this.$root.$firebaseRefs.doneTodos.push({
             title: todo.title,
             date: todo.date,
             ex: true
           })
         }
-        this.$root.todosRef.child(todo['.key']).remove()
+        this.$root.$firebaseRefs.todos.child(todo['.key']).remove()
       }
 
     }
