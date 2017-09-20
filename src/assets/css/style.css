@@ -126,3 +126,7 @@ main {
 .all-sum .input-group {
 	padding-top: 0;
 }
+
+.spending-table tbody td:first-child {
+	padding: 0 !important;
+}

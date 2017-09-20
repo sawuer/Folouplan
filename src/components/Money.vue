@@ -45,7 +45,8 @@
 
 	  <v-data-table 
       v-bind:headers="spendingHeader" 
-      :items="spendingItems">
+      :items="spendingItems"
+      class="spending-table">
 	    <template slot="items" scope="props">
 	      <td class="pur-date text-xs-left">
 	      	<v-btn class="completed-todos" @click="deletePurchase" icon>
@@ -94,7 +95,10 @@
       </v-card>
     </v-dialog>
 		<br>
-	  <v-data-table v-bind:headers="incomeHeader" :items="incomeItems">
+	  <v-data-table 
+      v-bind:headers="incomeHeader" 
+      :items="incomeItems"
+      class="spending-table">
 	    <template slot="items" scope="props">
 	      <td class="inc-date text-xs-left">
 	        <v-btn class="completed-todos" @click="deleteIncome" icon>
@@ -126,6 +130,8 @@
         other: this.spendingItems.map(i => i.type === 'Other' ? i.cost : 0).reduce((a, b) => a + b)
       }
 
+      console.log(spendings)
+
       function drawChart () {
         var data = google.visualization.arrayToDataTable([
           ['Task', 'Hours per Day'],
@@ -134,12 +140,11 @@
           ['Home', spendings.home],
           ['Other', spendings.other]
         ])
-        var options = {
+        var spendingChart = new google.visualization.PieChart(document.getElementById('piechart'))
+        spendingChart.draw(data, {
           title: 'Spending',
-          pieHole: 0.4
-        }
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'))
-        chart.draw(data, options)
+          pieHole: 0.5
+        })
       }
     },
     mounted () {
@@ -213,7 +218,7 @@
       addPurchase () {
         var form = this.$refs.form
         var name = form.$el[0].value
-        var cost = form.$el[1].value
+        var cost = +form.$el[1].value
         var type = form.$el[2].previousSibling.textContent
         var date = form.$el[3].value
         this.spendingItems.unshift({
@@ -258,9 +263,11 @@
         var date = row.querySelector('.pur-date').innerText.replace('delete', '').trim()
         var cost = row.querySelector('.pur-cost').innerText.replace(this.currentCurrency, '').trim()
         for (var i = 0; i < itemsL; i++) {
-          if (this.spendingItems[i].name === name && this.spendingItems[i].type === type && this.spendingItems[i].date === date) {
-            this.spendingItems.splice(i, 1)
-            this.cashSum += +cost
+          if (this.spendingItems[i].name) {
+            if (this.spendingItems[i].name === name && this.spendingItems[i].type === type && this.spendingItems[i].date === date) {
+              this.spendingItems.splice(i, 1)
+              this.cashSum += +cost
+            }
           }
         }
       },
