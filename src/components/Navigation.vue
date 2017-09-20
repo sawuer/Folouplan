@@ -14,7 +14,7 @@
           </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="deep-purple lighten-2" dark>
+    <v-toolbar class="blue" dark>
       <v-flex xs9>
         <v-toolbar-title>{{appName}}</v-toolbar-title>
       </v-flex>  

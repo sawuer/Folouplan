@@ -14,7 +14,7 @@
     </div>
     <h5 class="light-text">Spending</h5>
 		<v-dialog v-model="dialog" persistent>
-      <v-btn primary class="green lighten-2" dark slot="activator">Add new spend</v-btn>
+      <v-btn class="" slot="activator">Add new spend</v-btn>
       <v-card>
         <v-card-title>
           <span class="headline">Add new spend</span>
@@ -42,7 +42,10 @@
       </v-card>
     </v-dialog>
 		<br>
-	  <v-data-table v-bind:headers="spendingHeader" :items="spendingItems">
+
+	  <v-data-table 
+      v-bind:headers="spendingHeader" 
+      :items="spendingItems">
 	    <template slot="items" scope="props">
 	      <td class="pur-date text-xs-left">
 	      	<v-btn class="completed-todos" @click="deletePurchase" icon>
@@ -55,6 +58,8 @@
 	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
 	    </template>
 	  </v-data-table>	
+    <div id="piechart" style="height: 500px;"></div>
+
 
 
 
@@ -62,7 +67,7 @@
 
     <h5 class="light-text">Income</h5>
     <v-dialog v-model="dialog2" persistent>
-      <v-btn primary class="green lighten-2" dark slot="activator">Add new income</v-btn>
+      <v-btn slot="activator">Add new income</v-btn>
       <v-card>
         <v-card-title>
           <span class="headline">Add new income</span>
@@ -102,12 +107,41 @@
 	    </template>
 	  </v-data-table>
 
+
   </div>
        </transition>
 </template>
 
 <script>
   export default {
+    updated () {
+      var google = window.google
+      google.charts.load('current', {'packages': ['corechart']})
+      google.charts.setOnLoadCallback(drawChart)
+
+      var spendings = {
+        food: this.spendingItems.map(i => i.type === 'Food' ? i.cost : 0).reduce((a, b) => a + b),
+        passage: this.spendingItems.map(i => i.type === 'Passage' ? i.cost : 0).reduce((a, b) => a + b),
+        home: this.spendingItems.map(i => i.type === 'Home' ? i.cost : 0).reduce((a, b) => a + b),
+        other: this.spendingItems.map(i => i.type === 'Other' ? i.cost : 0).reduce((a, b) => a + b)
+      }
+
+      function drawChart () {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Food', spendings.food],
+          ['Passage', spendings.passage],
+          ['Home', spendings.home],
+          ['Other', spendings.other]
+        ])
+        var options = {
+          title: 'Spending',
+          pieHole: 0.4
+        }
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'))
+        chart.draw(data, options)
+      }
+    },
     mounted () {
       this.takeOf()
       this.incomeAppending()
@@ -141,24 +175,25 @@
         cashSum: 0,
         currentCurrency: 'тг',
         spendingHeader: [
-          { text: 'Date', align: 'left', sortable: true, value: 'date' },
-          { text: 'Item', align: 'left', value: 'name' },
-          { text: 'Type', align: 'left', value: 'type' },
-          { text: 'Cost', align: 'right', value: 'cost' }
+          { text: 'Date', align: 'left', sortable: false, value: 'date' },
+          { text: 'Item', align: 'left', sortable: false, value: 'name' },
+          { text: 'Type', align: 'left', sortable: false, value: 'type' },
+          { text: 'Cost', align: 'right', sortable: false, value: 'cost' }
         ],
         incomeHeader: [
-          { text: 'Date', align: 'left', sortable: true, aria_sort: 'descending', value: 'date' },
-          { text: 'Type', align: 'left', value: 'type' },
-          { text: 'Income', align: 'right', value: 'income' }
+          { text: 'Date', align: 'left', sortable: false, aria_sort: 'descending', value: 'date' },
+          { text: 'Type', align: 'left', sortable: false, value: 'type' },
+          { text: 'Income', align: 'right', sortable: false, value: 'income' }
         ],
         spendingItems: [
+          { name: 'Сыр', cost: 159, date: '2017-09-20', type: 'Food' },
           { name: 'Frozen Yogurt', cost: 159, date: '2017-09-04', type: 'Food' },
           { name: 'Bus', cost: 159, date: '2017-09-02', type: 'Passage' },
           { name: 'Table', cost: 159, date: '2017-09-03', type: 'Home' },
-          { name: 'Cupcake', cost: 305, date: '2017-09-01', type: 'Food' },
+          { name: 'Cupcake', cost: 305, date: '2017-09-01', type: 'Other' },
           { name: 'Another buss', cost: 237, date: '2017-09-03', type: 'Passage' },
-          { name: 'Chair', cost: 2632, date: '2017-09-02', type: 'Home' },
-          { name: 'Chai', cost: 3205, date: '2017-09-01', type: 'Food' }
+          { name: 'Chair', cost: 632, date: '2017-09-02', type: 'Home' },
+          { name: 'Chai', cost: 105, date: '2017-09-01', type: 'Food' }
         ],
         incomeItems: [
           { type: 'Work', date: '2017-09-09', income: 3000 },
@@ -177,15 +212,15 @@
       },
       addPurchase () {
         var form = this.$refs.form
-        var purchase = form.$el[0].value
+        var name = form.$el[0].value
         var cost = form.$el[1].value
         var type = form.$el[2].previousSibling.textContent
         var date = form.$el[3].value
         this.spendingItems.unshift({
-          name: purchase,
-          cost: cost,
-          date: date,
-          type: type
+          name,
+          cost,
+          date,
+          type
         })
         this.cashSum -= +cost
       },

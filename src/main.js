@@ -31,6 +31,15 @@ new Vue({
     todos,
     doneTodos
   },
+  created () {
+    Firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$router.push('/')
+      } else {
+        // this.$router.push('/auth')
+      }
+    })
+  },
   router,
   template: '<App/>',
   components: { App },

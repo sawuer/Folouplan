@@ -1,25 +1,28 @@
 <template>
   <transition enter-active-class="animated fadeIn">
-	<div>
-		<h5 class="light-text">Add new post</h5>
-    <v-layout row>
-      <v-flex xs12>
-
-	    </v-flex>
-	  </v-layout>
-	</div>
+    dsafsdf
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    dsfdsfsdf
+      <div id="firebaseui-auth-container"></div>
   </transition>
-
 </template>
+
 <script>
   export default {
+    name: 'Auth',
     mounted () {
     },
     data () {
       return {
       }
-    },
-    methods: {
     }
   }
 </script>
