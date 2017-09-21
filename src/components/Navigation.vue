@@ -2,7 +2,7 @@
   <v-app id="navigation" toolbar>
     <v-navigation-drawer permanent floating light>
       <v-list dense class="pt-0">
-        <v-list-tile router-link :to=item.path v-for="item in items" :key="item.title" @click="">
+        <v-list-tile router-link :to=item.path v-for="item in menuItems" :key="item.title" @click="">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -43,12 +43,28 @@
     data () {
       return {
         appName: 'Ramona',
-        items: [
-          { title: 'Todolist', path: '/todolist', icon: 'storage' },
-          { title: 'Diary', path: '/diary', icon: 'book' },
-          { title: 'Money', path: '/money', icon: 'attach_money' },
-          { title: 'Challenges', path: '/challenges', icon: 'flash_on' }
+        items: this.menuItems
+      }
+    },
+    computed: {
+      menuItems () {
+        let menuItems = [
+          { title: 'Sign up', path: '/auth', icon: 'face' },
+          { title: 'Sign in', path: '/sigin', icon: 'lock_on' }
         ]
+        if (this.userIsAuthenticated) {
+          menuItems = [
+            { title: 'Todolist', path: '/todolist', icon: 'storage' },
+            { title: 'Diary', path: '/diary', icon: 'book' },
+            { title: 'Money', path: '/money', icon: 'attach_money' },
+            { title: 'Challenges', path: '/challenges', icon: 'flash_on' }
+          ]
+        }
+        return menuItems
+      },
+      userIsAuthenticated () {
+        console.log(this.$store.getters.user !== null && this.$store.getters.user !== undefined)
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
     }
   }
