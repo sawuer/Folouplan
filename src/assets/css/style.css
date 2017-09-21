@@ -1,3 +1,5 @@
+body {
+}
 .application--light .navigation-drawer {
 	border-right: 1px solid #f1f1f1;
 	background: #f5f5f5 !important;
@@ -40,7 +42,7 @@ nav {
 	position: fixed !important;
 }
 main {
-	padding-top: 64px;
+	padding-top: 50px;
 }
 .floatR {
 	float: right;
@@ -98,6 +100,9 @@ main {
 	float: right;
 	padding: 10px 0;
 }
+nav {
+	z-index: 10 !important;
+}
 .light-text {
 	font-weight: lighter !important;
 }
@@ -105,9 +110,9 @@ main {
 	position: fixed;
 	right: 0;
 	background: #fff;
-	padding: 5px 15px;
-	top: 65px;
-	opacity: .9;
+	padding: 5px 20px;
+	top: 50px;
+	z-index: 5;
 }
 .application .theme--light.input-group--selection-controls .icon, 
 .application .theme--light.input-group--selection-controls:not(.input-group--active) .input-group__input {
@@ -129,4 +134,17 @@ main {
 
 .spending-table tbody td:first-child {
 	padding: 0 !important;
+}
+
+.toolbar__content {
+	height: 50px !important
+}
+
+table tr:nth-child(even) {
+	background: #f8f8f8;
+}
+
+.navigation-drawer--permanent.navigation-drawer--clipped, .navigation-drawer--permanent.navigation-drawer--floating, .navigation-drawer--persistent.navigation-drawer--clipped, .navigation-drawer--persistent.navigation-drawer--floating {
+	margin-top: 50px !important;
+	max-height: calc(100vh - 50px) !important;
 }

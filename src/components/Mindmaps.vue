@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <h5 class="light-text">Mindmaps</h5>
+    <h5 class="light-text"></h5>
 		
 	</div>
      

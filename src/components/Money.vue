@@ -1,16 +1,10 @@
 <template>
   <transition enter-active-class="animated fadeIn">
   <div>
-
-  
-
-
-
     <div class="all-sum">
       <span>
         <h5 class="text-xs-right">{{cashSum}} {{currentCurrency}}</h5>
       </span>
-      
     </div>
     <h5 class="light-text">Spending</h5>
 		<v-dialog v-model="dialog" persistent>
@@ -59,7 +53,7 @@
 	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
 	    </template>
 	  </v-data-table>	
-    <div id="piechart" style="height: 500px;"></div>
+    <div id="piechart" width="400" style="height: 500px;"></div>
 
 
 
@@ -129,8 +123,6 @@
         home: this.spendingItems.map(i => i.type === 'Home' ? i.cost : 0).reduce((a, b) => a + b),
         other: this.spendingItems.map(i => i.type === 'Other' ? i.cost : 0).reduce((a, b) => a + b)
       }
-
-      console.log(spendings)
 
       function drawChart () {
         var data = google.visualization.arrayToDataTable([
@@ -222,10 +214,7 @@
         var type = form.$el[2].previousSibling.textContent
         var date = form.$el[3].value
         this.spendingItems.unshift({
-          name,
-          cost,
-          date,
-          type
+          name, cost, date, type
         })
         this.cashSum -= +cost
       },
