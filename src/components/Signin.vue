@@ -1,7 +1,7 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <div>
-    <h5 class="light-text">Sign up</h5>
+    <h5 class="light-text">Sign in</h5>
     <v-container fluid class="text-xs-center">
       <v-layout row wrap>
           <v-card height="185px" class="elevation-0 white">
@@ -61,6 +61,15 @@
       },
       user () {
         return this.$store.getters.user
+      }
+    },
+    watch: {
+      user (val) {
+        if (val !== null && val !== undefined) {
+          this.$router.push('/todo')
+        } else {
+          this.$router.push('/auth')
+        }
       }
     },
     data () {

@@ -49,15 +49,14 @@
     computed: {
       menuItems () {
         let menuItems = [
-          { title: 'Sign up', path: '/auth', icon: 'face' },
-          { title: 'Sign in', path: '/sigin', icon: 'lock_on' }
+          { title: 'Sign up', path: '/signup', icon: 'face' },
+          { title: 'Sign in', path: '/signin', icon: 'lock_on' }
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
             { title: 'Todolist', path: '/todolist', icon: 'storage' },
             { title: 'Diary', path: '/diary', icon: 'book' },
-            { title: 'Money', path: '/money', icon: 'attach_money' },
-            { title: 'Challenges', path: '/challenges', icon: 'flash_on' }
+            { title: 'Money', path: '/money', icon: 'attach_money' }
           ]
         }
         return menuItems

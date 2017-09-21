@@ -15,6 +15,13 @@ console.log(store)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  mounted () {
+    if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
+      this.$router.push('/todolist')
+    } else {
+      this.$router.push('/signin')
+    }
+  },
   created () {
     const app = Firebase.initializeApp({
       apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',

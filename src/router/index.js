@@ -8,6 +8,7 @@ import Money from '@/components/Money'
 import Diary from '@/components/Diary'
 import Challenges from '@/components/Challenges'
 import Configs from '@/components/Configs'
+import Signin from '@/components/Signin'
 
 Vue.use(Router)
 
@@ -15,9 +16,10 @@ export default new Router({
   mode: 'history',
   routes: [
     { path: '/todolist', component: Todo },
-    { path: '/auth', component: Auth },
+    { path: '/signup', component: Auth },
     { path: '/money', component: Money },
     { path: '/diary', component: Diary },
+    { path: '/signin', component: Signin },
     { path: '/challenges', component: Challenges },
     { path: '/configs', componnent: Configs }
   ]
