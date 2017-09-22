@@ -5,7 +5,7 @@
     <v-container fluid class="text-xs-center">
       <v-layout row wrap>
           <v-card height="185px" class="elevation-0 white">
-            <form @submit.prevent="onSignup">
+            <form @submit.prevent="onSignin">
               <v-text-field
                 name="email"
                 id="email"
@@ -23,20 +23,9 @@
                 type="password"
                 required
               ></v-text-field>      
-
-              <v-text-field
-                name="confirmPassword"
-                label="Confirm password"
-                v-model="confirmPassword"
-                id="confirmPassword"
-                type="password"
-                required
-                :rules="[comparePasswords]"
-              ></v-text-field>   
-              
               <v-btn 
                 type="submit" 
-                >Sign up</v-btn>
+                >Sign in</v-btn>
               <v-btn @click="clear">clear</v-btn>
             </form>
           </v-card>
@@ -50,48 +39,34 @@
 <script>
   export default {
     name: 'Auth',
-    updated () {
-      console.log(this.$store.state.user)
-    },
     mounted () {
     },
     computed: {
-      comparePasswords () {
-        return this.password !== this.confirmPassword ? 'Password do not match' : true
-      },
       user () {
         return this.$store.getters.user
-      }
-    },
-    watch: {
-      user (val) {
-        if (val !== null && val !== undefined) {
-          this.$router.push('/todo')
-        } else {
-          this.$router.push('/auth')
-        }
       }
     },
     data () {
       return {
         email: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
       }
     },
     methods: {
-      onSignup () {
-        this.$store.dispatch('signUserUp', {
+      onSignin () {
+        this.$store.dispatch('signUserIn', {
           email: this.email,
           password: this.password
         })
-        console.log(this.$root)
-        console.log({email: this.email, password: this.password, confirmPassword: this.confirmPassword})
+        if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
+          this.$router.push('/todolist')
+        } else {
+          this.$router.push('/signin')
+        }
       },
       clear () {
         this.email = ''
         this.password = ''
-        this.confirmPassword = ''
       }
     }
   }

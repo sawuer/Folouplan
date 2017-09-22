@@ -29,12 +29,21 @@ export const store = new Vuex.Store({
         commit('setUser', newUser)
       })
       .catch(error => console.log(error))
+    },
+    signUserIn ({commit}, userData) {
+      Firebase.auth().signInWithEmailAndPassword(userData.email, userData.password)
+      .then(user => {
+        const newUser = {
+          id: user.uid,
+          userDataId: []
+        }
+        commit('setUser', newUser)
+      })
+      .catch(error => console.log(error))
     }
   },
   getters: {
-    userDatas (state) {
-      return state.userDatas
-    },
+    userDatas: state => state.userDatas,
     setUserData (state) {
       return (userDataId) => {
         return state.userDatas.find((userData) => {

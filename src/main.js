@@ -11,7 +11,19 @@ import('./../node_modules/vuetify/dist/vuetify.min.js')
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueFire)
-console.log(store)
+
+const app = Firebase.initializeApp({
+  apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',
+  authDomain: 'ramona-6e161.firebaseapp.com',
+  databaseURL: 'https://ramona-6e161.firebaseio.com',
+  projectId: 'ramona-6e161',
+  storageBucket: 'ramona-6e161.appspot.com'
+  // messagingSenderId: '73956155263'
+})
+const db = app.database()
+const todos = db.ref('todos')
+const doneTodos = db.ref('doneTodos')
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -21,25 +33,15 @@ new Vue({
     } else {
       this.$router.push('/signin')
     }
+    console.log(this.$store.getters.user)
   },
-  created () {
-    const app = Firebase.initializeApp({
-      apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',
-      authDomain: 'ramona-6e161.firebaseapp.com',
-      databaseURL: 'https://ramona-6e161.firebaseio.com',
-      projectId: 'ramona-6e161',
-      storageBucket: 'ramona-6e161.appspot.com'
-      // messagingSenderId: '73956155263'
-    })
-    const db = app.database()
-    const todos = db.ref('todos')
-    const doneTodos = db.ref('doneTodos')
-    console.log(todos, doneTodos)
+  updated () {
+    console.log(this.$store.getters.user)
   },
   store,
   firebase: {
-    // todos,
-    // doneTodos
+    todos,
+    doneTodos
   },
   data: {
   },
