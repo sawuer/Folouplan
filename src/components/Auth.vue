@@ -50,17 +50,11 @@
 <script>
   export default {
     name: 'Auth',
-    updated () {
-      console.log(this.$store.state.user)
-    },
     mounted () {
     },
     computed: {
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Password do not match' : true
-      },
-      user () {
-        return this.$store.getters.user
       }
     },
     data () {
@@ -76,8 +70,11 @@
           email: this.email,
           password: this.password
         })
-        console.log(this.$root)
-        console.log({email: this.email, password: this.password, confirmPassword: this.confirmPassword})
+        if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
+          this.$router.push('/todolist')
+        } else {
+          this.$router.push('/signin')
+        }
       },
       clear () {
         this.email = ''

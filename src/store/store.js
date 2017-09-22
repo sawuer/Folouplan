@@ -40,6 +40,9 @@ export const store = new Vuex.Store({
         commit('setUser', newUser)
       })
       .catch(error => console.log(error))
+    },
+    logOut ({commit}) {
+      commit('setUser', null)
     }
   },
   getters: {

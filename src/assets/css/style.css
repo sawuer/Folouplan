@@ -101,7 +101,7 @@ main {
 	padding: 10px 0;
 }
 nav {
-	z-index: 10 !important;
+	/*z-index: 10 !important;*/
 }
 .light-text {
 	font-weight: lighter !important;
@@ -147,4 +147,8 @@ table tr:nth-child(even) {
 .navigation-drawer--permanent.navigation-drawer--clipped, .navigation-drawer--permanent.navigation-drawer--floating, .navigation-drawer--persistent.navigation-drawer--clipped, .navigation-drawer--persistent.navigation-drawer--floating {
 	margin-top: 50px !important;
 	max-height: calc(100vh - 50px) !important;
+}
+
+.dropdown-bg li {
+	background: #fff !important;
 }
