@@ -156,5 +156,9 @@ table tr:nth-child(even) {
 
 #completedTodos li {
 	transition: all .4s;
+}
+
+.application--light .small-dialog__actions, .application--light .small-dialog__content {
+		box-shadow: 0 2px 10px 0 rgba(0,0,0,.2) !important;
 
 }

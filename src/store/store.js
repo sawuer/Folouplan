@@ -11,7 +11,7 @@ export const store = new Vuex.Store({
       { id: 22, money: '22', todo: '2222' },
       { id: 33, money: '33', todo: '3333' }
     ],
-    user: 323
+    user: 1
   },
   mutations: {
     setUser (state, payload) {

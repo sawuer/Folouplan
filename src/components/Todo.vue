@@ -7,14 +7,30 @@
             <template v-for="(todo, idx) in this.$root.todos">
               <v-subheader v-if="todo.header" v-text="todo.header"></v-subheader>
               <v-divider v-else-if="todo.divider" v-bind:inset="todo.inset"></v-divider>
-              <v-list-tile avatar v-else v-bind:key="todo.title" download>
+              <v-list-tile avatar v-else v-bind:key="todo.title">
                 <v-list-tile-action>
                   <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
                 </v-list-tile-action>
                 <v-list-tile-content>
                   <v-list-tile-title>
                     <span class="text--grey">{{idx + 1}}.</span>
-                    {{todo.title}}
+
+                    <!-- <span v-on:dblclick="editTodoTitle(todo)" v-if="!editTodoTitleState">{{todo.title}}</span> -->
+                    <v-edit-dialog> 
+                      {{ todo.title }}
+                      <v-text-field
+                        slot="input"
+                        @keyup.enter="newTodoTitle($event, todo)"
+                        :value="todo.title"
+                      ></v-text-field>
+                    </v-edit-dialog>
+                    <!--
+                    <span v-on:dblclick="editTodoTitle(todo)">
+                      <span v-if="!editTodoTitleState">{{todo.title}}</span>
+                      <input v-else :value="todo.title" type="text" name="">
+                    </span>
+                    -->
+
                   </v-list-tile-title>
                   <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
                 </v-list-tile-content>
@@ -26,14 +42,13 @@
           </v-list>
           <v-expansion-panel>
             <v-expansion-panel-content>
-              <div slot="header">Completed ({{this.$root.doneTodos.length}})</div>
+              <div slot="header"><v-icon>delete_forever</v-icon> ({{this.$root.doneTodos.length}})</div>
               <v-card>
                 <v-list id="completedTodos">
                   <template v-for="(todo, idx) in this.$root.doneTodos">
                     <v-subheader v-if="todo.header" v-text="todo.header"></v-subheader>
                     <v-divider v-else-if="todo.divider" v-bind:inset="todo.inset"></v-divider>
-                    <v-list-tile class="completed-todos" avatar v-else v-bind:key="todo.title" download>
-                           
+                    <v-list-tile class="completed-todos" avatar v-else v-bind:key="todo.title" download>   
                       <v-list-tile-content>
                         <v-list-tile-title>
                           {{todo.title}}
@@ -43,7 +58,6 @@
                       <v-btn class="delete-todo completed-todos" @click="undoComplete(todo)" icon>
                         <v-icon class="text--grey lighten-1">undo</v-icon>
                       </v-btn>
-
                     </v-list-tile>
                   </template>
                 </v-list>
@@ -69,7 +83,9 @@
                         </template>
                       </v-date-picker>
                     </v-dialog>
-                    <v-btn class="text-xs-center green lighten-2 white-text" @click="addTodo">Add todo</v-btn>
+                    <v-btn icon class="grey lighten-4 green--text" @click="addTodo">
+                      <v-icon>add</v-icon>
+                    </v-btn>
                   </v-form>
                 </v-flex>
               </v-layout>
@@ -81,11 +97,10 @@
                 <v-flex>
                   <v-btn error @click="clearTodoList" dark>Clear all todos</v-btn>
                   <v-btn error @click="clearDeleteList" dark>Clear completed</v-btn>
-                  </v-flex>
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card>
-
         </v-flex>
       </v-layout>
     </v-container>
@@ -97,9 +112,11 @@
     name: 'Todo',
     data () {
       return {
+        currentEditTodoTitle: '',
         deleteTodos: '#completedTodos',
         todo: null,
         datePicker: null,
+        currenEdit: null,
         modalDate: false,
         todoFormValid: false,
         nameRules: [
@@ -166,13 +183,27 @@
       },
 
       undoComplete (todo) {
-        console.log(todo)
         this.$root.$firebaseRefs.todos.push({
           title: todo.title,
           date: todo.date,
           ex: false
         })
         this.$root.$firebaseRefs.doneTodos.child(todo['.key']).remove()
+      },
+
+      newTodoTitle (e, todo) {
+        // console.log(e.target.value)
+        this.currentEditTodoTitle = e.target.value
+        console.log(this.currentEditTodoTitle)
+        console.log(e.target)
+        var update = {
+          title: e.target.value,
+          date: todo.date,
+          ex: todo.ex
+        }
+        this.$root.$firebaseRefs.todos.child(todo['.key']).update(update)
+
+        // console.log(todo)
       },
 
       clearTodoList () {
