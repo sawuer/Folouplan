@@ -1,113 +1,133 @@
 <template>
   <transition enter-active-class="animated fadeIn">
-  <div>
-    <div class="all-sum">
-      <span>
-        <h5 class="text-xs-right">{{cashSum}} {{currentCurrency}}</h5>
-      </span>
+    <div>
+      <div class="all-sum">
+        <span>
+          <h5 class="text-xs-right">{{cashSum}} {{currentCurrency}}</h5>
+        </span>
+      </div>
+  		<v-dialog v-model="dialog" persistent>
+        <v-btn class="" slot="activator">Add new spend</v-btn>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Add new spend</span>
+          </v-card-title>
+          <v-card-text>
+
+          	<v-form v-model="valid" ref="form">
+
+  	          <v-text-field 
+                v-model="purName" 
+                :rules="purRules" 
+                :counter="25"  
+                label="Purchase name" 
+                required
+                ></v-text-field>
+
+  	          <v-text-field 
+                v-model="cost" 
+                label="Cost" 
+                :rules="costRules" 
+                required 
+                hint="example of helper text only on focus"
+                ></v-text-field>
+
+  	          <v-select 
+                v-model="type" 
+                :rules="typeRules" 
+                label="Type" 
+                required 
+                :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
+  		        
+              <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
+  		          <v-text-field :rules="dateRules" slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
+  		          <v-date-picker v-model="picker" autosave no-title scrollable actions>
+  		            <template scope="{ save, cancel }">
+  		              <v-card-actions>
+  		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+  		                <v-btn flat primary @click.native="save()">Save</v-btn>
+  		              </v-card-actions>
+  		            </template>
+  		          </v-date-picker>
+  		        </v-menu>
+
+  	          <v-btn class="green--text darken-1" @click="addPurchase" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
+  	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
+  		      
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+
+  		<br>
+
+  	  <v-data-table 
+        v-bind:headers="spendingHeader" 
+        :items="spendingItems"
+        class="spending-table">
+  	    <template slot="items" scope="props">
+  	      <td class="pur-date text-xs-left">
+  	      	<v-btn class="completed-todos" @click="deletePurchase" icon>
+  		        <v-icon class="grey--text">delete</v-icon>
+  		      </v-btn>
+  		      {{ props.item.date }}
+  		    </td>
+  	      <td class="pur-name">{{ props.item.name }}</td>
+  	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
+  	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+  	    </template>
+  	  </v-data-table>
+
+      <div id="piechart" width="400" style="height: 500px;"></div>
+
+      <v-dialog v-model="dialog2" persistent>
+        <v-btn slot="activator">Add new income</v-btn>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Add new income</span>
+          </v-card-title>
+          <v-card-text>
+          	<v-form v-model="valid" ref="form1">
+  	          <v-text-field label="Income cash" required hint="example of helper text only on focus"></v-text-field>
+  	          <v-select id="type" label="Type" required :items="['Work', 'Freelance']"></v-select>
+  		        <v-menu lazy :close-on-content-click="false" v-model="date2" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
+  		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
+  		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
+  		            <template scope="{ save, cancel }">
+  		              <v-card-actions>
+  		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+  		                <v-btn flat primary @click.native="save()">Save</v-btn>
+  		              </v-card-actions>
+  		            </template>
+  		          </v-date-picker>
+  		        </v-menu>
+  	          <v-btn class="blue--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
+  	          <v-btn class="blue--text darken-1" @click="addIncome" @click.native="dialog2 = false" flat>Save</v-btn>
+  		      </v-form>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+
+  		<br>
+
+  	  <v-data-table 
+        v-bind:headers="incomeHeader" 
+        :items="incomeItems"
+        class="spending-table">
+  	    <template slot="items" scope="props">
+  	      <td class="inc-date text-xs-left">
+  	        <v-btn class="completed-todos" @click="deleteIncome" icon>
+  		        <v-icon class="grey--text">delete</v-icon>
+  		      </v-btn>
+  	        {{ props.item.date }}
+  	       </td>
+  	      <td class="inc-type text-xs-left">{{ props.item.type }}</td>
+  	      <td class="inc-income cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
+  	    </template>
+  	  </v-data-table>
+
     </div>
-    <h5 class="light-text">Spending</h5>
-		<v-dialog v-model="dialog" persistent>
-      <v-btn class="" slot="activator">Add new spend</v-btn>
-      <v-card>
-        <v-card-title>
-          <span class="headline">Add new spend</span>
-        </v-card-title>
-        <v-card-text>
-        	<v-form v-model="valid" ref="form">
-	          <v-text-field v-model="purName" :rules="purRules" :counter="20"  label="Purchase name" required></v-text-field>
-	          <v-text-field label="Cost" :rules="costRules" required hint="example of helper text only on focus"></v-text-field>
-	          <v-select :rules="typeRules" label="Type" required :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
-		        <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-		          <v-text-field slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
-		          <v-date-picker v-model="picker" autosave no-title scrollable actions>
-		            <template scope="{ save, cancel }">
-		              <v-card-actions>
-		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-		                <v-btn flat primary @click.native="save()">Save</v-btn>
-		              </v-card-actions>
-		            </template>
-		          </v-date-picker>
-		        </v-menu>
-	          <v-btn class="green--text darken-1" @click="addPurchase" @click.native="dialog = false" flat>Add</v-btn>
-	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-		      </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-		<br>
-
-	  <v-data-table 
-      v-bind:headers="spendingHeader" 
-      :items="spendingItems"
-      class="spending-table">
-	    <template slot="items" scope="props">
-	      <td class="pur-date text-xs-left">
-	      	<v-btn class="completed-todos" @click="deletePurchase" icon>
-		        <v-icon class="grey--text">delete</v-icon>
-		      </v-btn>
-		      {{ props.item.date }}
-		    </td>
-	      <td class="pur-name">{{ props.item.name }}</td>
-	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
-	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
-	    </template>
-	  </v-data-table>	
-    <div id="piechart" width="400" style="height: 500px;"></div>
-
-
-
-
-
-
-    <h5 class="light-text">Income</h5>
-    <v-dialog v-model="dialog2" persistent>
-      <v-btn slot="activator">Add new income</v-btn>
-      <v-card>
-        <v-card-title>
-          <span class="headline">Add new income</span>
-        </v-card-title>
-        <v-card-text>
-        	<v-form v-model="valid" ref="form1">
-	          <v-text-field label="Income cash" required hint="example of helper text only on focus"></v-text-field>
-	          <v-select id="type" label="Type" required :items="['Work', 'Freelance']"></v-select>
-		        <v-menu lazy :close-on-content-click="false" v-model="date2" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
-		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
-		            <template scope="{ save, cancel }">
-		              <v-card-actions>
-		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-		                <v-btn flat primary @click.native="save()">Save</v-btn>
-		              </v-card-actions>
-		            </template>
-		          </v-date-picker>
-		        </v-menu>
-	          <v-btn class="blue--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
-	          <v-btn class="blue--text darken-1" @click="addIncome" @click.native="dialog2 = false" flat>Save</v-btn>
-		      </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-		<br>
-	  <v-data-table 
-      v-bind:headers="incomeHeader" 
-      :items="incomeItems"
-      class="spending-table">
-	    <template slot="items" scope="props">
-	      <td class="inc-date text-xs-left">
-	        <v-btn class="completed-todos" @click="deleteIncome" icon>
-		        <v-icon class="grey--text">delete</v-icon>
-		      </v-btn>
-	        {{ props.item.date }}
-	       </td>
-	      <td class="inc-type text-xs-left">{{ props.item.type }}</td>
-	      <td class="inc-income cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
-	    </template>
-	  </v-data-table>
-
-
-  </div>
-       </transition>
+  </transition>
 </template>
 
 <script>
@@ -115,6 +135,7 @@
     updated () {
       var google = window.google
       google.charts.load('current', {'packages': ['corechart']})
+      // google.charts.setOnLoadCallback(drawChart)
       google.charts.setOnLoadCallback(drawChart)
 
       var spendings = {
@@ -123,6 +144,11 @@
         home: this.spendingItems.map(i => i.type === 'Home' ? i.cost : 0).reduce((a, b) => a + b),
         other: this.spendingItems.map(i => i.type === 'Other' ? i.cost : 0).reduce((a, b) => a + b)
       }
+
+      // var income = {
+      //   work: this.spendingItems.map(i => i.type === 'Work' ? i.cost : 0).reduce((a, b) => a + b),
+      //   freelance: this.spendingItems.map(i => i.type === 'Freelance' ? i.cost : 0).reduce((a, b) => a + b)
+      // }
 
       function drawChart () {
         var data = google.visualization.arrayToDataTable([
@@ -138,6 +164,19 @@
           pieHole: 0.5
         })
       }
+
+      // function drawChart2 () {
+      //   var data = google.visualization.arrayToDataTable([
+      //     ['Task', 'Hours per Day'],
+      //     ['Work', income.food],
+      //     ['Freelance', income.passage]
+      //   ])
+      //   var spendingChart = new google.visualization.PieChart(document.getElementById('piechart'))
+      //   spendingChart.draw(data, {
+      //     title: 'Incomes',
+      //     pieHole: 0.5
+      //   })
+      // }
     },
     mounted () {
       this.takeOf()
@@ -146,19 +185,21 @@
     data () {
       return {
         purName: '',
-        capitalRules: [
-          (v) => !!v || 'Empty',
-          (v) => /^\d+$/.test(v) || 'E-mail must be valid'
-        ],
+        cost: '',
+        type: '',
         purRules: [
-          (v) => !!v || 'You didn\'t fill out the field',
-          (v) => v && v.length <= 20 || 'Purchase name must be less than 20 characters'
+          (v) => !!v || 'You didn\'t fill out the puchase name',
+          (v) => v && v.length <= 25 || 'Purchase name must be less than 20 characters'
         ],
         costRules: [
-          (v) => !!v || 'You didn\'t fill out the field'
+          (v) => /^\d+$/.test(v) || 'There must be only numbers',
+          (v) => !!v || 'You didn\'t fill out the cost'
         ],
         typeRules: [
-          (v) => !!v || 'You didn\'t fill out the field'
+          (v) => !!v || 'You didn\'t fill out the type'
+        ],
+        dateRules: [
+          (v) => !!v || 'You didn\'t fill out the date'
         ],
         dialog: false,
         dialog2: false,
@@ -208,15 +249,18 @@
         this.cashSum = +this.cashSum
       },
       addPurchase () {
-        var form = this.$refs.form
-        var name = form.$el[0].value
-        var cost = +form.$el[1].value
-        var type = form.$el[2].previousSibling.textContent
-        var date = form.$el[3].value
-        this.spendingItems.unshift({
-          name, cost, date, type
-        })
-        this.cashSum -= +cost
+        if (this.$refs.form.validate()) {
+          // this.$refs.form.$el.submit()
+          var form = this.$refs.form
+          var name = form.$el[0].value
+          var cost = +form.$el[1].value
+          var type = form.$el[2].previousSibling.textContent
+          var date = form.$el[3].value
+          this.spendingItems.unshift({
+            name, cost, date, type
+          })
+          this.cashSum -= +cost
+        }
       },
       addIncome () {
         var form = this.$refs.form1

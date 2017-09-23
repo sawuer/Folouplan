@@ -50,8 +50,6 @@
 <script>
   export default {
     name: 'Auth',
-    mounted () {
-    },
     computed: {
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Password do not match' : true

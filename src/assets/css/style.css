@@ -36,7 +36,7 @@ a {
 	width: 43px !important;
 }
 .completed-todos {
-	opacity: .5;
+	opacity: .6;
 }
 nav {
 	position: fixed !important;
@@ -112,7 +112,8 @@ nav {
 	background: #fff;
 	padding: 5px 20px;
 	top: 50px;
-	z-index: 5;
+	z-index: 1;
+	box-shadow: 0 2px 10px 0 rgba(0,0,0,.2);
 }
 .application .theme--light.input-group--selection-controls .icon, 
 .application .theme--light.input-group--selection-controls:not(.input-group--active) .input-group__input {
@@ -151,4 +152,9 @@ table tr:nth-child(even) {
 
 .dropdown-bg li {
 	background: #fff !important;
+}
+
+#completedTodos li {
+	transition: all .4s;
+
 }

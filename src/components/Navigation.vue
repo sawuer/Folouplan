@@ -1,18 +1,20 @@
 <template>
   <v-app id="navigation" toolbar>
     <v-navigation-drawer permanent floating light>
+      
       <v-list dense class="pt-0">
         <v-list-tile router-link :to=item.path v-for="item in menuItems" :key="item.title" @click="">
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.title }}
-              </v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>
+              {{ item.title }}
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
+
     </v-navigation-drawer>
     <v-toolbar class="blue" dark>
       <v-flex xs9>
@@ -42,7 +44,7 @@
     },
     data () {
       return {
-        appName: 'Ramona',
+        appName: 'Malboo',
         items: this.menuItems
       }
     },
@@ -55,8 +57,8 @@
         if (this.userIsAuthenticated) {
           menuItems = [
             { title: 'Todolist', path: '/todolist', icon: 'storage' },
-            { title: 'Diary', path: '/diary', icon: 'book' },
-            { title: 'Money', path: '/money', icon: 'attach_money' }
+            { title: 'Money', path: '/money', icon: 'attach_money' },
+            { title: 'Diary', path: '/diary', icon: 'book' }
           ]
         }
         return menuItems
