@@ -24,13 +24,13 @@ const app = Firebase.initializeApp({
   // messagingSenderId: '73956155263'
 })
 const db = app.database()
-const todos = db.ref('todos')
-const doneTodos = db.ref('doneTodos')
+const users = db.ref('users')
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   mounted () {
+    console.log(users)
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
       this.$router.push(this.$store.getters.currentURL)
     } else {
@@ -43,8 +43,7 @@ new Vue({
   },
   store,
   firebase: {
-    todos,
-    doneTodos
+    users
   },
   data: {
   },

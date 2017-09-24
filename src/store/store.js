@@ -7,13 +7,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     appName: 'Gven',
-    userDatas: [
-      { id: 11, money: '11', todo: '1111' },
-      { id: 22, money: '22', todo: '2222' },
-      { id: 33, money: '33', todo: '3333' }
-    ],
     currentURL: null,
-    user: 1,
+    user: null,
     loading: false,
     error: null
   },
@@ -81,7 +76,6 @@ export const store = new Vuex.Store({
   getters: {
     appName: state => state.appName,
     currentURL: state => state.currentURL,
-    userDatas: state => state.userDatas,
     setUserData (state) {
       return (userDataId) => {
         return state.userDatas.find((userData) => {

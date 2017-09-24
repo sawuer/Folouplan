@@ -4,33 +4,39 @@
       <v-layout row wrap>
         <v-flex xs8>
           <v-list>
-            <template v-for="(todo, idx) in this.$root.todos">
-              <v-subheader v-if="todo.header" v-text="todo.header"></v-subheader>
-              <v-divider v-else-if="todo.divider" v-bind:inset="todo.inset"></v-divider>
-              <v-list-tile avatar v-else v-bind:key="todo.title">
-                <v-list-tile-action>
-                  <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>
-                    <span class="text--grey">{{idx + 1}}.</span>
-                    <v-edit-dialog> 
-                      {{ todo.title }}
-                      <v-text-field
-                        slot="input"
-                        @keyup.enter="newTodoTitle($event, todo)"
-                        :value="todo.title"
-                      ></v-text-field>
-                    </v-edit-dialog>
-                  </v-list-tile-title>
-                  <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-btn class="delete-todo completed-todos" @click="deleteTodo(todo)" icon>
-                  <v-icon class="text--grey lighten-1">delete</v-icon>
-                </v-btn>
-              </v-list-tile>
+            <template v-for="(user, idx) in this.$root.users">
+              <span v-if="user.id ? user.id === $store.getters.user.id : null">
+                <!-- <template v-for="todo in user.data.todos[1]"> -->
+                  <pre>{{ user.data.todos[1].date }}</pre>
+                  <!-- <v-list-tile avatar v-bind:key="todo.title">
+                    <v-list-tile-action>
+                      <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        <span class="text--grey">{{idx + 1}}.</span>
+                        <v-edit-dialog> 
+                          {{ todo.title }}
+                          <v-text-field
+                            slot="input"
+                            @keyup.enter="newTodoTitle($event, todo)"
+                            :value="todo.title"
+                          ></v-text-field>
+                        </v-edit-dialog>
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-btn class="delete-todo completed-todos" @click="deleteTodo(todo)" icon>
+                      <v-icon class="text--grey lighten-1">delete</v-icon>
+                    </v-btn>
+                  </v-list-tile> -->
+                <!-- </template> -->
+              
+            
+              </span>
             </template>
           </v-list>
+          <!--
           <v-expansion-panel>
             <v-expansion-panel-content>
               <div slot="header"><v-icon>delete_forever</v-icon> ({{this.$root.doneTodos.length}})</div>
@@ -57,7 +63,8 @@
                 </v-list>
               </v-card>
             </v-expansion-panel-content>
-          </v-expansion-panel>            
+          </v-expansion-panel>  
+          -->          
         </v-flex>
         <v-flex xs4>
           <v-card>
@@ -115,19 +122,19 @@
       }
     },
     mounted () {
-      this.reverseDeleteTodos()
+      // this.reverseDeleteTodos()
     },
     methods: {
       completedTodosDiv: (it) => document.querySelector(it),
-      reverseDeleteTodos () {
-        var deleteTodos = this.completedTodosDiv(this.deleteTodos)
-        setTimeout(() => {
-          let deleteList = Array.prototype.slice.call(deleteTodos.childNodes)
-          for (let i = deleteList.length - 1; i >= 0; i--) {
-            deleteTodos.appendChild(deleteList[i])
-          }
-        }, 200)
-      },
+      // reverseDeleteTodos () {
+      //   var deleteTodos = this.completedTodosDiv(this.deleteTodos)
+      //   setTimeout(() => {
+      //     let deleteList = Array.prototype.slice.call(deleteTodos.childNodes)
+      //     for (let i = deleteList.length - 1; i >= 0; i--) {
+      //       deleteTodos.appendChild(deleteList[i])
+      //     }
+      //   }, 200)
+      // },
       addTodo () {
         this.$refs.todoForm.validate()
         var todo = this.$refs.todoForm.$el[0].value
