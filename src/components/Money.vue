@@ -7,7 +7,10 @@
         </span>
       </div>
   		<v-dialog v-model="dialog" persistent>
-        <v-btn class="" slot="activator">Add new spend</v-btn>
+        <v-btn icon slot="activator" class="grey lighten-4 green--text">
+          <v-icon>add</v-icon>
+        </v-btn>
+
         <v-card>
           <v-card-title>
             <span class="headline">Add new spend</span>
@@ -17,19 +20,19 @@
           	<v-form v-model="valid" ref="form">
 
   	          <v-text-field 
-                v-model="purName" 
-                :rules="purRules" 
-                :counter="25"  
-                label="Purchase name" 
-                required
-                ></v-text-field>
-
-  	          <v-text-field 
                 v-model="cost" 
                 label="Cost" 
                 :rules="costRules" 
                 required 
                 hint="example of helper text only on focus"
+                ></v-text-field>
+              
+              <v-text-field 
+                v-model="purName" 
+                :rules="purRules" 
+                :counter="25"  
+                label="Purchase name" 
+                required
                 ></v-text-field>
 
   	          <v-select 
@@ -81,7 +84,9 @@
       <div id="piechart" width="400" style="height: 500px;"></div>
 
       <v-dialog v-model="dialog2" persistent>
-        <v-btn slot="activator">Add new income</v-btn>
+        <v-btn icon slot="activator" class="grey lighten-4 green--text">
+          <v-icon>attach_money</v-icon>
+        </v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">Add new income</span>
@@ -145,11 +150,6 @@
         other: this.spendingItems.map(i => i.type === 'Other' ? i.cost : 0).reduce((a, b) => a + b)
       }
 
-      // var income = {
-      //   work: this.spendingItems.map(i => i.type === 'Work' ? i.cost : 0).reduce((a, b) => a + b),
-      //   freelance: this.spendingItems.map(i => i.type === 'Freelance' ? i.cost : 0).reduce((a, b) => a + b)
-      // }
-
       function drawChart () {
         var data = google.visualization.arrayToDataTable([
           ['Task', 'Hours per Day'],
@@ -160,23 +160,10 @@
         ])
         var spendingChart = new google.visualization.PieChart(document.getElementById('piechart'))
         spendingChart.draw(data, {
-          title: 'Spending',
-          pieHole: 0.5
+          title: 'Spending'
+          // pieHole: 0
         })
       }
-
-      // function drawChart2 () {
-      //   var data = google.visualization.arrayToDataTable([
-      //     ['Task', 'Hours per Day'],
-      //     ['Work', income.food],
-      //     ['Freelance', income.passage]
-      //   ])
-      //   var spendingChart = new google.visualization.PieChart(document.getElementById('piechart'))
-      //   spendingChart.draw(data, {
-      //     title: 'Incomes',
-      //     pieHole: 0.5
-      //   })
-      // }
     },
     mounted () {
       this.takeOf()
@@ -252,14 +239,15 @@
         if (this.$refs.form.validate()) {
           // this.$refs.form.$el.submit()
           var form = this.$refs.form
-          var name = form.$el[0].value
-          var cost = +form.$el[1].value
+          var cost = +form.$el[0].value
+          var name = form.$el[1].value
           var type = form.$el[2].previousSibling.textContent
           var date = form.$el[3].value
           this.spendingItems.unshift({
             name, cost, date, type
           })
           this.cashSum -= +cost
+          setTimeout(() => this.$refs.form.reset(), 50)
         }
       },
       addIncome () {
@@ -296,6 +284,7 @@
         var date = row.querySelector('.pur-date').innerText.replace('delete', '').trim()
         var cost = row.querySelector('.pur-cost').innerText.replace(this.currentCurrency, '').trim()
         for (var i = 0; i < itemsL; i++) {
+          console.log(this.spendingItems[i].name)
           if (this.spendingItems[i].name) {
             if (this.spendingItems[i].name === name && this.spendingItems[i].type === type && this.spendingItems[i].date === date) {
               this.spendingItems.splice(i, 1)
@@ -314,6 +303,7 @@
           if (this.incomeItems[i].income === +income && this.incomeItems[i].type === type && this.incomeItems[i].date === date) {
             this.incomeItems.splice(i, 1)
             this.cashSum -= +income
+            return
           }
         }
       }

@@ -2,18 +2,16 @@
   <div>
     <v-layout row wrap>
       <template v-if="this.$store.getters.user !== null">
-        <v-flex xs9>
-          <span class="floatR user-wrapper">
-
-    
-
+        <v-flex xs12>
+          <span class="floatR">
             <v-menu
               transition="slide-y-transition"
-              bottom
-            >
-              <span slot="activator" class="user-name">{{currentUserEmail}}</span>
-
+              >
+              <v-btn slot="activator" icon>
+                <v-icon>more_vert</v-icon>
+              </v-btn>
               <v-list>
+                {{currentUserEmail}}
                 <v-list-tile v-for="item in emailDropdown" :key="item.title" @click="">
                   <v-list-tile-title>
                     <span @click="logOut">{{ item.title }}</span>
@@ -23,13 +21,6 @@
             </v-menu>
           </span>
         </v-flex>    
-        <v-flex xs3>
-          <router-link class="floatR" to="/configs">
-            <v-btn icon>
-              <v-icon>more_vert</v-icon>
-            </v-btn>
-          </router-link>
-        </v-flex>
       </template>
     </v-layout>
   </div>

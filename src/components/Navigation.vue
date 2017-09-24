@@ -3,7 +3,7 @@
     <v-navigation-drawer permanent floating light>
       
       <v-list dense class="pt-0">
-        <v-list-tile router-link :to=item.path v-for="item in menuItems" :key="item.title" @click="">
+        <v-list-tile @click="clickOnNavItem" router-link :to=item.path v-for="item in menuItems" :key="item.title">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -18,7 +18,7 @@
     </v-navigation-drawer>
     <v-toolbar class="blue" dark>
       <v-flex xs9>
-        <v-toolbar-title>{{appName}}</v-toolbar-title>
+        <v-toolbar-title style="font-family: 'Raleway', sans-serif;"><b>{{$store.getters.appName}}</b></v-toolbar-title>
       </v-flex>  
       <v-flex xs3>
         <user></user>
@@ -44,8 +44,15 @@
     },
     data () {
       return {
-        appName: 'Malboo',
         items: this.menuItems
+      }
+    },
+    mounted () {
+      this.clickOnNavItem()
+    },
+    methods: {
+      clickOnNavItem () {
+        this.$store.dispatch('setURL')
       }
     },
     computed: {

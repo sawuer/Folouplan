@@ -1,6 +1,7 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <div>
+    <app-alert @dismissed="onDismissed"></app-alert>
     <h5 class="light-text">Sign up</h5>
     <v-container fluid class="text-xs-center">
       <v-layout row wrap>
@@ -73,6 +74,9 @@
         } else {
           this.$router.push('/signin')
         }
+      },
+      onDismissed () {
+        console.log('Dismissed')
       },
       clear () {
         this.email = ''

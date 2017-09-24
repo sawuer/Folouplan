@@ -14,8 +14,6 @@
                 <v-list-tile-content>
                   <v-list-tile-title>
                     <span class="text--grey">{{idx + 1}}.</span>
-
-                    <!-- <span v-on:dblclick="editTodoTitle(todo)" v-if="!editTodoTitleState">{{todo.title}}</span> -->
                     <v-edit-dialog> 
                       {{ todo.title }}
                       <v-text-field
@@ -24,13 +22,6 @@
                         :value="todo.title"
                       ></v-text-field>
                     </v-edit-dialog>
-                    <!--
-                    <span v-on:dblclick="editTodoTitle(todo)">
-                      <span v-if="!editTodoTitleState">{{todo.title}}</span>
-                      <input v-else :value="todo.title" type="text" name="">
-                    </span>
-                    -->
-
                   </v-list-tile-title>
                   <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
                 </v-list-tile-content>
@@ -53,7 +44,10 @@
                         <v-list-tile-title>
                           {{todo.title}}
                         </v-list-tile-title>
+
                         <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
+                        
+                      
                       </v-list-tile-content>
                       <v-btn class="delete-todo completed-todos" @click="undoComplete(todo)" icon>
                         <v-icon class="text--grey lighten-1">undo</v-icon>
@@ -91,16 +85,12 @@
               </v-layout>
             </v-container>
           </v-card>
-          <v-card>
-            <v-container fluid grid-list-md class="pa-3">
               <v-layout row wrap>
                 <v-flex>
                   <v-btn error @click="clearTodoList" dark>Clear all todos</v-btn>
                   <v-btn error @click="clearDeleteList" dark>Clear completed</v-btn>
                 </v-flex>
               </v-layout>
-            </v-container>
-          </v-card>
         </v-flex>
       </v-layout>
     </v-container>
@@ -112,7 +102,6 @@
     name: 'Todo',
     data () {
       return {
-        currentEditTodoTitle: '',
         deleteTodos: '#completedTodos',
         todo: null,
         datePicker: null,
@@ -192,18 +181,12 @@
       },
 
       newTodoTitle (e, todo) {
-        // console.log(e.target.value)
-        this.currentEditTodoTitle = e.target.value
-        console.log(this.currentEditTodoTitle)
-        console.log(e.target)
         var update = {
           title: e.target.value,
           date: todo.date,
           ex: todo.ex
         }
         this.$root.$firebaseRefs.todos.child(todo['.key']).update(update)
-
-        // console.log(todo)
       },
 
       clearTodoList () {

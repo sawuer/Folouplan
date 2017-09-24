@@ -5,12 +5,15 @@ import VueFire from 'vuefire'
 import * as Firebase from 'firebase'
 import Vuetify from 'vuetify'
 import('./../node_modules/vuetify/dist/vuetify.min.css')
+import('./../node_modules/vuetify/dist/vuetify.min.js')
 import('./assets/css/style.css')
 import { store } from './store/store'
-import('./../node_modules/vuetify/dist/vuetify.min.js')
+import Alert from '@/components/Alert'
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueFire)
+
+Vue.component('app-alert', Alert)
 
 const app = Firebase.initializeApp({
   apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',
@@ -29,7 +32,7 @@ new Vue({
   el: '#app',
   mounted () {
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
-      this.$router.push('/todolist')
+      this.$router.push(this.$store.getters.currentURL)
     } else {
       this.$router.push('/signin')
     }

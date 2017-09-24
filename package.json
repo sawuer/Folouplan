@@ -16,6 +16,7 @@
   "dependencies": {
     "firebase": "^4.3.1",
     "gojs": "^1.7.23",
+    "jade": "^1.11.0",
     "jquery": "^1.11.0",
     "toastr": "^2.1.2",
     "vue": "^2.4.2",
