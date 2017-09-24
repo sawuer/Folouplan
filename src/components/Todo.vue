@@ -4,11 +4,11 @@
       <v-layout row wrap>
         <v-flex xs8>
           <v-list>
-            <template v-for="(user, idx) in this.$root.users">
-              <span v-if="user.id ? user.id === $store.getters.user.id : null">
-                <!-- <template v-for="todo in user.data.todos[1]"> -->
-                  <pre>{{ user.data.todos[1].date }}</pre>
-                  <!-- <v-list-tile avatar v-bind:key="todo.title">
+                <!-- <pre>{{ $store.getters.user }}</pre> -->
+            <template v-for="user in this.$root.users">
+              <span v-if="user.id === $store.getters.user.id">
+                <template v-for="(todo, idx) in user.data.todos">
+                  <v-list-tile avatar v-bind:key="todo.title">
                     <v-list-tile-action>
                       <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
                     </v-list-tile-action>
@@ -29,10 +29,8 @@
                     <v-btn class="delete-todo completed-todos" @click="deleteTodo(todo)" icon>
                       <v-icon class="text--grey lighten-1">delete</v-icon>
                     </v-btn>
-                  </v-list-tile> -->
-                <!-- </template> -->
-              
-            
+                  </v-list-tile>
+                </template>
               </span>
             </template>
           </v-list>
@@ -126,25 +124,45 @@
     },
     methods: {
       completedTodosDiv: (it) => document.querySelector(it),
-      // reverseDeleteTodos () {
-      //   var deleteTodos = this.completedTodosDiv(this.deleteTodos)
-      //   setTimeout(() => {
-      //     let deleteList = Array.prototype.slice.call(deleteTodos.childNodes)
-      //     for (let i = deleteList.length - 1; i >= 0; i--) {
-      //       deleteTodos.appendChild(deleteList[i])
-      //     }
-      //   }, 200)
-      // },
+      reverseDeleteTodos () {
+        var deleteTodos = this.completedTodosDiv(this.deleteTodos)
+        setTimeout(() => {
+          let deleteList = Array.prototype.slice.call(deleteTodos.childNodes)
+          for (let i = deleteList.length - 1; i >= 0; i--) {
+            deleteTodos.appendChild(deleteList[i])
+          }
+        }, 200)
+      },
       addTodo () {
         this.$refs.todoForm.validate()
         var todo = this.$refs.todoForm.$el[0].value
         var date = this.$refs.todoForm.$el[1].value
         if (todo !== '') {
-          this.$root.$firebaseRefs.todos.push({
-            title: todo,
-            date: date,
-            ex: false
-          })
+          for (var i = 0; i < this.$root.users.length; i++) {
+            // console.log(this.$root.users[i])
+            // console.log(this.$root.users[i].id)
+            // console.log(this.$store.getters.user.id)
+            // console.log(this.$root.users[i]['.key'])
+            // console.log(this.$root.$firebaseRefs.users[i].data)
+            this.$root.$firebaseRefs.users.once('value').then(function (snapshot) {
+              snapshot.forEach(function (userSnapshot) {
+                console.log(23)
+                var username = userSnapshot.val()
+                console.log(username)
+                if (this.$root.users[i].id === this.$store.getters.user.id) {
+                }
+              })
+            })
+            // console.log(this.$root.$firebaseRefs.users[this.$root.users[i]['.key']])
+            // console.log(this.$root.$firebaseRefs.users[this.$root.users[i]['.key']])
+            this.$root.$firebaseRefs.users[this.$root.users[i]['.key']].data.todos.push({
+              title: todo,
+              date: date,
+              ex: false
+            })
+
+            // break
+          }
           this.$refs.todoForm.reset()
         }
       },

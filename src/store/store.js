@@ -1,7 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import * as Firebase from 'firebase'
-
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -9,6 +8,7 @@ export const store = new Vuex.Store({
     appName: 'Gven',
     currentURL: null,
     user: null,
+    usersInFirebase: null,
     loading: false,
     error: null
   },
@@ -18,6 +18,12 @@ export const store = new Vuex.Store({
     },
     setUser (state, payload) {
       state.user = payload
+    },
+    setUsersInFirebase (state, payload) {
+      state.usersInFirebase = payload
+    },
+    setUserData (state, payload) {
+      state.currentUserData = payload
     },
     setLoading (state, payload) {
       state.loading = payload
@@ -33,6 +39,9 @@ export const store = new Vuex.Store({
     setURL ({commit}) {
       commit('setURL')
     },
+    setUsersInFirebase ({commit}, users) {
+      commit('setUsersInFirebase', users)
+    },
     signUserUp ({commit}, userData) {
       commit('setLoading', true)
       commit('clearError')
@@ -41,7 +50,7 @@ export const store = new Vuex.Store({
         commit('setLoading', false)
         const newUser = {
           id: user.uid,
-          userDataId: []
+          data: null
         }
         commit('setUser', newUser)
       })
@@ -59,9 +68,19 @@ export const store = new Vuex.Store({
         commit('setLoading', false)
         const newUser = {
           id: user.uid,
-          userDataId: []
+          data: user.data
         }
+        this.state.usersInFirebase.once('value').then(function (snapshot) {
+          snapshot.forEach(function (userSnapshot) {
+            var username = userSnapshot.val()
+            if (username.id === user.uid) {
+              newUser.data = username.data
+            }
+          })
+        })
         commit('setUser', newUser)
+        commit('setUserData', newUser.data)
+        console.log(this.state.user)
       })
       .catch(error => {
         commit('setLoading', false)
@@ -83,7 +102,8 @@ export const store = new Vuex.Store({
         })
       }
     },
-    user: state => state.user
+    user: state => state.user,
+    usersInFirebase: state => state.usersInFirebase
   }
 })
 

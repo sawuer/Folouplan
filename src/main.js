@@ -30,13 +30,13 @@ const users = db.ref('users')
 new Vue({
   el: '#app',
   mounted () {
-    console.log(users)
+    this.$store.dispatch('setUsersInFirebase', users)
+    console.log(this.$store.getters.usersInFirebase)
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
       this.$router.push(this.$store.getters.currentURL)
     } else {
       this.$router.push('/signin')
     }
-    console.log(this.$store.getters.user)
   },
   updated () {
     console.log(this.$store.getters.user)
