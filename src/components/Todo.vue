@@ -1,6 +1,8 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <v-container fluid grid-list-md>
+{{$store.getters.currentURL}}
+      
       <v-layout row wrap>
         <v-flex xs8>
           <v-list>

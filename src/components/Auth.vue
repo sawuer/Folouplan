@@ -74,6 +74,7 @@
         } else {
           this.$router.push('/signin')
         }
+        // console.log(this.$store.getters.newUserId)
       },
       onDismissed () {
         console.log('Dismissed')

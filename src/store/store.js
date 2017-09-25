@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
     currentURL: null,
     user: null,
     usersInFirebase: null,
+    newUserId: 212,
     userKey: null,
     loading: false,
     error: null
@@ -37,6 +38,11 @@ export const store = new Vuex.Store({
     },
     setUserKey (state, payload) {
       state.userKey = payload
+    },
+    setNewUserId (state, payload) {
+      state.newUserId = payload
+      console.log(payload)
+      console.log(state.newUserId)
     }
   },
   actions: {
@@ -51,6 +57,8 @@ export const store = new Vuex.Store({
       commit('clearError')
       Firebase.auth().createUserWithEmailAndPassword(userData.email, userData.password)
       .then(user => {
+        console.log(user.uid)
+        commit('setNewUserId', user.uid)
         commit('setLoading', false)
         const newUser = {
           id: user.uid,
@@ -78,6 +86,7 @@ export const store = new Vuex.Store({
           snapshot.forEach(function (userSnapshot) {
             var username = userSnapshot.val()
             if (username.id === user.uid) {
+              console.log(userSnapshot.key)
               commit('setUserKey', userSnapshot.key)
               console.log(userSnapshot.key)
               newUser.data = username.data
@@ -110,7 +119,8 @@ export const store = new Vuex.Store({
     },
     user: state => state.user,
     usersInFirebase: state => state.usersInFirebase,
-    userKey: state => state.userKey
+    userKey: state => state.userKey,
+    newUserId: state => state.newUserId
   }
 })
 
