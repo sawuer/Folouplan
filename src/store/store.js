@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
     currentURL: null,
     user: null,
     usersInFirebase: null,
+    userKey: null,
     loading: false,
     error: null
   },
@@ -33,6 +34,9 @@ export const store = new Vuex.Store({
     },
     clearError (state) {
       state.clearError = null
+    },
+    setUserKey (state, payload) {
+      state.userKey = payload
     }
   },
   actions: {
@@ -74,6 +78,8 @@ export const store = new Vuex.Store({
           snapshot.forEach(function (userSnapshot) {
             var username = userSnapshot.val()
             if (username.id === user.uid) {
+              commit('setUserKey', userSnapshot.key)
+              console.log(userSnapshot.key)
               newUser.data = username.data
             }
           })
@@ -103,7 +109,8 @@ export const store = new Vuex.Store({
       }
     },
     user: state => state.user,
-    usersInFirebase: state => state.usersInFirebase
+    usersInFirebase: state => state.usersInFirebase,
+    userKey: state => state.userKey
   }
 })
 

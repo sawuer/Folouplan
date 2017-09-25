@@ -5,16 +5,16 @@
         <v-flex xs8>
           <v-list>
                 <!-- <pre>{{ $store.getters.user }}</pre> -->
-            <template v-for="user in this.$root.users">
-              <span v-if="user.id === $store.getters.user.id">
-                <template v-for="(todo, idx) in user.data.todos">
+            <!-- <template v-for="user in this.$root.users"> -->
+              <!-- <span v-if="user.id === $store.getters.user.id"> -->
+                <template v-for="(todo, prop, index) in this.$root.users[$store.getters.userKey].data.todos">
                   <v-list-tile avatar v-bind:key="todo.title">
                     <v-list-tile-action>
                       <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        <span class="text--grey">{{idx + 1}}.</span>
+                        <span class="text--grey">{{index + 1}}.</span>
                         <v-edit-dialog> 
                           {{ todo.title }}
                           <v-text-field
@@ -31,38 +31,51 @@
                     </v-btn>
                   </v-list-tile>
                 </template>
-              </span>
-            </template>
+              <!-- </span> -->
+            <!-- </template> -->
           </v-list>
-          <!--
+{{$store.getters.userKey}}
           <v-expansion-panel>
             <v-expansion-panel-content>
-              <div slot="header"><v-icon>delete_forever</v-icon> ({{this.$root.doneTodos.length}})</div>
+              <div slot="header"><v-icon>delete_forever</v-icon> ({{this.$root.users[1].data.doneTodos.length}})</div>
               <v-card>
                 <v-list id="completedTodos">
-                  <template v-for="(todo, idx) in this.$root.doneTodos">
-                    <v-subheader v-if="todo.header" v-text="todo.header"></v-subheader>
-                    <v-divider v-else-if="todo.divider" v-bind:inset="todo.inset"></v-divider>
-                    <v-list-tile class="completed-todos" avatar v-else v-bind:key="todo.title" download>   
-                      <v-list-tile-content>
-                        <v-list-tile-title>
-                          {{todo.title}}
-                        </v-list-tile-title>
 
-                        <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
-                        
-                      
-                      </v-list-tile-content>
-                      <v-btn class="delete-todo completed-todos" @click="undoComplete(todo)" icon>
-                        <v-icon class="text--grey lighten-1">undo</v-icon>
-                      </v-btn>
-                    </v-list-tile>
+                  <template v-for="user in this.$root.users">
+                    <span v-if="user.id === $store.getters.user.id">
+                      <template v-for="(todo, prop, index) in user.data.doneTodos">
+
+
+                      <!-- <template v-for="(todo, idx) in this.$root.doneTodos"> -->
+                        <v-list-tile class="completed-todos" avatar v-bind:key="todo.title" download>   
+                          <v-list-tile-content>
+                            <v-list-tile-title>
+                              {{todo.title}}
+                            </v-list-tile-title>
+
+                            <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
+                            
+                          
+                          </v-list-tile-content>
+                          <v-btn class="delete-todo completed-todos" @click="undoComplete(todo)" icon>
+                            <v-icon class="text--grey lighten-1">undo</v-icon>
+                          </v-btn>
+                        </v-list-tile>
+                      <!-- </template> -->
+
+                      </template>
+                      </span>
                   </template>
+
+
+
                 </v-list>
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>  
-          -->          
+                    
+
+
         </v-flex>
         <v-flex xs4>
           <v-card>
@@ -137,34 +150,18 @@
         this.$refs.todoForm.validate()
         var todo = this.$refs.todoForm.$el[0].value
         var date = this.$refs.todoForm.$el[1].value
-        if (todo !== '') {
-          for (var i = 0; i < this.$root.users.length; i++) {
-            // console.log(this.$root.users[i])
-            // console.log(this.$root.users[i].id)
-            // console.log(this.$store.getters.user.id)
-            // console.log(this.$root.users[i]['.key'])
-            // console.log(this.$root.$firebaseRefs.users[i].data)
-            this.$root.$firebaseRefs.users.once('value').then(function (snapshot) {
-              snapshot.forEach(function (userSnapshot) {
-                console.log(23)
-                var username = userSnapshot.val()
-                console.log(username)
-                if (this.$root.users[i].id === this.$store.getters.user.id) {
-                }
-              })
-            })
-            // console.log(this.$root.$firebaseRefs.users[this.$root.users[i]['.key']])
-            // console.log(this.$root.$firebaseRefs.users[this.$root.users[i]['.key']])
-            this.$root.$firebaseRefs.users[this.$root.users[i]['.key']].data.todos.push({
-              title: todo,
-              date: date,
-              ex: false
-            })
-
-            // break
-          }
-          this.$refs.todoForm.reset()
-        }
+        // if (todo !== '') {
+        //   for (var i = 0; i < this.$root.users.length; i++) {
+        //     if (this.$root.users[i].id === this.$store.getters.user.id) {
+        //       var key = this.$root.users[i]['.key']
+        this.$root.$firebaseRefs.users.child(this.$store.getters.userKey).child('data').child('todos').push({
+          title: todo,
+          date: date,
+          ex: false
+        })
+        //     }
+        //   }
+        // }
       },
 
       doneTodo (todo) {
