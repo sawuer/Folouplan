@@ -10,7 +10,7 @@
                 <template v-for="(todo, prop, index) in this.$root.users[$store.getters.userKey].data.todos">
                   <v-list-tile avatar v-bind:key="todo.title">
                     <v-list-tile-action>
-                      <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
+                      <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo, index)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>
@@ -37,7 +37,7 @@
 {{$store.getters.userKey}}
           <v-expansion-panel>
             <v-expansion-panel-content>
-              <div slot="header"><v-icon>delete_forever</v-icon> ({{this.$root.users[1].data.doneTodos.length}})</div>
+              <div slot="header"><v-icon>delete_forever</v-icon> ({{this.$root.users[$store.getters.userKey].data.doneTodos.length}})</div>
               <v-card>
                 <v-list id="completedTodos">
 
@@ -164,7 +164,7 @@
         // }
       },
 
-      doneTodo (todo) {
+      doneTodo (todo, index) {
         var update = {
           title: todo.title,
           date: todo.date
@@ -174,7 +174,9 @@
         } else {
           update.ex = false
         }
-        this.$root.$firebaseRefs.todos.child(todo['.key']).update(update)
+        console.log(index)
+// console.log(this.$root.$firebaseRefs.users.child(this.$store.getters.userKey).child('data').child('todos').child(index))
+        this.$root.$firebaseRefs.users.child(this.$store.getters.userKey).child('data').child('todos').child(index).update(update)
         todo.ex = !todo.ex
       },
 
