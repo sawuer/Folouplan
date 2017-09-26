@@ -24,9 +24,6 @@ export const store = new Vuex.Store({
     setUsersInFirebase (state, payload) {
       state.usersInFirebase = payload
     },
-    setUserData (state, payload) {
-      state.currentUserData = payload
-    },
     setLoading (state, payload) {
       state.loading = payload
     },
@@ -41,8 +38,6 @@ export const store = new Vuex.Store({
     },
     setNewUserId (state, payload) {
       state.newUserId = payload
-      console.log(payload)
-      console.log(state.newUserId)
     }
   },
   actions: {
@@ -86,21 +81,16 @@ export const store = new Vuex.Store({
           snapshot.forEach(function (userSnapshot) {
             var username = userSnapshot.val()
             if (username.id === user.uid) {
-              console.log(userSnapshot.key)
               commit('setUserKey', userSnapshot.key)
-              console.log(userSnapshot.key)
               newUser.data = username.data
             }
           })
         })
         commit('setUser', newUser)
-        commit('setUserData', newUser.data)
-        console.log(this.state.user)
       })
       .catch(error => {
         commit('setLoading', false)
         commit('setError', error)
-        console.log(error)
       })
     },
     logOut ({commit}) {
@@ -110,13 +100,6 @@ export const store = new Vuex.Store({
   getters: {
     appName: state => state.appName,
     currentURL: state => state.currentURL,
-    setUserData (state) {
-      return (userDataId) => {
-        return state.userDatas.find((userData) => {
-          return userData.id === userDataId
-        })
-      }
-    },
     user: state => state.user,
     usersInFirebase: state => state.usersInFirebase,
     userKey: state => state.userKey,

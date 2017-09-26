@@ -65,16 +65,22 @@
     },
     methods: {
       onSignup () {
-        this.$store.dispatch('signUserUp', {
-          email: this.email,
-          password: this.password
+        // this.$store.dispatch('signUserUp', {
+        //   email: this.email,
+        //   password: this.password
+        // })
+        // if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
+        //   this.$router.push('/todolist')
+        // } else {
+        //   this.$router.push('/signin')
+        // }
+        console.log(this.$root.$firebaseRefs.users)
+        this.$root.$firebaseRefs.users.push({
+          data: {
+            doneTodos: {},
+            todos: {}
+          }
         })
-        if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
-          this.$router.push('/todolist')
-        } else {
-          this.$router.push('/signin')
-        }
-        // console.log(this.$store.getters.newUserId)
       },
       onDismissed () {
         console.log('Dismissed')

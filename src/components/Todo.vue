@@ -1,75 +1,68 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <v-container fluid grid-list-md>
-{{$store.getters.currentURL}}
-      
+
       <v-layout row wrap>
         <v-flex xs8>
           <v-list>
                 <!-- <pre>{{ $store.getters.user }}</pre> -->
             <!-- <template v-for="user in this.$root.users"> -->
               <!-- <span v-if="user.id === $store.getters.user.id"> -->
-                <template v-for="(todo, prop, index) in this.$root.users[$store.getters.userKey].data.todos">
-                  <v-list-tile avatar v-bind:key="todo.title">
-                    <v-list-tile-action>
-                      <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo, index)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>
-                        <span class="text--grey">{{index + 1}}.</span>
-                        <v-edit-dialog> 
-                          {{ todo.title }}
-                          <v-text-field
-                            slot="input"
-                            @keyup.enter="newTodoTitle($event, todo)"
-                            :value="todo.title"
-                          ></v-text-field>
-                        </v-edit-dialog>
-                      </v-list-tile-title>
-                      <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                    <v-btn class="delete-todo completed-todos" @click="deleteTodo(todo)" icon>
-                      <v-icon class="text--grey lighten-1">delete</v-icon>
-                    </v-btn>
-                  </v-list-tile>
+                <template v-if="this.$root.users[$store.getters.userKey].data">
+                  <template v-for="(todo, key, index) in this.$root.users[$store.getters.userKey].data.todos">
+                    <v-list-tile avatar v-bind:key="todo.title">
+                      <v-list-tile-action>
+                        <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo, key)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
+                      </v-list-tile-action>
+                      <v-list-tile-content>
+                        <v-list-tile-title>
+                          <span class="text--grey">{{index + 1}}.</span>
+                          <v-edit-dialog> 
+                            {{ todo.title }}
+                            <v-text-field
+                              slot="input"
+                              @keyup.enter="newTodoTitle($event, todo, key)"
+                              :value="todo.title"
+                            ></v-text-field>
+                          </v-edit-dialog>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
+                      </v-list-tile-content>
+                      <v-btn class="delete-todo completed-todos" @click="deleteTodo(todo, key)" icon>
+                        <v-icon class="text--grey lighten-1">delete</v-icon>
+                      </v-btn>
+                    </v-list-tile>
+                  </template>
                 </template>
+
               <!-- </span> -->
             <!-- </template> -->
           </v-list>
-{{$store.getters.userKey}}
+
+
           <v-expansion-panel>
             <v-expansion-panel-content>
-              <div slot="header"><v-icon>delete_forever</v-icon> ({{this.$root.users[$store.getters.userKey].data.doneTodos.length}})</div>
+              <div slot="header"><v-icon>delete_forever</v-icon>({{ this.$root.users[$store.getters.userKey].data && this.$root.users[$store.getters.userKey].data.doneTodos ? Object.keys(this.$root.users[$store.getters.userKey].data.doneTodos).length : 0 }})</div>
               <v-card>
                 <v-list id="completedTodos">
 
                   <template v-for="user in this.$root.users">
-                    <span v-if="user.id === $store.getters.user.id">
-                      <template v-for="(todo, prop, index) in user.data.doneTodos">
-
-
-                      <!-- <template v-for="(todo, idx) in this.$root.doneTodos"> -->
+                    <span v-if="user.id === $store.getters.user.id && user.data">
+                      <template v-for="(todo, key) in user.data.doneTodos">
                         <v-list-tile class="completed-todos" avatar v-bind:key="todo.title" download>   
                           <v-list-tile-content>
                             <v-list-tile-title>
                               {{todo.title}}
                             </v-list-tile-title>
-
                             <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
-                            
-                          
                           </v-list-tile-content>
-                          <v-btn class="delete-todo completed-todos" @click="undoComplete(todo)" icon>
+                          <v-btn class="delete-todo completed-todos" @click="undoComplete(todo, key)" icon>
                             <v-icon class="text--grey lighten-1">undo</v-icon>
                           </v-btn>
                         </v-list-tile>
-                      <!-- </template> -->
-
                       </template>
-                      </span>
+                    </span>
                   </template>
-
-
 
                 </v-list>
               </v-card>
@@ -108,7 +101,7 @@
               <v-layout row wrap>
                 <v-flex>
                   <v-btn error @click="clearTodoList" dark>Clear all todos</v-btn>
-                  <v-btn error @click="clearDeleteList" dark>Clear completed</v-btn>
+                  <v-btn error @click="clearDeleteList" dark>Clear all completed</v-btn>
                 </v-flex>
               </v-layout>
         </v-flex>
@@ -135,7 +128,7 @@
       }
     },
     mounted () {
-      // this.reverseDeleteTodos()
+      this.reverseDeleteTodos()
     },
     methods: {
       completedTodosDiv: (it) => document.querySelector(it),
@@ -152,75 +145,88 @@
         this.$refs.todoForm.validate()
         var todo = this.$refs.todoForm.$el[0].value
         var date = this.$refs.todoForm.$el[1].value
-        // if (todo !== '') {
-        //   for (var i = 0; i < this.$root.users.length; i++) {
-        //     if (this.$root.users[i].id === this.$store.getters.user.id) {
-        //       var key = this.$root.users[i]['.key']
-        this.$root.$firebaseRefs.users.child(this.$store.getters.userKey).child('data').child('todos').push({
-          title: todo,
-          date: date,
-          ex: false
-        })
-        //     }
-        //   }
-        // }
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.userKey)
+          .child('data').child('todos').push({
+            title: todo,
+            date: date,
+            ex: false
+          })
       },
 
-      doneTodo (todo, index) {
+      doneTodo (todo, key) {
         var update = {
           title: todo.title,
           date: todo.date
         }
-        if (!todo.ex) {
-          update.ex = true
-        } else {
-          update.ex = false
-        }
-        console.log(index)
-// console.log(this.$root.$firebaseRefs.users.child(this.$store.getters.userKey).child('data').child('todos').child(index))
-        this.$root.$firebaseRefs.users.child(this.$store.getters.userKey).child('data').child('todos').child(index).update(update)
-        todo.ex = !todo.ex
+        update.ex = !todo.ex ? Boolean(true) : false
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.userKey)
+          .child('data').child('todos')
+          .child(key).update(update)
       },
 
-      deleteTodo (todo) {
+      deleteTodo (todo, key) {
         if (todo.ex) {
-          this.$root.$firebaseRefs.doneTodos.push({
-            title: todo.title,
-            date: todo.date
-          })
+          this.$root.$firebaseRefs.users
+            .child(this.$store.getters.userKey)
+            .child('data').child('doneTodos').push({
+              title: todo.title,
+              date: todo.date
+            })
           let deleteTodos = this.completedTodosDiv(this.deleteTodos)
           setTimeout(() => {
             var els = deleteTodos.lastChild
             deleteTodos.prepend(els)
           }, 20)
         }
-        this.$root.$firebaseRefs.todos.child(todo['.key']).remove()
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.userKey)
+          .child('data')
+          .child('todos')
+          .child(key).remove()
       },
 
-      undoComplete (todo) {
-        this.$root.$firebaseRefs.todos.push({
-          title: todo.title,
-          date: todo.date,
-          ex: false
-        })
-        this.$root.$firebaseRefs.doneTodos.child(todo['.key']).remove()
+      undoComplete (todo, key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.userKey)
+          .child('data').child('todos').push({
+            title: todo.title,
+            date: todo.date,
+            ex: false
+          })
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.userKey)
+          .child('data')
+          .child('doneTodos')
+          .child(key).remove()
       },
 
-      newTodoTitle (e, todo) {
-        var update = {
-          title: e.target.value,
-          date: todo.date,
-          ex: todo.ex
-        }
-        this.$root.$firebaseRefs.todos.child(todo['.key']).update(update)
+      newTodoTitle (e, todo, key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.userKey)
+          .child('data')
+          .child('todos')
+          .child(key).update({
+            title: e.target.value,
+            date: todo.date,
+            ex: todo.ex
+          })
+      },
+
+      clearAllList (data) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.userKey)
+          .child('data')
+          .child(data).remove()
       },
 
       clearTodoList () {
-        this.$root.$firebaseRefs.todos.remove()
+        this.clearAllList('todos')
       },
 
       clearDeleteList () {
-        this.$root.$firebaseRefs.doneTodos.remove()
+        this.clearAllList('doneTodos')
       }
 
     }
