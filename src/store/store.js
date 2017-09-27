@@ -5,14 +5,13 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    appName: 'Gven',
+    appName: 'Ramona',
     currentURL: null,
     user: null,
     usersInFirebase: null,
-    newUserId: 212,
+    newUserId: null,
     userKey: null,
-    loading: false,
-    error: null
+    currentUserEmail: null
   },
   mutations: {
     setURL (state) {
@@ -24,12 +23,6 @@ export const store = new Vuex.Store({
     setUsersInFirebase (state, payload) {
       state.usersInFirebase = payload
     },
-    setLoading (state, payload) {
-      state.loading = payload
-    },
-    setError (state, payload) {
-      state.error = payload
-    },
     clearError (state) {
       state.clearError = null
     },
@@ -38,6 +31,9 @@ export const store = new Vuex.Store({
     },
     setNewUserId (state, payload) {
       state.newUserId = payload
+    },
+    setCurrentUserEmail (state, payload) {
+      state.currentUserEmail = payload
     }
   },
   actions: {
@@ -48,53 +44,49 @@ export const store = new Vuex.Store({
       commit('setUsersInFirebase', users)
     },
     signUserUp ({commit}, userData) {
-      commit('setLoading', true)
-      commit('clearError')
+      // commit('setLoading', true)
       Firebase.auth().createUserWithEmailAndPassword(userData.email, userData.password)
-      .then(user => {
-        console.log(user.uid)
-        commit('setNewUserId', user.uid)
-        commit('setLoading', false)
-        const newUser = {
-          id: user.uid,
-          data: null
-        }
-        commit('setUser', newUser)
-      })
-      .catch(error => {
-        commit('setLoading', false)
-        commit('setError', error)
-        console.log(error)
-      })
+      // .then(user => {
+        // console.log(user.uid)
+        // commit('setNewUserId', user.uid)
+        // commit('setLoading', false)
+        // const newUser = {
+        //   id: user.uid,
+        //   data: null
+        // }
+        // console.log(newUser)
+      // })
     },
     signUserIn ({commit}, userData) {
-      commit('setLoading', true)
+      // commit('setLoading', true)
       commit('clearError')
       Firebase.auth().signInWithEmailAndPassword(userData.email, userData.password)
       .then(user => {
-        commit('setLoading', false)
+        // commit('setLoading', false)
         const newUser = {
-          id: user.uid,
-          data: user.data
+          id: user.uid
+          // data: user.data
         }
         this.state.usersInFirebase.once('value').then(function (snapshot) {
           snapshot.forEach(function (userSnapshot) {
             var username = userSnapshot.val()
             if (username.id === user.uid) {
               commit('setUserKey', userSnapshot.key)
-              newUser.data = username.data
+              // newUser.data = username.data
             }
           })
         })
         commit('setUser', newUser)
-      })
-      .catch(error => {
-        commit('setLoading', false)
-        commit('setError', error)
+        commit('setCurrentUserEmail', Firebase.auth().currentUser.email)
+        console.log(this.state.user)
+        console.log(this.state.userKey)
+        console.log(this.state.usersInFirebase)
       })
     },
     logOut ({commit}) {
       commit('setUser', null)
+      commit('setUserKey', null)
+      Firebase.auth().signOut()
     }
   },
   getters: {
@@ -103,7 +95,8 @@ export const store = new Vuex.Store({
     user: state => state.user,
     usersInFirebase: state => state.usersInFirebase,
     userKey: state => state.userKey,
-    newUserId: state => state.newUserId
+    newUserId: state => state.newUserId,
+    currentUserEmail: state => state.currentUserEmail
   }
 })
 

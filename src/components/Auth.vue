@@ -1,7 +1,6 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <div>
-    <app-alert @dismissed="onDismissed"></app-alert>
     <h5 class="light-text">Sign up</h5>
     <v-container fluid class="text-xs-center">
       <v-layout row wrap>
@@ -35,9 +34,7 @@
                 :rules="[comparePasswords]"
               ></v-text-field>   
               
-              <v-btn 
-                type="submit" 
-                >Sign up</v-btn>
+              <v-btn type="submit">Sign up</v-btn>
               <v-btn @click="clear">clear</v-btn>
             </form>
           </v-card>
@@ -65,25 +62,12 @@
     },
     methods: {
       onSignup () {
-        // this.$store.dispatch('signUserUp', {
-        //   email: this.email,
-        //   password: this.password
-        // })
-        // if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
-        //   this.$router.push('/todolist')
-        // } else {
-        //   this.$router.push('/signin')
-        // }
-        console.log(this.$root.$firebaseRefs.users)
-        this.$root.$firebaseRefs.users.push({
-          data: {
-            doneTodos: {},
-            todos: {}
-          }
+        this.$store.dispatch('signUserUp', {
+          email: this.email,
+          password: this.password
+        }).then(i => {
+          this.$router.push('/signin')
         })
-      },
-      onDismissed () {
-        console.log('Dismissed')
       },
       clear () {
         this.email = ''

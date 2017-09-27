@@ -11,7 +11,7 @@
                 <v-icon>more_vert</v-icon>
               </v-btn>
               <v-list>
-                {{currentUserEmail}}
+                {{ this.$store.getters.currentUserEmail }}
                 <v-list-tile v-for="item in emailDropdown" :key="item.title" @click="">
                   <v-list-tile-title>
                     <span @click="logOut">{{ item.title }}</span>
@@ -27,23 +27,18 @@
 </template>
 
 <script>
-  import * as Firebase from 'firebase'
   export default {
     name: 'user',
     data () {
       return {
-        currentUserEmail: Firebase.auth().currentUser.email,
-        emailDropdown: [
-          {
-            title: 'Logout'
-          }
-        ]
+        emailDropdown: [{ title: 'Logout' }]
       }
     },
     methods: {
       logOut () {
         this.$store.dispatch('logOut')
         this.$router.push('/signin')
+        console.log(this.$store.getters.currentUserEmail)
       }
     }
   }

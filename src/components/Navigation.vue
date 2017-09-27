@@ -16,9 +16,12 @@
       </v-list>
 
     </v-navigation-drawer>
-    <v-toolbar class="blue darken-1" dark>
+    <v-toolbar class="blue darken-2" dark>
       <v-flex xs9>
-        <v-toolbar-title style="font-family: 'Raleway', sans-serif;"><b>{{$store.getters.appName}}</b></v-toolbar-title>
+        <v-layout row wrap>
+          <v-toolbar-title style="font-family: 'Raleway', sans-serif;"><b>{{$store.getters.appName}}</b></v-toolbar-title>
+      </v-layout>
+
       </v-flex>  
       <v-flex xs3>
         <user></user>

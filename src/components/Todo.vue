@@ -8,7 +8,7 @@
                 <!-- <pre>{{ $store.getters.user }}</pre> -->
             <!-- <template v-for="user in this.$root.users"> -->
               <!-- <span v-if="user.id === $store.getters.user.id"> -->
-                <template v-if="this.$root.users[$store.getters.userKey].data">
+          <!--       <template v-if="this.$root.users[$store.getters.userKey].data">
                   <template v-for="(todo, key, index) in this.$root.users[$store.getters.userKey].data.todos">
                     <v-list-tile avatar v-bind:key="todo.title">
                       <v-list-tile-action>
@@ -33,14 +33,14 @@
                       </v-btn>
                     </v-list-tile>
                   </template>
-                </template>
+                </template> -->
 
               <!-- </span> -->
             <!-- </template> -->
           </v-list>
 
 
-          <v-expansion-panel>
+         <!--  <v-expansion-panel>
             <v-expansion-panel-content>
               <div slot="header"><v-icon>delete_forever</v-icon>({{ this.$root.users[$store.getters.userKey].data && this.$root.users[$store.getters.userKey].data.doneTodos ? Object.keys(this.$root.users[$store.getters.userKey].data.doneTodos).length : 0 }})</div>
               <v-card>
@@ -67,12 +67,12 @@
                 </v-list>
               </v-card>
             </v-expansion-panel-content>
-          </v-expansion-panel>  
+          </v-expansion-panel>   -->
                     
 
 
         </v-flex>
-        <v-flex xs4>
+<!--         <v-flex xs4>
           <v-card>
             <v-container fluid grid-list-md class="pa-3">
               <v-layout row wrap>
@@ -104,7 +104,7 @@
                   <v-btn error @click="clearDeleteList" dark>Clear all completed</v-btn>
                 </v-flex>
               </v-layout>
-        </v-flex>
+        </v-flex> -->
       </v-layout>
     </v-container>
   </transition>
@@ -128,19 +128,19 @@
       }
     },
     mounted () {
-      this.reverseDeleteTodos()
+      // this.reverseDeleteTodos()
     },
     methods: {
       completedTodosDiv: (it) => document.querySelector(it),
-      reverseDeleteTodos () {
-        var deleteTodos = this.completedTodosDiv(this.deleteTodos)
-        setTimeout(() => {
-          let deleteList = Array.prototype.slice.call(deleteTodos.childNodes)
-          for (let i = deleteList.length - 1; i >= 0; i--) {
-            deleteTodos.appendChild(deleteList[i])
-          }
-        }, 200)
-      },
+      // reverseDeleteTodos () {
+      //   var deleteTodos = this.completedTodosDiv(this.deleteTodos)
+      //   setTimeout(() => {
+      //     let deleteList = Array.prototype.slice.call(deleteTodos.childNodes)
+      //     for (let i = deleteList.length - 1; i >= 0; i--) {
+      //       deleteTodos.appendChild(deleteList[i])
+      //     }
+      //   }, 200)
+      // },
       addTodo () {
         this.$refs.todoForm.validate()
         var todo = this.$refs.todoForm.$el[0].value
