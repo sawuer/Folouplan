@@ -57,7 +57,7 @@
         this.$store.dispatch('signUserIn', {
           email: this.email,
           password: this.password
-        })
+        }).then(i => console.log(i))
         if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
           this.$router.push('/todolist')
         } else {

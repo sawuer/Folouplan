@@ -44,18 +44,10 @@ export const store = new Vuex.Store({
       commit('setUsersInFirebase', users)
     },
     signUserUp ({commit}, userData) {
-      // commit('setLoading', true)
       Firebase.auth().createUserWithEmailAndPassword(userData.email, userData.password)
-      // .then(user => {
-        // console.log(user.uid)
-        // commit('setNewUserId', user.uid)
-        // commit('setLoading', false)
-        // const newUser = {
-        //   id: user.uid,
-        //   data: null
-        // }
-        // console.log(newUser)
-      // })
+      .then(user => {
+        commit('setNewUserId', user.uid)
+      })
     },
     signUserIn ({commit}, userData) {
       // commit('setLoading', true)
@@ -63,7 +55,7 @@ export const store = new Vuex.Store({
       Firebase.auth().signInWithEmailAndPassword(userData.email, userData.password)
       .then(user => {
         // commit('setLoading', false)
-        const newUser = {
+        const existingUser = {
           id: user.uid
           // data: user.data
         }
@@ -72,11 +64,10 @@ export const store = new Vuex.Store({
             var username = userSnapshot.val()
             if (username.id === user.uid) {
               commit('setUserKey', userSnapshot.key)
-              // newUser.data = username.data
             }
           })
         })
-        commit('setUser', newUser)
+        commit('setUser', existingUser)
         commit('setCurrentUserEmail', Firebase.auth().currentUser.email)
         console.log(this.state.user)
         console.log(this.state.userKey)

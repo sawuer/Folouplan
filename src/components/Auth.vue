@@ -62,6 +62,13 @@
     },
     methods: {
       onSignup () {
+        var uid = this.$store.getters.newUserId
+        // console.log(this.$store.getters.newUserId)
+        this.$root.$firebaseRefs.users
+          .push({
+            id: uid,
+            data: {}
+          })
         this.$store.dispatch('signUserUp', {
           email: this.email,
           password: this.password
