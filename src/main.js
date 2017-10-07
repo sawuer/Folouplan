@@ -26,16 +26,9 @@ const users = db.ref('users')
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  updated () {
-    console.table({
-      'User': this.$store.getters.user,
-      'User key': this.$store.getters.userKey,
-      'Users': this.$store.getters.usersInFirebase,
-      'newUserId': this.$store.getters.newUserId
-    })
-  },
   mounted () {
     this.$store.dispatch('setUsersInFirebase', users)
+    console.log(this.$store.getters.usersInFirebase)
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
       this.$router.push(this.$store.getters.currentURL)
     } else {
@@ -48,7 +41,5 @@ new Vue({
   },
   router,
   template: '<App/>',
-  components: { App },
-  methods: {
-  }
+  components: { App }
 })

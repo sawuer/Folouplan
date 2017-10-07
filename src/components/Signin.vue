@@ -39,12 +39,8 @@
 <script>
   export default {
     name: 'Auth',
-    mounted () {
-    },
     computed: {
-      user () {
-        return this.$store.getters.user
-      }
+      user: () => this.$store.getters.user
     },
     data () {
       return {

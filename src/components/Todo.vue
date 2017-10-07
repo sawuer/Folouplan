@@ -126,6 +126,13 @@
         ]
       }
     },
+    updated () {
+      console.table({
+        'User': this.$store.getters.user,
+        'Users': this.$store.getters.usersInFirebase,
+        'newUserId': this.$store.getters.newUserId
+      })
+    },
     mounted () {
       this.reverseDeleteTodos()
     },
@@ -145,7 +152,7 @@
         var todo = this.$refs.todoForm.$el[0].value
         var date = this.$refs.todoForm.$el[1].value
         this.$root.$firebaseRefs.users
-          .child(this.$store.getters.userKey)
+          .child(this.$store.getters.user.key)
           .child('data').child('todos').push({
             title: todo,
             date: date,
@@ -160,7 +167,7 @@
         }
         update.ex = !todo.ex ? Boolean(true) : false
         this.$root.$firebaseRefs.users
-          .child(this.$store.getters.userKey)
+          .child(this.$store.getters.user.key)
           .child('data').child('todos')
           .child(key).update(update)
       },
@@ -168,7 +175,7 @@
       deleteTodo (todo, key) {
         if (todo.ex) {
           this.$root.$firebaseRefs.users
-            .child(this.$store.getters.userKey)
+            .child(this.$store.getters.user.key)
             .child('data').child('doneTodos').push({
               title: todo.title,
               date: todo.date
@@ -180,7 +187,7 @@
           }, 20)
         }
         this.$root.$firebaseRefs.users
-          .child(this.$store.getters.userKey)
+          .child(this.$store.getters.user.key)
           .child('data')
           .child('todos')
           .child(key).remove()
@@ -188,14 +195,14 @@
 
       undoComplete (todo, key) {
         this.$root.$firebaseRefs.users
-          .child(this.$store.getters.userKey)
+          .child(this.$store.getters.user.key)
           .child('data').child('todos').push({
             title: todo.title,
             date: todo.date,
             ex: false
           })
         this.$root.$firebaseRefs.users
-          .child(this.$store.getters.userKey)
+          .child(this.$store.getters.user.key)
           .child('data')
           .child('doneTodos')
           .child(key).remove()
@@ -203,7 +210,7 @@
 
       newTodoTitle (e, todo, key) {
         this.$root.$firebaseRefs.users
-          .child(this.$store.getters.userKey)
+          .child(this.$store.getters.user.key)
           .child('data')
           .child('todos')
           .child(key).update({
@@ -215,7 +222,7 @@
 
       clearAllList (data) {
         this.$root.$firebaseRefs.users
-          .child(this.$store.getters.userKey)
+          .child(this.$store.getters.user.key)
           .child('data')
           .child(data).remove()
       },
