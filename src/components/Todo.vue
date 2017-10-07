@@ -4,13 +4,10 @@
 
       <v-layout row wrap>
         <v-flex xs8>
-          <v-list>dsfsd
-            <!-- {{$store.getters.user}} -->
-{{this.$root.users}}
-<!--             <template v-for="user in this.$root.users">
-              <span v-if="user['id'] === $store.getters.user['id']">
+          <v-list>
+            <template v-for="user in this.$root.users">
+              <template v-if="user.id === $store.getters.user.id">
                 <template v-if="user.data">
-                  
                   <template v-for="(todo, key, index) in user.data.todos">
                     <v-list-tile avatar v-bind:key="todo.title">
                       <v-list-tile-action>
@@ -37,22 +34,20 @@
                   </template>
                 </template>
 
-              </span>
-            </template> -->
+              </template>
+            </template>
           </v-list>
 
-              <!-- <div slot="header"><v-icon>delete_forever</v-icon>({{ this.$root.users[$store.getters.userKey].data && this.$root.users[$store.getters.userKey].data.doneTodos ? Object.keys(this.$root.users[$store.getters.userKey].data.doneTodos).length : 0 }})</div> -->
 
           <v-expansion-panel>
             <v-expansion-panel-content>
+              <div slot="header"><v-icon>delete_forever</v-icon></div>
               <v-card>
                 <v-list id="completedTodos">
 
                   <template v-for="user in this.$root.users">
-                    {{this.$root.users}}
-                   <!--  <span v-if="user['id'] === $store.getters.user['id']">
+                    <span v-if="user.id === $store.getters.user.id">
                       <template v-if="user.data">
-
                         <template v-for="(todo, key) in user.data.doneTodos">
                           <v-list-tile class="completed-todos" avatar v-bind:key="todo.title" download>   
                             <v-list-tile-content>
@@ -68,7 +63,7 @@
                         </template>
 
                       </template>
-                    </span> -->
+                    </span>
                   </template>
                 </v-list>
               </v-card>
@@ -180,11 +175,11 @@
               title: todo.title,
               date: todo.date
             })
-          let deleteTodos = this.completedTodosDiv(this.deleteTodos)
-          setTimeout(() => {
-            var els = deleteTodos.lastChild
-            deleteTodos.prepend(els)
-          }, 20)
+          // let deleteTodos = this.completedTodosDiv(this.deleteTodos)
+          // setTimeout(() => {
+          //   var els = deleteTodos.lastChild
+          //   deleteTodos.prepend(els)
+          // }, 20)
         }
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.userKey)

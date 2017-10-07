@@ -58,11 +58,13 @@
           email: this.email,
           password: this.password
         }).then(i => console.log(i))
-        if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
-          this.$router.push('/todolist')
-        } else {
-          this.$router.push('/signin')
-        }
+        setTimeout(() => {
+          if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
+            this.$router.push('/todolist')
+          } else {
+            this.$router.push('/signin')
+          }
+        }, 1000)
       },
       clear () {
         this.email = ''
