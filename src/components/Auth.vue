@@ -69,26 +69,12 @@
         }).then(i => {
           this.$router.push('/signin')
         })
-        // console.log(this.$store.getters.newUserId)
         setTimeout(() => {
           this.$root.$firebaseRefs.users
             .push({
-              id: this.$store.getters.newUserId,
-              data: {
-                todos: {
-                  0: {
-                    title: 'Do something',
-                    date: '2040-10-10'
-                  }
-                }
-              }
+              id: this.$store.getters.newUserId
             })
-        }, 2000)
-        // var some = null
-        // setTimeout(() => {
-        //   some = this.$store.getters.newUserId
-        //   console.log(some)
-        // }, 1000)
+        }, 1500)
       },
       clear () {
         this.email = ''

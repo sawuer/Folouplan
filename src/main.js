@@ -8,14 +8,11 @@ import('./../node_modules/vuetify/dist/vuetify.min.css')
 import('./../node_modules/vuetify/dist/vuetify.min.js')
 import('./assets/css/style.css')
 import { store } from './store/store'
-import Alert from '@/components/Alert'
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueFire)
 
-Vue.component('app-alert', Alert)
-
-const app = Firebase.initializeApp({
+const dbConfs = Firebase.initializeApp({
   apiKey: 'AIzaSyAmplgxIdyy9lxh2Pj1Z1CCqmnShxpCX_k',
   authDomain: 'ramona-6e161.firebaseapp.com',
   databaseURL: 'https://ramona-6e161.firebaseio.com',
@@ -23,7 +20,7 @@ const app = Firebase.initializeApp({
   storageBucket: 'ramona-6e161.appspot.com'
   // messagingSenderId: '73956155263'
 })
-const db = app.database()
+const db = dbConfs.database()
 const users = db.ref('users')
 
 /* eslint-disable no-new */
@@ -43,8 +40,6 @@ new Vue({
   store,
   firebase: {
     users
-  },
-  data: {
   },
   router,
   template: '<App/>',

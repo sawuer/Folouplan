@@ -57,23 +57,23 @@ export const store = new Vuex.Store({
     signUserIn ({commit}, userData) {
       commit('clearError')
       Firebase.auth().signInWithEmailAndPassword(userData.email, userData.password)
-      .then(user => {
-        const existingUser = {
-          id: user.uid
-        }
-        this.state.usersInFirebase.once('value').then(function (snapshot) {
-          snapshot.forEach(function (userSnapshot) {
-            var username = userSnapshot.val()
-            console.log(username.id, user.uid)
-            if (username.id === user.uid) {
-              commit('setUserKey', userSnapshot.key)
-              console.log(user.uid)
-            }
+        .then(user => {
+          const existingUser = {
+            id: user.uid
+          }
+          this.state.usersInFirebase.once('value').then(snapshot => {
+            snapshot.forEach(userSnapshot => {
+              var username = userSnapshot.val()
+              console.log(username.id, user.uid)
+              if (username.id === user.uid) {
+                commit('setUserKey', userSnapshot.key)
+                console.log(user.uid)
+              }
+            })
           })
+          commit('setUser', existingUser)
+          commit('setCurrentUserEmail', Firebase.auth().currentUser.email)
         })
-        commit('setUser', existingUser)
-        commit('setCurrentUserEmail', Firebase.auth().currentUser.email)
-      })
     },
     logOut ({commit}) {
       commit('setUser', null)

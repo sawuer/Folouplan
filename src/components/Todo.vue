@@ -9,13 +9,14 @@
               <template v-if="user.id === $store.getters.user.id">
                 <template v-if="user.data">
                   <template v-for="(todo, key, index) in user.data.todos">
+
                     <v-list-tile avatar v-bind:key="todo.title">
                       <v-list-tile-action>
                         <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo, key)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
                       </v-list-tile-action>
                       <v-list-tile-content>
                         <v-list-tile-title>
-                          <span class="text--grey">{{index + 1}}.</span>
+                          <span class="text--grey">{{+index + 1}}.</span>
                           <v-edit-dialog> 
                             {{ todo.title }}
                             <v-text-field
