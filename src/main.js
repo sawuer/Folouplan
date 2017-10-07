@@ -26,6 +26,14 @@ const users = db.ref('users')
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  updated () {
+    console.table({
+      'User': this.$store.getters.user,
+      'User key': this.$store.getters.userKey,
+      'Users': this.$store.getters.usersInFirebase,
+      'newUserId': this.$store.getters.newUserId
+    })
+  },
   mounted () {
     this.$store.dispatch('setUsersInFirebase', users)
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
@@ -33,9 +41,6 @@ new Vue({
     } else {
       this.$router.push('/signin')
     }
-  },
-  updated () {
-    console.log(this.$store.getters.user)
   },
   store,
   firebase: {

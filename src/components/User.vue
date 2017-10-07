@@ -11,7 +11,7 @@
                 <v-icon>more_vert</v-icon>
               </v-btn>
               <v-list>
-                {{ this.$store.getters.currentUserEmail }}
+                {{ $store.getters.user.email }}
                 <v-list-tile v-for="item in emailDropdown" :key="item.title" @click="">
                   <v-list-tile-title>
                     <span @click="logOut">{{ item.title }}</span>
@@ -38,7 +38,6 @@
       logOut () {
         this.$store.dispatch('logOut')
         this.$router.push('/signin')
-        console.log(this.$store.getters.currentUserEmail)
       }
     }
   }

@@ -66,15 +66,15 @@
         this.$store.dispatch('signUserUp', {
           email: this.email,
           password: this.password
-        }).then(i => {
-          this.$router.push('/signin')
         })
-        setTimeout(() => {
-          this.$root.$firebaseRefs.users
-            .push({
-              id: this.$store.getters.newUserId
-            })
-        }, 1500)
+          .then(i => this.$router.push('/signin'))
+          .then(i => {
+            setTimeout(() => {
+              this.$root.$firebaseRefs.users.push({
+                id: this.$store.getters.newUserId
+              })
+            }, 2000)
+          })
       },
       clear () {
         this.email = ''

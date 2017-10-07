@@ -57,14 +57,15 @@
         this.$store.dispatch('signUserIn', {
           email: this.email,
           password: this.password
-        }).then(i => console.log(i))
-        setTimeout(() => {
-          if (this.$store.getters.user !== null || this.$store.getters.user !== undefined) {
-            this.$router.push('/todolist')
-          } else {
-            this.$router.push('/signin')
-          }
-        }, 1000)
+        }).then(i => {
+          setTimeout(() => {
+            if (this.$store.getters.user !== null) {
+              this.$router.push('/todolist')
+            } else {
+              this.$router.push('/signin')
+            }
+          }, 1500)
+        })
       },
       clear () {
         this.email = ''

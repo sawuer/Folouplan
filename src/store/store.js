@@ -10,8 +10,7 @@ export const store = new Vuex.Store({
     user: null,
     usersInFirebase: null,
     newUserId: null,
-    userKey: null,
-    currentUserEmail: null
+    userKey: null
   },
   mutations: {
     setURL (state) {
@@ -31,9 +30,6 @@ export const store = new Vuex.Store({
     },
     setNewUserId (state, payload) {
       state.newUserId = payload
-    },
-    setCurrentUserEmail (state, payload) {
-      state.currentUserEmail = payload
     }
   },
   actions: {
@@ -71,8 +67,11 @@ export const store = new Vuex.Store({
               }
             })
           })
-          commit('setUser', existingUser)
-          commit('setCurrentUserEmail', Firebase.auth().currentUser.email)
+          commit('setUser', {
+            id: existingUser.id,
+            email: Firebase.auth().currentUser.email
+          })
+          // commit('setCurrentUserEmail', Firebase.auth().currentUser.email)
         })
     },
     logOut ({commit}) {
@@ -87,8 +86,7 @@ export const store = new Vuex.Store({
     user: state => state.user,
     usersInFirebase: state => state.usersInFirebase,
     userKey: state => state.userKey,
-    newUserId: state => state.newUserId,
-    currentUserEmail: state => state.currentUserEmail
+    newUserId: state => state.newUserId
   }
 })
 
