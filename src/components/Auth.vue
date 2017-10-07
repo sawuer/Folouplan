@@ -55,6 +55,7 @@
     },
     data () {
       return {
+        newUserId: this.$store.getters.newUserId,
         email: '',
         password: '',
         confirmPassword: ''
@@ -62,19 +63,32 @@
     },
     methods: {
       onSignup () {
-        var uid = this.$store.getters.newUserId
-        // console.log(this.$store.getters.newUserId)
-        this.$root.$firebaseRefs.users
-          .push({
-            id: uid,
-            data: {}
-          })
         this.$store.dispatch('signUserUp', {
           email: this.email,
           password: this.password
         }).then(i => {
           this.$router.push('/signin')
         })
+        // console.log(this.$store.getters.newUserId)
+        setTimeout(() => {
+          this.$root.$firebaseRefs.users
+            .push({
+              id: this.$store.getters.newUserId,
+              data: {
+                todos: {
+                  0: {
+                    title: 'Do something',
+                    date: '2040-10-10'
+                  }
+                }
+              }
+            })
+        }, 2000)
+        // var some = null
+        // setTimeout(() => {
+        //   some = this.$store.getters.newUserId
+        //   console.log(some)
+        // }, 1000)
       },
       clear () {
         this.email = ''

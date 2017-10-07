@@ -31,11 +31,6 @@ new Vue({
   el: '#app',
   mounted () {
     this.$store.dispatch('setUsersInFirebase', users)
-    console.log('On start')
-    console.log(this.$store.getters.usersInFirebase)
-    console.log(this.$store.getters.user)
-    console.log(this.$store.getters.newUserId)
-    console.log(this.$store.getters.userKey)
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
       this.$router.push(this.$store.getters.currentURL)
     } else {

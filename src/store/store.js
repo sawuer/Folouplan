@@ -37,16 +37,22 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    setNewUserId ({commit}, value) {
+      commit('setNewUserId', value)
+    },
     setURL ({commit}) {
       commit('setURL')
     },
     setUsersInFirebase ({commit}, users) {
       commit('setUsersInFirebase', users)
     },
-    signUserUp ({commit}, userData) {
+    signUserUp ({commit, state, dispatch}, userData) {
+      // commit('setLoading', true)
       Firebase.auth().createUserWithEmailAndPassword(userData.email, userData.password)
       .then(user => {
-        commit('setNewUserId', user.uid)
+        console.log(user.uid)
+        dispatch('setNewUserId', user.uid)
+        console.log(state.newUserId)
       })
     },
     signUserIn ({commit}, userData) {
@@ -62,15 +68,16 @@ export const store = new Vuex.Store({
         this.state.usersInFirebase.once('value').then(function (snapshot) {
           snapshot.forEach(function (userSnapshot) {
             var username = userSnapshot.val()
+            console.log(username.id, user.uid)
             if (username.id === user.uid) {
-              commit('setUserKey', userSnapshot.key)
+              // commit('setUserKey', userSnapshot.key)
+              console.log(user.uid)
             }
           })
         })
         commit('setUser', existingUser)
         commit('setCurrentUserEmail', Firebase.auth().currentUser.email)
         console.log(this.state.user)
-        console.log(this.state.userKey)
         console.log(this.state.usersInFirebase)
       })
     },

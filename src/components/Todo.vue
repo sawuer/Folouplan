@@ -4,16 +4,14 @@
 
       <v-layout row wrap>
         <v-flex xs8>
-          <v-list>
-            <pre>
-              {{$store.getters.usersInFirebase['.key']}}
-            {{this.$root.users[$store.getters.userKey]}}
-              
-            </pre>
-            <!-- <template v-for="user in this.$root.users"> -->
-              <!-- <span v-if="user.id === $store.getters.user.id"> -->
-               <!--  <template v-if="this.$root.users[$store.getters.userKey].data">
-                  <template v-for="(todo, key, index) in this.$root.users[$store.getters.userKey].data.todos">
+          <v-list>dsfsd
+            <!-- {{$store.getters.user}} -->
+{{this.$root.users}}
+<!--             <template v-for="user in this.$root.users">
+              <span v-if="user['id'] === $store.getters.user['id']">
+                <template v-if="user.data">
+                  
+                  <template v-for="(todo, key, index) in user.data.todos">
                     <v-list-tile avatar v-bind:key="todo.title">
                       <v-list-tile-action>
                         <v-checkbox append-icon light v-bind:label="null" @click="doneTodo(todo, key)" v-model="todo.ex" color="green lighten-2" light></v-checkbox>
@@ -37,42 +35,46 @@
                       </v-btn>
                     </v-list-tile>
                   </template>
-                </template> -->
+                </template>
 
-              <!-- </span> -->
-            <!-- </template> -->
+              </span>
+            </template> -->
           </v-list>
 
-<!-- 
+              <!-- <div slot="header"><v-icon>delete_forever</v-icon>({{ this.$root.users[$store.getters.userKey].data && this.$root.users[$store.getters.userKey].data.doneTodos ? Object.keys(this.$root.users[$store.getters.userKey].data.doneTodos).length : 0 }})</div> -->
+
           <v-expansion-panel>
             <v-expansion-panel-content>
-              <div slot="header"><v-icon>delete_forever</v-icon>({{ this.$root.users[$store.getters.userKey].data && this.$root.users[$store.getters.userKey].data.doneTodos ? Object.keys(this.$root.users[$store.getters.userKey].data.doneTodos).length : 0 }})</div>
               <v-card>
                 <v-list id="completedTodos">
 
                   <template v-for="user in this.$root.users">
-                    <span v-if="user.id === $store.getters.user.id && user.data">
-                      <template v-for="(todo, key) in user.data.doneTodos">
-                        <v-list-tile class="completed-todos" avatar v-bind:key="todo.title" download>   
-                          <v-list-tile-content>
-                            <v-list-tile-title>
-                              {{todo.title}}
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
-                          </v-list-tile-content>
-                          <v-btn class="delete-todo completed-todos" @click="undoComplete(todo, key)" icon>
-                            <v-icon class="text--grey lighten-1">undo</v-icon>
-                          </v-btn>
-                        </v-list-tile>
-                      </template>
-                    </span>
-                  </template>
+                    {{this.$root.users}}
+                   <!--  <span v-if="user['id'] === $store.getters.user['id']">
+                      <template v-if="user.data">
 
+                        <template v-for="(todo, key) in user.data.doneTodos">
+                          <v-list-tile class="completed-todos" avatar v-bind:key="todo.title" download>   
+                            <v-list-tile-content>
+                              <v-list-tile-title>
+                                {{todo.title}}
+                              </v-list-tile-title>
+                              <v-list-tile-sub-title v-html="todo.date"></v-list-tile-sub-title>
+                            </v-list-tile-content>
+                            <v-btn class="delete-todo completed-todos" @click="undoComplete(todo, key)" icon>
+                              <v-icon class="text--grey lighten-1">undo</v-icon>
+                            </v-btn>
+                          </v-list-tile>
+                        </template>
+
+                      </template>
+                    </span> -->
+                  </template>
                 </v-list>
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>  
-                     -->
+                    
 
 
         </v-flex>
@@ -102,12 +104,12 @@
               </v-layout>
             </v-container>
           </v-card>
-              <v-layout row wrap>
-                <v-flex>
-                  <v-btn error @click="clearTodoList" dark>Clear all todos</v-btn>
-                  <v-btn error @click="clearDeleteList" dark>Clear all completed</v-btn>
-                </v-flex>
-              </v-layout>
+          <v-layout row wrap>
+            <v-flex>
+              <v-btn error @click="clearTodoList" dark>Clear all todos</v-btn>
+              <v-btn error @click="clearDeleteList" dark>Clear all completed</v-btn>
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-container>
