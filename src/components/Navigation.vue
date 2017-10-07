@@ -1,7 +1,6 @@
 <template>
   <v-app id="navigation" toolbar>
     <v-navigation-drawer permanent floating light>
-      
       <v-list dense class="pt-0">
         <v-list-tile @click="clickOnNavItem" router-link :to=item.path v-for="item in menuItems" :key="item.title">
           <v-list-tile-action>
@@ -14,19 +13,16 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-
     </v-navigation-drawer>
     <v-toolbar class="blue darken-1" dark>
       <v-flex xs9>
         <v-layout row wrap>
-          <v-toolbar-title style="font-family: 'Raleway', sans-serif;"><b>{{$store.getters.appName}}</b></v-toolbar-title>
-      </v-layout>
-
+          <v-toolbar-title style="font-family: 'Raleway', sans-serif;">Ramona</v-toolbar-title>
+        </v-layout>
       </v-flex>  
       <v-flex xs3>
-        <user></user>
+        <User></User>
       </v-flex>
-
     </v-toolbar>
     <main>
       <v-container fluid>
@@ -39,17 +35,9 @@
 
 <script>
   import User from '@/components/User'
-
   export default {
     name: 'navigation',
-    components: {
-      User
-    },
-    data () {
-      return {
-        items: this.menuItems
-      }
-    },
+    components: { User },
     mounted () {
       this.clickOnNavItem()
     },

@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    appName: 'Ramona',
     currentURL: null,
     user: null,
     usersInFirebase: null,
@@ -15,63 +14,60 @@ export const store = new Vuex.Store({
     setURL (state) {
       state.currentURL = window.location.href.slice(window.location.href.lastIndexOf('/'))
     },
-    setUser (state, payload) {
-      state.user = payload
+    setUser (state, val) {
+      state.user = val
     },
-    setUsersInFirebase (state, payload) {
-      state.usersInFirebase = payload
+    setUsersInFirebase (state, val) {
+      state.usersInFirebase = val
     },
-    clearError (state) {
-      state.clearError = null
-    },
-    setNewUserId (state, payload) {
-      state.newUserId = payload
+    setNewUserId (state, val) {
+      state.newUserId = val
     }
   },
   actions: {
-    setNewUserId ({commit}, value) {
+    setNewUserId ({ commit }, value) {
       commit('setNewUserId', value)
     },
-    setURL ({commit}) {
+    setURL ({ commit }) {
       commit('setURL')
     },
-    setUsersInFirebase ({commit}, users) {
+    setUsersInFirebase ({ commit }, users) {
       commit('setUsersInFirebase', users)
     },
-    signUserUp ({commit, state, dispatch}, userData) {
-      Firebase.auth().createUserWithEmailAndPassword(userData.email, userData.password)
-      .then(user => {
-        dispatch('setNewUserId', user.uid)
-      })
+    signUserUp ({ dispatch }, userData) {
+      Firebase
+        .auth()
+        .createUserWithEmailAndPassword(userData.email, userData.password)
+          .then(user => {
+            dispatch('setNewUserId', user.uid)
+          })
     },
-    signUserIn ({commit}, userData) {
-      commit('clearError')
-      Firebase.auth().signInWithEmailAndPassword(userData.email, userData.password)
-        .then(user => {
-          this.state.usersInFirebase.once('value').then(snapshot => {
-            snapshot.forEach(userSnapshot => {
-              var username = userSnapshot.val()
-              if (username.id === user.uid) {
-                commit('setUser', {
-                  id: user.uid,
-                  email: Firebase.auth().currentUser.email,
-                  key: userSnapshot.key
-                })
-              }
+    signUserIn ({ commit }, userData) {
+      Firebase
+        .auth()
+          .signInWithEmailAndPassword(userData.email, userData.password)
+          .then(user => {
+            this.state.usersInFirebase.once('value').then(snapshot => {
+              snapshot.forEach(userSnapshot => {
+                if (userSnapshot.val().id === user.uid) {
+                  commit('setUser', {
+                    id: user.uid,
+                    email: Firebase.auth().currentUser.email,
+                    key: userSnapshot.key
+                  })
+                }
+              })
             })
           })
-        })
     },
-    logOut ({commit}) {
+    logOut ({ commit }) {
       commit('setUser', null)
       Firebase.auth().signOut()
     }
   },
   getters: {
-    appName: state => state.appName,
     currentURL: state => state.currentURL,
     user: state => state.user,
-    usersInFirebase: state => state.usersInFirebase,
     newUserId: state => state.newUserId
   }
 })

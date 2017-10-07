@@ -126,13 +126,6 @@
         ]
       }
     },
-    updated () {
-      console.table({
-        'User': this.$store.getters.user,
-        'Users': this.$store.getters.usersInFirebase,
-        'newUserId': this.$store.getters.newUserId
-      })
-    },
     mounted () {
       this.reverseDeleteTodos()
     },
@@ -149,17 +142,14 @@
       },
       addTodo () {
         this.$refs.todoForm.validate()
-        var todo = this.$refs.todoForm.$el[0].value
-        var date = this.$refs.todoForm.$el[1].value
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data').child('todos').push({
-            title: todo,
-            date: date,
+            title: this.$refs.todoForm.$el[0].value,
+            date: this.$refs.todoForm.$el[1].value,
             ex: false
           })
       },
-
       doneTodo (todo, key) {
         var update = {
           title: todo.title,
@@ -171,7 +161,6 @@
           .child('data').child('todos')
           .child(key).update(update)
       },
-
       deleteTodo (todo, key) {
         if (todo.ex) {
           this.$root.$firebaseRefs.users
@@ -192,7 +181,6 @@
           .child('todos')
           .child(key).remove()
       },
-
       undoComplete (todo, key) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
@@ -207,7 +195,6 @@
           .child('doneTodos')
           .child(key).remove()
       },
-
       newTodoTitle (e, todo, key) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
@@ -219,18 +206,15 @@
             ex: todo.ex
           })
       },
-
       clearAllList (data) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data')
           .child(data).remove()
       },
-
       clearTodoList () {
         this.clearAllList('todos')
       },
-
       clearDeleteList () {
         this.clearAllList('doneTodos')
       }
