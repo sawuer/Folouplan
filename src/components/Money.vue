@@ -83,9 +83,28 @@
                       </v-btn>
                       {{ props.item.date }}
                     </td>
-                    <td class="pur-name">{{ props.item.name }}</td>
+                    <td class="pur-name">
+                      <v-edit-dialog> 
+                        {{ props.item.name }}
+                        <v-text-field
+                          slot="input"
+                          @keyup.enter="newSpendingTitle($event, props.item.name, props.item.thisKey)"
+                          :value="props.item.name"
+                        ></v-text-field>
+                      </v-edit-dialog> 
+                    </td>
                     <td class="pur-type text-xs-left">{{ props.item.type }}</td>
-                    <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+                    <td class="pur-cost cost-td text-xs-right">
+                      <v-edit-dialog> 
+                        {{ props.item.cost }}
+                        <v-text-field
+                          slot="input"
+                          @keyup.enter="newSpendingCost($event, props.item.cost, props.item.thisKey)"
+                          :value="props.item.cost"
+                        ></v-text-field>
+                      </v-edit-dialog>
+                      <span class="cost">{{currentCurrency}}</span>
+                    </td>
             
                 </template>      
               </v-data-table>
@@ -168,7 +187,16 @@
                     {{ props.item.date }}
                    </td>
                   <td class="inc-type text-xs-left">{{ props.item.type }}</td>
-                  <td class="inc-income cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
+                  <td class="inc-income cost-td text-xs-right">
+                    <v-edit-dialog> 
+                      {{ props.item.income }}
+                      <v-text-field
+                        slot="input"
+                        @keyup.enter="newSpendingIncome($event, props.item.income, props.item.thisKey)"
+                        :value="props.item.income"
+                      ></v-text-field>
+                    </v-edit-dialog>
+                    <span class="cost">{{currentCurrency}}</span></td>
                 </template>
               </v-data-table>
 
@@ -178,7 +206,6 @@
         </template>
       </v-flex>
       </v-layout>
-
     </div>
   </transition>
 </template>
@@ -340,6 +367,35 @@
             }
           }
         })
+      },
+      newSpendingTitle (e, spending, key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('spendings')
+          .child(key).update({
+            name: e.target.value
+          })
+      },
+      newSpendingCost (e, cost, key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('spendings')
+          .child(key).update({
+            cost: e.target.value
+          })
+        this.computeCash()
+      },
+      newSpendingIncome (e, income, key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('incomes')
+          .child(key).update({
+            income: e.target.value
+          })
+        this.computeCash()
       },
       deletePurchase (key) {
         this.$root.$firebaseRefs.users

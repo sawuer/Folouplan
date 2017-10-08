@@ -201,9 +201,7 @@
           .child('data')
           .child('todos')
           .child(key).update({
-            title: e.target.value,
-            date: todo.date,
-            ex: todo.ex
+            title: e.target.value
           })
       },
       clearAllList (data) {
