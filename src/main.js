@@ -28,7 +28,6 @@ new Vue({
   el: '#app',
   mounted () {
     this.$store.dispatch('setUsersInFirebase', users)
-    console.log(this.$store.getters.usersInFirebase)
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
       this.$router.push(this.$store.getters.currentURL)
     } else {
@@ -36,9 +35,7 @@ new Vue({
     }
   },
   store,
-  firebase: {
-    users
-  },
+  firebase: { users },
   router,
   template: '<App/>',
   components: { App }

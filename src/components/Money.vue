@@ -63,25 +63,33 @@
       </v-dialog>
 
   		<br>
+      <template v-for="user in this.$root.users">
+        <template v-if="user.id === $store.getters.user.id">
+          <template v-if="user.data && user.data.spendings">
+              <v-data-table 
+                v-bind:headers="spendingHeader" 
+                :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
+                class="spending-table">
+          	    <template slot="items" scope="props">
+          	       <td class="pur-date text-xs-left">
+          	      	<v-btn class="completed-todos" @click="deletePurchase" icon>
+          		        <v-icon class="grey--text">delete</v-icon>
+          		      </v-btn>
+          		      {{ props.item.date }}
+          		    </td>
+          	      <td class="pur-name">{{ props.item.name }}</td>
+          	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
+          	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+              </template>      
+            </v-data-table>
+          </template>      
+        </template>
+      </template>
 
-  	  <v-data-table 
-        v-bind:headers="spendingHeader" 
-        :items="spendingItems"
-        class="spending-table">
-  	    <template slot="items" scope="props">
-  	      <td class="pur-date text-xs-left">
-  	      	<v-btn class="completed-todos" @click="deletePurchase" icon>
-  		        <v-icon class="grey--text">delete</v-icon>
-  		      </v-btn>
-  		      {{ props.item.date }}
-  		    </td>
-  	      <td class="pur-name">{{ props.item.name }}</td>
-  	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
-  	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
-  	    </template>
-  	  </v-data-table>
 
-      <div id="piechart" width="400" style="height: 500px;"></div>
+
+
+      <!-- <div id="piechart" width="400" style="height: 500px;"></div> -->
 
       <v-dialog v-model="dialog2" persistent>
         <v-btn icon slot="activator" class="grey lighten-4 green--text">
@@ -107,7 +115,7 @@
   		          </v-date-picker>
   		        </v-menu>
   	          <v-btn class="blue--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
-  	          <v-btn class="blue--text darken-1" @click="addIncome" @click.native="dialog2 = false" flat>Save</v-btn>
+  	          <v-btn class="blue--text darken-1" @click="addIncome" @click.native="dialog2 = false" flat>Add</v-btn>
   		      </v-form>
           </v-card-text>
         </v-card>
@@ -115,21 +123,32 @@
 
   		<br>
 
-  	  <v-data-table 
-        v-bind:headers="incomeHeader" 
-        :items="incomeItems"
-        class="spending-table">
-  	    <template slot="items" scope="props">
-  	      <td class="inc-date text-xs-left">
-  	        <v-btn class="completed-todos" @click="deleteIncome" icon>
-  		        <v-icon class="grey--text">delete</v-icon>
-  		      </v-btn>
-  	        {{ props.item.date }}
-  	       </td>
-  	      <td class="inc-type text-xs-left">{{ props.item.type }}</td>
-  	      <td class="inc-income cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
-  	    </template>
-  	  </v-data-table>
+
+      <template v-for="user in this.$root.users">
+        <template v-if="user.id === $store.getters.user.id">
+          <template v-if="user.data && user.data.incomes">
+
+            <v-data-table 
+              v-bind:headers="incomeHeader" 
+              :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
+              class="spending-table">
+              <template slot="items" scope="props">
+                <td class="inc-date text-xs-left">
+                  <v-btn class="completed-todos" @click="deleteIncome" icon>
+                    <v-icon class="grey--text">delete</v-icon>
+                  </v-btn>
+                  {{ props.item.date }}
+                 </td>
+                <td class="inc-type text-xs-left">{{ props.item.type }}</td>
+                <td class="inc-income cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
+              </template>
+            </v-data-table>
+
+
+          </template>      
+        </template>
+      </template>
+
 
     </div>
   </transition>
@@ -137,40 +156,41 @@
 
 <script>
   export default {
-    updated () {
-      var google = window.google
-      google.charts.load('current', {'packages': ['corechart']})
-      // google.charts.setOnLoadCallback(drawChart)
-      google.charts.setOnLoadCallback(drawChart)
+    // updated () {
+    //   var google = window.google
+    //   google.charts.load('current', {'packages': ['corechart']})
+    //   // google.charts.setOnLoadCallback(drawChart)
+    //   google.charts.setOnLoadCallback(drawChart)
 
-      var spendings = {
-        food: this.spendingItems.map(i => i.type === 'Food' ? i.cost : 0).reduce((a, b) => a + b),
-        passage: this.spendingItems.map(i => i.type === 'Passage' ? i.cost : 0).reduce((a, b) => a + b),
-        home: this.spendingItems.map(i => i.type === 'Home' ? i.cost : 0).reduce((a, b) => a + b),
-        other: this.spendingItems.map(i => i.type === 'Other' ? i.cost : 0).reduce((a, b) => a + b)
-      }
+    //   var spendings = {
+    //     food: this.spendingItems.map(i => i.type === 'Food' ? i.cost : 0).reduce((a, b) => a + b),
+    //     passage: this.spendingItems.map(i => i.type === 'Passage' ? i.cost : 0).reduce((a, b) => a + b),
+    //     home: this.spendingItems.map(i => i.type === 'Home' ? i.cost : 0).reduce((a, b) => a + b),
+    //     other: this.spendingItems.map(i => i.type === 'Other' ? i.cost : 0).reduce((a, b) => a + b)
+    //   }
 
-      function drawChart () {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Food', spendings.food],
-          ['Passage', spendings.passage],
-          ['Home', spendings.home],
-          ['Other', spendings.other]
-        ])
-        var spendingChart = new google.visualization.PieChart(document.getElementById('piechart'))
-        spendingChart.draw(data, {
-          title: 'Spending'
-          // pieHole: 0
-        })
-      }
-    },
+    //   function drawChart () {
+    //     var data = google.visualization.arrayToDataTable([
+    //       ['Task', 'Hours per Day'],
+    //       ['Food', spendings.food],
+    //       ['Passage', spendings.passage],
+    //       ['Home', spendings.home],
+    //       ['Other', spendings.other]
+    //     ])
+    //     var spendingChart = new google.visualization.PieChart(document.getElementById('piechart'))
+    //     spendingChart.draw(data, {
+    //       title: 'Spending'
+    //       // pieHole: 0
+    //     })
+    //   }
+    // },
     mounted () {
       this.takeOf()
       this.incomeAppending()
     },
     data () {
       return {
+        uncoverSpendingsData: null,
         purName: '',
         cost: '',
         type: '',
@@ -209,43 +229,24 @@
           { text: 'Date', align: 'left', sortable: false, aria_sort: 'descending', value: 'date' },
           { text: 'Type', align: 'left', sortable: false, value: 'type' },
           { text: 'Income', align: 'right', sortable: false, value: 'income' }
-        ],
-        spendingItems: [
-          { name: 'Сыр', cost: 159, date: '2017-09-20', type: 'Food' },
-          { name: 'Frozen Yogurt', cost: 159, date: '2017-09-04', type: 'Food' },
-          { name: 'Bus', cost: 159, date: '2017-09-02', type: 'Passage' },
-          { name: 'Table', cost: 159, date: '2017-09-03', type: 'Home' },
-          { name: 'Cupcake', cost: 305, date: '2017-09-01', type: 'Other' },
-          { name: 'Another buss', cost: 237, date: '2017-09-03', type: 'Passage' },
-          { name: 'Chair', cost: 632, date: '2017-09-02', type: 'Home' },
-          { name: 'Chai', cost: 105, date: '2017-09-01', type: 'Food' }
-        ],
-        incomeItems: [
-          { type: 'Work', date: '2017-09-09', income: 3000 },
-          { type: 'Freelance', date: '2017-09-02', income: 13000 },
-          { type: 'Work', date: '2017-08-12', income: 2000 },
-          { type: 'Work', date: '2017-07-12', income: 30000 },
-          { type: 'Freelance', date: '2017-07-08', income: 1000 },
-          { type: 'Freelance', date: '2017-07-10', income: 12000 }
         ]
       }
     },
     methods: {
-      cashSumToNumber () {
-        this.addCapitalMode = false
-        this.cashSum = +this.cashSum
-      },
       addPurchase () {
         if (this.$refs.form.validate()) {
           // this.$refs.form.$el.submit()
-          var form = this.$refs.form
           var cost = +form.$el[0].value
-          var name = form.$el[1].value
-          var type = form.$el[2].previousSibling.textContent
-          var date = form.$el[3].value
-          this.spendingItems.unshift({
-            name, cost, date, type
-          })
+          var form = this.$refs.form
+          this.$root.$firebaseRefs.users
+            .child(this.$store.getters.user.key)
+            .child('data').child('spendings').push({
+              cost: cost,
+              name: form.$el[1].value,
+              type: form.$el[2].previousSibling.textContent,
+              date: form.$el[3].value
+            })
+
           this.cashSum -= +cost
           setTimeout(() => this.$refs.form.reset(), 50)
         }
@@ -256,25 +257,49 @@
         var type = form.$el[1].previousSibling.textContent
         var date = form.$el[2].value
         if (income !== '' && type !== '' && date !== '') {
-          this.incomeItems.push({
-            type: type,
-            date: date,
-            income: income
-          })
+          this.$root.$firebaseRefs.users
+            .child(this.$store.getters.user.key)
+            .child('data').child('incomes').push({
+              type,
+              date,
+              income
+            })
         }
         this.cashSum += +income
       },
       takeOf () {
-        var itemsL = Object.keys(this.spendingItems).length
-        for (var i = 0; i < itemsL; i++) {
-          this.cashSum -= this.spendingItems[i].cost
-        }
+        this.$root.users.forEach(user => {
+          if (user.id === this.$store.getters.user.id) {
+            if (user.data && user.data.spendings) {
+              Object.keys(user.data.spendings).forEach(i => {
+                this.cashSum -= +user.data.spendings[i].cost
+              })
+            }
+          }
+        })
       },
       incomeAppending () {
-        var itemsL = Object.keys(this.incomeItems).length
-        for (var i = 0; i < itemsL; i++) {
-          this.cashSum += this.incomeItems[i].income
-        }
+        this.$root.users.forEach(user => {
+          if (user.id === this.$store.getters.user.id) {
+            if (user.data && user.data.incomes) {
+              Object.keys(user.data.incomes).forEach(i => {
+                this.cashSum += +user.data.incomes[i].income
+              })
+            }
+          }
+        })
+      // <template v-for="user in this.$root.users">
+      //   <template v-if="user.id === $store.getters.user.id">
+      //     <template v-if="user.data && user.data.incomes">
+
+      //       <v-data-table
+      //         v-bind:headers="incomeHeader"
+      //         :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
+      //   if ()
+        // var itemsL = Object.keys(this.incomeItems).length
+        // for (var i = 0; i < itemsL; i++) {
+        //   this.cashSum += this.incomeItems[i].income
+        // }
       },
       deletePurchase (e) {
         var itemsL = Object.keys(this.spendingItems).length
@@ -284,7 +309,6 @@
         var date = row.querySelector('.pur-date').innerText.replace('delete', '').trim()
         var cost = row.querySelector('.pur-cost').innerText.replace(this.currentCurrency, '').trim()
         for (var i = 0; i < itemsL; i++) {
-          console.log(this.spendingItems[i].name)
           if (this.spendingItems[i].name) {
             if (this.spendingItems[i].name === name && this.spendingItems[i].type === type && this.spendingItems[i].date === date) {
               this.spendingItems.splice(i, 1)
