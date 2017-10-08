@@ -144,7 +144,8 @@
         this.$refs.todoForm.validate()
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
-          .child('data').child('todos').push({
+          .child('data')
+          .child('todos').push({
             title: this.$refs.todoForm.$el[0].value,
             date: this.$refs.todoForm.$el[1].value,
             ex: false

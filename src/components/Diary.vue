@@ -1,43 +1,64 @@
 <template>
   <transition enter-active-class="animated fadeIn">
 	<div>
-		<h5 class="light-text">Add new post</h5>
-    <v-layout row>
-      <v-flex xs12>
-        <v-form ref="form">
-          <v-text-field v-model="post" name="input-12-4" label="Type your post" required :rules="textRules" value="" multi-line></v-text-field>
-        </v-form>
-        <v-btn icon class="grey lighten-4 green--text" @click="addPost">
-          <v-icon>add</v-icon>
-        </v-btn>
+    <v-layout row wrap>
+      <v-flex xs12 class="pa-2">
+        <v-layout row>
+          <v-flex xs6>
+            <v-form ref="form">
+              <v-text-field v-model="post" name="input-12-4" label="Type your post" required :rules="textRules" value="" multi-line></v-text-field>
+            </v-form>
+            <v-btn icon class="grey lighten-4 green--text" @click="addPost">
+              <v-icon>add</v-icon>
+            </v-btn>
+          </v-flex>
+        </v-layout>
+        <br>
+        <br>
+    	  <v-layout>
+    	    <v-flex xs12>
+    	      
+            <template v-for="user in this.$root.users">
+              <template v-if="user.id === $store.getters.user.id">
+                <template v-if="user.data">
+                  <template v-for="(post, key, index) in user.data.posts">
+
+                    <div class="post">
+                      <div>
+                        <span class="grey--text">{{post.date}}</span><br>
+            						<p class="diary-p">{{post.text}}</p>
+                      </div>
+            				  <v-btn class="diary-delete" @click.native.stop="post.dialog" @click="post.dialog = true"  icon>
+                        <v-icon class="grey--text completed-todos">delete</v-icon>
+                      </v-btn>
+            			    <v-dialog v-model="post.dialog">
+            			      <v-card>
+            			        <v-card-title class="">
+                            <div>
+                              <b>Delete:</b> 
+                              <span class="modal-id">{{post.modId}}</span>
+                              {{post.text.slice(0, 150) + '...'}}
+                            </div>
+                          </v-card-title>
+            			        <v-card-actions>
+            			          <v-spacer></v-spacer>
+            			          <v-btn class="green--text darken-1" flat="flat" @click.native.stop="post.dialog=false">Disagree</v-btn>
+            			          <v-btn class="green--text darken-1" flat="flat" @click="deletePost(key)">Agree</v-btn>
+            			        </v-card-actions>
+            			      </v-card>
+            			    </v-dialog>
+                    </div>
+
+
+                  </template>
+                </template>
+              </template>
+            </template>
+
+    	    </v-flex>
+    	  </v-layout>
       </v-flex>
     </v-layout>
-    <br>
-    <br>
-    <h5 class="light-text">Last posts</h5>
-	  <v-layout>
-	    <v-flex xs12>
-	      <div class="diary-item" v-for="item in posts">
-          <div>
-            <span class="grey--text">{{item.date}}</span><br>
-						<p class="diary-p">{{item.text}}</p>
-          </div>
-				  <v-btn class="diary-delete" @click.native.stop="item.dialog" @click="item.dialog = true"  icon>
-            <v-icon class="grey--text completed-todos">delete</v-icon>
-          </v-btn>
-			    <v-dialog v-model="item.dialog">
-			      <v-card>
-			        <v-card-title class=""><div><b>Delete:</b> <span class="modal-id">{{item.modId}}</span>{{item.text.slice(0, 150) + '...'}}</div></v-card-title>
-			        <v-card-actions>
-			          <v-spacer></v-spacer>
-			          <v-btn class="green--text darken-1" flat="flat" @click.native.stop="item.dialog=false">Disagree</v-btn>
-			          <v-btn class="green--text darken-1" flat="flat" @click="deletePost">Agree</v-btn>
-			        </v-card-actions>
-			      </v-card>
-			    </v-dialog>
-        </div>
-	    </v-flex>
-	  </v-layout>
 	</div>
   </transition>
 
@@ -45,7 +66,6 @@
 <script>
   export default {
     mounted () {
-      this.setModalIds()
     },
     name: 'Diary',
     data () {
@@ -54,51 +74,32 @@
         valid: false,
         textRules: [
           (v) => !!v || 'You didn\'t fill out the field'
-        ],
-        posts: [
-          {
-            date: '23-23-2003',
-            text: '1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blanditiis pariatur quod sunt dolores consequuntur, tempora, quis error facere maxime fuga laudantium molestias quae magnam voluptates molestiae amet qui tenetur tempore rem quo! Numquam accusantium, alias repellat rem voluptatibus.',
-            dialog: false
-          },
-          {
-            date: '24-23-2003',
-            text: '2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sit blanditiis pariatur quod sunt dolores consequuntur, tempora, quis error facere maxime fuga laudantium molestias quae magnam voluptates molestiae amet qu ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit ctetur adipisicing elit. Provident, sit blandit i tenetur tempore rem quo! Numquam accusantium, alias repellat rem voluptatibus.',
-            dialog: false
-          },
-          {
-            date: '25-23-2003',
-            text: '3Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sit blanditiis pariatur quod sunt dolores consequuntur, tempora, quis error facere maxime fuga laudantium molestias quae magnam voluptates molestiae amet qui tenetur tempore rem quo! Numquam accusantium, alias repectetur adipisicing elit. Provident, sit blanditctetur adipisicing elit. Provident, sit blanditctetur adipisicing elit. Provident, sit blanditllat rem voluptatibus.',
-            dialog: false
-          }
         ]
       }
     },
     methods: {
       addPost () {
-        var postText = this.$refs.form.$el[0].value
+        var text = this.$refs.form.$el[0].value
         var today = new Date()
         var dateString = today.getDate() + '-' + today.getMonth() + '-' + today.getFullYear()
-        if (postText !== '') {
-          this.posts.unshift({
-            date: dateString,
-            text: postText,
-            dialog: false
-          })
+        if (text !== '') {
+          this.$root.$firebaseRefs.users
+            .child(this.$store.getters.user.key)
+            .child('data')
+            .child('posts').push({
+              text: text,
+              date: dateString,
+              dialog: false
+            })
         }
-        this.setModalIds()
+        // this.setModalIds()
       },
-      deletePost (e) {
-        var parent = e.target.parentElement.parentElement.parentElement
-        var IDinModal = parent.querySelector('.modal-id').innerText
-        this.posts.splice(this.posts[IDinModal].modId, 1)
-        this.setModalIds()
-      },
-      setModalIds () {
-        var arrL = Object.keys(this.posts).length
-        for (var i = 0; i < arrL; i++) {
-          this.posts[i].modId = i
-        }
+      deletePost (key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('todos')
+          .child(key).remove()
       }
     }
   }
