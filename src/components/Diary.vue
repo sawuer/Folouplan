@@ -36,7 +36,6 @@
             			        <v-card-title class="">
                             <div>
                               <b>Delete:</b> 
-                              <span class="modal-id">{{post.modId}}</span>
                               {{post.text.slice(0, 150) + '...'}}
                             </div>
                           </v-card-title>
@@ -65,8 +64,6 @@
 </template>
 <script>
   export default {
-    mounted () {
-    },
     name: 'Diary',
     data () {
       return {
@@ -92,13 +89,13 @@
               dialog: false
             })
         }
-        // this.setModalIds()
       },
       deletePost (key) {
+        console.log(key)
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data')
-          .child('todos')
+          .child('posts')
           .child(key).remove()
       }
     }

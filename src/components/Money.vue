@@ -41,7 +41,7 @@
                   :rules="typeRules" 
                   label="Type" 
                   required 
-                  :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
+                  :items="spendingsCategory"></v-select>
     		        
                 <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
     		          <v-text-field :rules="dateRules" slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
@@ -77,12 +77,14 @@
                   item-key="index"
                   class="spending-table">
                   <template slot="items" scope="props">
+                    
                     <td class="pur-date text-xs-left">
                       <v-btn class="completed-todos" @click="deletePurchase(props.item.thisKey)" icon>
                         <v-icon class="grey--text">delete</v-icon>
                       </v-btn>
                       {{ props.item.date }}
                     </td>
+
                     <td class="pur-name">
                       <v-edit-dialog> 
                         {{ props.item.name }}
@@ -93,7 +95,19 @@
                         ></v-text-field>
                       </v-edit-dialog> 
                     </td>
-                    <td class="pur-type text-xs-left">{{ props.item.type }}</td>
+
+                    <!-- <td class="pur-type text-xs-left">{{ props.item.type }}</td> -->
+                    <td class="pur-type text-xs-left">
+                      <v-select
+                        v-bind:items="spendingsCategory"
+                        v-model="props.item.type"
+                        @input="newSpendingType($event, props.item.type, props.item.thisKey)"
+                        single-line
+                        auto
+                      ></v-select>
+                      <!-- {{ props.item.type }} -->
+                    </td>
+                    
                     <td class="pur-cost cost-td text-xs-right">
                       <v-edit-dialog> 
                         {{ props.item.cost }}
@@ -245,6 +259,8 @@
     },
     data () {
       return {
+        spendingsCategory: ['Food', 'Passage', 'Home', 'Other'],
+        spendingsTypeSelect: null,
         counter: 0,
         uncoverSpendingsData: null,
         purName: '',
@@ -375,6 +391,15 @@
           .child('spendings')
           .child(key).update({
             name: e.target.value
+          })
+      },
+      newSpendingType (e, type, key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('spendings')
+          .child(key).update({
+            type: e
           })
       },
       newSpendingCost (e, cost, key) {
