@@ -24,7 +24,6 @@
                 label="Cost" 
                 :rules="costRules" 
                 required 
-                hint="example of helper text only on focus"
                 ></v-text-field>
               
               <v-text-field 
@@ -54,16 +53,17 @@
   		          </v-date-picker>
   		        </v-menu>
 
-  	          <v-btn class="green--text darken-1" @click="addPurchase" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
   	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
+              <v-btn class="green--text darken-1" @click="addPurchase" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
   		      
             </v-form>
           </v-card-text>
         </v-card>
       </v-dialog>
 
-  		<br>
+      <br>
 
+      <!-- SPENDINGS -->
       <template v-for="user in this.$root.users">
         <template v-if="user.id === $store.getters.user.id">
           <template v-if="user.data && user.data.spendings">
@@ -75,14 +75,14 @@
                 class="spending-table">
                 <template slot="items" scope="props">
                   <td class="pur-date text-xs-left">
-          	      	<v-btn class="completed-todos" @click="deletePurchase(props.item.thisKey)" icon>
-          		        <v-icon class="grey--text">delete</v-icon>
-          		      </v-btn>
-          		      {{ props.item.date }}
-          		    </td>
-          	      <td class="pur-name">{{ props.item.name }}</td>
-          	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
-          	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+                    <v-btn class="completed-todos" @click="deletePurchase(props.item.thisKey)" icon>
+                      <v-icon class="grey--text">delete</v-icon>
+                    </v-btn>
+                    {{ props.item.date }}
+                  </td>
+                  <td class="pur-name">{{ props.item.name }}</td>
+                  <td class="pur-type text-xs-left">{{ props.item.type }}</td>
+                  <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
           
               </template>      
             </v-data-table>
@@ -104,10 +104,29 @@
             <span class="headline">Add new income</span>
           </v-card-title>
           <v-card-text>
-          	<v-form v-model="valid" ref="form1">
-  	          <v-text-field label="Income cash" required hint="example of helper text only on focus"></v-text-field>
-  	          <v-select id="type" label="Type" required :items="['Work', 'Freelance']"></v-select>
-  		        <v-menu lazy :close-on-content-click="false" v-model="date2" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
+          	<v-form v-model="valid2" ref="form2">
+
+  	          <v-text-field 
+                label="Income cash"
+                v-model="income"
+                :rules="costRules"
+                required 
+                ></v-text-field>
+              <v-select 
+                id="type" 
+                :rules="purRules"
+                label="Type"
+                v-model="incomeType"
+                required 
+                :items="['Work', 'Freelance']"
+                ></v-select>
+  		        <v-menu lazy 
+                :close-on-content-click="false" 
+                v-model="date2" 
+                transition="scale-transition" 
+                offset-y full-width 
+                :nudge-left="40" 
+                max-width="290px">
   		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
   		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
   		            <template scope="{ save, cancel }">
@@ -118,8 +137,9 @@
   		            </template>
   		          </v-date-picker>
   		        </v-menu>
-  	          <v-btn class="blue--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
-  	          <v-btn class="blue--text darken-1" @click="addIncome" @click.native="dialog2 = false" flat>Add</v-btn>
+  	          <v-btn class="red--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
+  	          <v-btn class="green--text darken-1" @click="addIncome" @click.native="valid2 ? dialog2 = false : null" flat>Add</v-btn>
+
   		      </v-form>
           </v-card-text>
         </v-card>
@@ -127,7 +147,7 @@
 
   		<br>
 
-
+      <!-- INCOMES -->
       <template v-for="user in this.$root.users">
         <template v-if="user.id === $store.getters.user.id">
           <template v-if="user.data && user.data.incomes">
@@ -196,8 +216,10 @@
         counter: 0,
         uncoverSpendingsData: null,
         purName: '',
-        cost: '',
+        cost: null,
         type: '',
+        income: null,
+        incomeType: null,
         purRules: [
           (v) => !!v || 'You didn\'t fill out the puchase name',
           (v) => v && v.length <= 25 || 'Purchase name must be less than 20 characters'
@@ -216,7 +238,6 @@
         dialog2: false,
         valid: false,
         valid2: false,
-        valid3: false,
         picker: null,
         picker2: null,
         date: false,
@@ -250,10 +271,7 @@
               .child(key)
               .child('data')
               .child('spendings').push({
-                cost,
-                name,
-                type,
-                date
+                cost, name, type, date
               })
               .then(i => {
                 this.$root.$firebaseRefs.users
@@ -271,31 +289,33 @@
         }
       },
       addIncome () {
-        var form = this.$refs.form1
-        var income = form.$el[0].value
-        var type = form.$el[1].previousSibling.textContent
-        var date = form.$el[2].value
-        const key = this.$store.getters.user.key
-        if (income !== '' && type !== '' && date !== '') {
-          this.$root.$firebaseRefs.users
-            .child(key)
-            .child('data')
-            .child('incomes').push({
-              type, date, income
-            })
-            .then(i => {
-              this.$root.$firebaseRefs.users
-                .child(key)
-                .child('data')
-                .child('incomes')
-                .child(i.key)
-                .update({
-                  thisKey: i.key
-                })
-            })
+        if (this.$refs.form2.validate()) {
+          var form = this.$refs.form2
+          var income = form.$el[0].value
+          var type = form.$el[1].previousSibling.textContent
+          var date = form.$el[2].value
+          const key = this.$store.getters.user.key
+          if (income !== '' && type !== '' && date !== '') {
+            this.$root.$firebaseRefs.users
+              .child(key)
+              .child('data')
+              .child('incomes').push({
+                type, date, income
+              })
+              .then(i => {
+                this.$root.$firebaseRefs.users
+                  .child(key)
+                  .child('data')
+                  .child('incomes')
+                  .child(i.key)
+                  .update({
+                    thisKey: i.key
+                  })
+              })
+          }
+          this.computeCash()
+          setTimeout(() => this.$refs.form2.reset(), 200)
         }
-        this.computeCash()
-        setTimeout(() => this.$refs.form1.reset(), 200)
       },
       computeCash () {
         this.$root.users.forEach(user => {
