@@ -181,6 +181,6 @@ table tr:nth-child(even) {
 .inc-type .input-group--dirty {
 	padding-top: 0;
 }
-.chipper {
-	opacity: .6;
+.chip {
+	opacity: .6 !important;
 }

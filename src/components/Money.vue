@@ -10,8 +10,18 @@
         <v-flex xs12 class="pa-2">
         
           <template v-for="(chip, index) in spendingsCategory">
-            <v-chip close class="chipper" v-model="spendingsCategory['chip' + index]">{{ chip }}</v-chip>
+            <v-chip 
+              class="chipper" 
+              close
+              @input="removeCategory($event)"
+              v-model="spendingsCategory['chip' + index]"
+              >{{ chip }}</v-chip>
           </template>
+          <v-text-field 
+            v-model="newCategory" 
+            label="Add new category"
+            @keyup.enter="addNewCategory()"
+            ></v-text-field>
           <br>
 
         <v-dialog v-model="dialog" persistent>
@@ -271,11 +281,13 @@
     mounted () {
       this.computeCash()
       this.computeSpendingsChips()
+      this.fullCategoriesFromDB()
     },
     data () {
       return {
         select: null,
-        spendingsCategory: ['Food', 'Passage', 'Home', 'Other'],
+        newCategory: null,
+        spendingsCategory: [],
         spendingsChips: [],
         incomesCategory: ['Work', 'Freelance'],
         spendingsTypeSelect: null,
@@ -324,6 +336,48 @@
       }
     },
     methods: {
+      addNewCategory (e) {
+        // this.spendingsCategory.push(this.newCategory)
+        const key = this.$store.getters.user.key
+        this.$root.$firebaseRefs.users
+          .child(key)
+          .child('data')
+          .child('spendingsCategories')
+          .push({
+            catName: this.newCategory
+          })
+          .then(i => {
+            this.$root.$firebaseRefs.users
+              .child(key)
+              .child('data')
+              .child('spendingsCategories')
+              .child(i.key)
+              .update({
+                thisKey: i.key
+              })
+          })
+      },
+      fullCategoriesFromDB () {
+        var varSpendingsCategories = this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('spendingsCategories')
+        varSpendingsCategories.once('value').then(snapshot => {
+          snapshot.forEach(item => {
+            console.log(snapshot.val()[0])
+            // this.spendingsCategory.push(this.$root.$firebaseRefs.users
+            //   .child(this.$store.getters.user.key)
+            //   .child('data')
+            //   .child('spendingsCategories')
+            //   .child(item.key))
+          })
+        })
+          // .then(i => console.log(i))
+        // this.spendingsCategory
+      },
+      removeCategory (e) {
+        this.spendingsCategory.splice(this.spendingsCategory, 1)
+      },
       computeSpendingsChips () {
         this.spendingsCategory.forEach((i, index) => {
           var obj = {}
