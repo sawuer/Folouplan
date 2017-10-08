@@ -18,8 +18,8 @@
       <v-flex xs9>
         <v-layout row wrap>
           <v-toolbar-title style="font-family: 'Raleway', sans-serif;">
-            <div style="float: left;">Ramona </div>
-            <div style="font-size: 12px; float: left; padding-right: 10px; font-weigth: lighter; transform: translate(10px, 7px);">your life under control</div>
+            <div style="float: left;"><b>Ramona</b></div>
+            <div style="font-size: 12px; float: left; padding-right: 12px; font-weigth: lighter; transform: translate(12px, 8px);">your life under control</div>
           </v-toolbar-title>
         </v-layout>
       </v-flex>  

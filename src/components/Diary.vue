@@ -7,7 +7,9 @@
         <v-form ref="form">
           <v-text-field v-model="post" name="input-12-4" label="Type your post" required :rules="textRules" value="" multi-line></v-text-field>
         </v-form>
-        <v-btn class="green lighten-2 white-text" @click="addPost">Add post</v-btn>
+        <v-btn icon class="grey lighten-4 green--text" @click="addPost">
+          <v-icon>add</v-icon>
+        </v-btn>
       </v-flex>
     </v-layout>
     <br>
