@@ -171,10 +171,16 @@ table tr:nth-child(even) {
 	padding: 15px;
 }
 
+.inc-type i,
 .pur-type i,
-.pur-type .input-group__details {
+.pur-type .input-group__details,
+.inc-type .input-group__details {
 	display: none;
 }
-.pur-type .input-group--dirty {
+.pur-type .input-group--dirty,
+.inc-type .input-group--dirty {
 	padding-top: 0;
+}
+.chipper {
+	opacity: .6;
 }

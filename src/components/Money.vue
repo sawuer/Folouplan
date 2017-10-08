@@ -5,10 +5,16 @@
         <span class="text-xs-right">Current cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
       </div>
 
+             
       <v-layout row wrap>
         <v-flex xs12 class="pa-2">
+        
+          <template v-for="(chip, index) in spendingsCategory">
+            <v-chip close class="chipper" v-model="spendingsCategory['chip' + index]">{{ chip }}</v-chip>
+          </template>
+          <br>
 
-    		<v-dialog v-model="dialog" persistent>
+        <v-dialog v-model="dialog" persistent>
           <v-btn icon slot="activator" class="grey lighten-4 green--text">
             <v-icon>add</v-icon>
           </v-btn>
@@ -101,7 +107,7 @@
                       <v-select
                         v-bind:items="spendingsCategory"
                         v-model="props.item.type"
-                        @input="newSpendingType($event, props.item.type, props.item.thisKey)"
+                        @input="newSpendingType($event, props.item.thisKey)"
                         single-line
                         auto
                       ></v-select>
@@ -126,7 +132,7 @@
           </template>
         </template>
 
-
+ 
 
 
         <!-- <div id="piechart" width="400" style="height: 500px;"></div> -->
@@ -154,7 +160,7 @@
                   label="Type"
                   v-model="incomeType"
                   required 
-                  :items="['Work', 'Freelance']"
+                  :items="incomesCategory"
                   ></v-select>
     		        <v-menu lazy 
                   :close-on-content-click="false" 
@@ -200,7 +206,15 @@
                     </v-btn>
                     {{ props.item.date }}
                    </td>
-                  <td class="inc-type text-xs-left">{{ props.item.type }}</td>
+                  <td class="inc-type text-xs-left">
+                    <v-select
+                      v-bind:items="incomesCategory"
+                      v-model="props.item.type"
+                      @input="newIncomeType($event, props.item.thisKey)"
+                      single-line
+                      auto
+                    ></v-select>
+                  </td>
                   <td class="inc-income cost-td text-xs-right">
                     <v-edit-dialog> 
                       {{ props.item.income }}
@@ -256,10 +270,14 @@
     // },
     mounted () {
       this.computeCash()
+      this.computeSpendingsChips()
     },
     data () {
       return {
+        select: null,
         spendingsCategory: ['Food', 'Passage', 'Home', 'Other'],
+        spendingsChips: [],
+        incomesCategory: ['Work', 'Freelance'],
         spendingsTypeSelect: null,
         counter: 0,
         uncoverSpendingsData: null,
@@ -306,6 +324,14 @@
       }
     },
     methods: {
+      computeSpendingsChips () {
+        this.spendingsCategory.forEach((i, index) => {
+          var obj = {}
+          var prop = 'chip' + index
+          obj[prop] = true
+          this.spendingsChips.push(obj)
+        })
+      },
       addPurchase () {
         if (this.$refs.form.validate()) {
           var form = this.$refs.form
@@ -393,13 +419,22 @@
             name: e.target.value
           })
       },
-      newSpendingType (e, type, key) {
+      newSpendingType (type, key) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data')
           .child('spendings')
           .child(key).update({
-            type: e
+            type: type
+          })
+      },
+      newIncomeType (type, key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('incomes')
+          .child(key).update({
+            type: type
           })
       },
       newSpendingCost (e, cost, key) {
