@@ -3,7 +3,7 @@
     <v-container fluid grid-list-md>
 
       <v-layout row wrap>
-        <v-flex xs8 class="pa-3">
+        <v-flex xs8 class="pa-2">
             <v-list>
               <template v-for="user in this.$root.users">
                 <template v-if="user.id === $store.getters.user.id">
@@ -74,7 +74,7 @@
           </v-expansion-panel>  
         </v-flex>
         <v-flex xs4>
-          <v-container fluid grid-list-md class="pa-3">
+          <v-container fluid grid-list-md class="pa-2">
             <v-layout row wrap>
               <v-flex>
                 <v-form transition="fade-transition" v-model="todoFormValid" ref="todoForm">

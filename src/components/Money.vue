@@ -1,178 +1,183 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <div>
-      <div class="all-sum">
-        <span>
-          <h5 class="text-xs-right">{{cashSum}} {{currentCurrency}}</h5>
-        </span>
+      <div class="all-sum elevation-1">
+        <span class="text-xs-right">Current cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
       </div>
-  		<v-dialog v-model="dialog" persistent>
-        <v-btn icon slot="activator" class="grey lighten-4 green--text">
-          <v-icon>add</v-icon>
-        </v-btn>
 
-        <v-card>
-          <v-card-title>
-            <span class="headline">Add new spend</span>
-          </v-card-title>
-          <v-card-text>
+      <v-layout row wrap>
+        <v-flex xs12 class="pa-2">
 
-          	<v-form v-model="valid" ref="form">
+    		<v-dialog v-model="dialog" persistent>
+          <v-btn icon slot="activator" class="grey lighten-4 green--text">
+            <v-icon>add</v-icon>
+          </v-btn>
 
-  	          <v-text-field 
-                v-model="cost" 
-                label="Cost" 
-                :rules="costRules" 
-                required 
-                ></v-text-field>
-              
-              <v-text-field 
-                v-model="purName" 
-                :rules="purRules" 
-                :counter="25"  
-                label="Purchase name" 
-                required
-                ></v-text-field>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Add new spend</span>
+            </v-card-title>
+            <v-card-text>
 
-  	          <v-select 
-                v-model="type" 
-                :rules="typeRules" 
-                label="Type" 
-                required 
-                :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
-  		        
-              <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-  		          <v-text-field :rules="dateRules" slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
-  		          <v-date-picker v-model="picker" autosave no-title scrollable actions>
-  		            <template scope="{ save, cancel }">
-  		              <v-card-actions>
-  		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-  		                <v-btn flat primary @click.native="save()">Save</v-btn>
-  		              </v-card-actions>
-  		            </template>
-  		          </v-date-picker>
-  		        </v-menu>
+            	<v-form v-model="valid" ref="form">
 
-  	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-              <v-btn class="green--text darken-1" @click="addPurchase" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
-  		      
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
+    	          <v-text-field 
+                  v-model="cost" 
+                  label="Cost" 
+                  :rules="costRules" 
+                  required 
+                  ></v-text-field>
+                
+                <v-text-field 
+                  v-model="purName" 
+                  :rules="purRules" 
+                  :counter="25"  
+                  label="Purchase name" 
+                  required
+                  ></v-text-field>
 
-      <br>
+    	          <v-select 
+                  v-model="type" 
+                  :rules="typeRules" 
+                  label="Type" 
+                  required 
+                  :items="['Food', 'Passage', 'Home', 'Other']"></v-select>
+    		        
+                <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
+    		          <v-text-field :rules="dateRules" slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
+    		          <v-date-picker v-model="picker" autosave no-title scrollable actions>
+    		            <template scope="{ save, cancel }">
+    		              <v-card-actions>
+    		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+    		                <v-btn flat primary @click.native="save()">Save</v-btn>
+    		              </v-card-actions>
+    		            </template>
+    		          </v-date-picker>
+    		        </v-menu>
 
-      <!-- SPENDINGS -->
-      <template v-for="user in this.$root.users">
-        <template v-if="user.id === $store.getters.user.id">
-          <template v-if="user.data && user.data.spendings">
-              <v-data-table
-                v-bind:headers="spendingHeader"
-                :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
-                item-key="index"
-                selected-key  
+    	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
+                <v-btn class="green--text darken-1" @click="addPurchase" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
+    		      
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+
+        <br>
+
+        <!-- SPENDINGS -->
+        <template v-for="user in this.$root.users">
+          <template v-if="user.id === $store.getters.user.id">
+            <template v-if="user.data && user.data.spendings">
+                <v-data-table
+                  pagination.sync
+                  v-bind:headers="spendingHeader"
+                  :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
+                  :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
+                  item-key="index"
+                  class="spending-table">
+                  <template slot="items" scope="props">
+                    <td class="pur-date text-xs-left">
+                      <v-btn class="completed-todos" @click="deletePurchase(props.item.thisKey)" icon>
+                        <v-icon class="grey--text">delete</v-icon>
+                      </v-btn>
+                      {{ props.item.date }}
+                    </td>
+                    <td class="pur-name">{{ props.item.name }}</td>
+                    <td class="pur-type text-xs-left">{{ props.item.type }}</td>
+                    <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+            
+                </template>      
+              </v-data-table>
+            </template>      
+          </template>
+        </template>
+
+
+
+
+        <!-- <div id="piechart" width="400" style="height: 500px;"></div> -->
+
+        <v-dialog v-model="dialog2" persistent>
+          <v-btn icon slot="activator" class="grey lighten-4 green--text">
+            <v-icon>attach_money</v-icon>
+          </v-btn>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Add new income</span>
+            </v-card-title>
+            <v-card-text>
+            	<v-form v-model="valid2" ref="form2">
+
+    	          <v-text-field 
+                  label="Income cash"
+                  v-model="income"
+                  :rules="costRules"
+                  required 
+                  ></v-text-field>
+                <v-select 
+                  id="type" 
+                  :rules="purRules"
+                  label="Type"
+                  v-model="incomeType"
+                  required 
+                  :items="['Work', 'Freelance']"
+                  ></v-select>
+    		        <v-menu lazy 
+                  :close-on-content-click="false" 
+                  v-model="date2" 
+                  transition="scale-transition" 
+                  offset-y full-width 
+                  :nudge-left="40" 
+                  max-width="290px">
+    		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
+    		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
+    		            <template scope="{ save, cancel }">
+    		              <v-card-actions>
+    		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+    		                <v-btn flat primary @click.native="save()">Save</v-btn>
+    		              </v-card-actions>
+    		            </template>
+    		          </v-date-picker>
+    		        </v-menu>
+    	          <v-btn class="red--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
+    	          <v-btn class="green--text darken-1" @click="addIncome" @click.native="valid2 ? dialog2 = false : null" flat>Add</v-btn>
+
+    		      </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+
+    		<br>
+
+        <!-- INCOMES -->
+        <template v-for="user in this.$root.users">
+          <template v-if="user.id === $store.getters.user.id">
+            <template v-if="user.data && user.data.incomes">
+
+              <v-data-table 
+                v-bind:headers="incomeHeader" 
+                :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
+                :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
                 class="spending-table">
                 <template slot="items" scope="props">
-                  <td class="pur-date text-xs-left">
-                    <v-btn class="completed-todos" @click="deletePurchase(props.item.thisKey)" icon>
+                  <td class="inc-date text-xs-left">
+                    <v-btn class="completed-todos" @click="deleteIncome(props.item.thisKey)" icon>
                       <v-icon class="grey--text">delete</v-icon>
                     </v-btn>
                     {{ props.item.date }}
-                  </td>
-                  <td class="pur-name">{{ props.item.name }}</td>
-                  <td class="pur-type text-xs-left">{{ props.item.type }}</td>
-                  <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
-          
-              </template>      
-            </v-data-table>
-          </template>      
+                   </td>
+                  <td class="inc-type text-xs-left">{{ props.item.type }}</td>
+                  <td class="inc-income cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
+                </template>
+              </v-data-table>
+
+
+            </template>      
+          </template>
         </template>
-      </template>
-
-
-
-
-      <!-- <div id="piechart" width="400" style="height: 500px;"></div> -->
-
-      <v-dialog v-model="dialog2" persistent>
-        <v-btn icon slot="activator" class="grey lighten-4 green--text">
-          <v-icon>attach_money</v-icon>
-        </v-btn>
-        <v-card>
-          <v-card-title>
-            <span class="headline">Add new income</span>
-          </v-card-title>
-          <v-card-text>
-          	<v-form v-model="valid2" ref="form2">
-
-  	          <v-text-field 
-                label="Income cash"
-                v-model="income"
-                :rules="costRules"
-                required 
-                ></v-text-field>
-              <v-select 
-                id="type" 
-                :rules="purRules"
-                label="Type"
-                v-model="incomeType"
-                required 
-                :items="['Work', 'Freelance']"
-                ></v-select>
-  		        <v-menu lazy 
-                :close-on-content-click="false" 
-                v-model="date2" 
-                transition="scale-transition" 
-                offset-y full-width 
-                :nudge-left="40" 
-                max-width="290px">
-  		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
-  		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
-  		            <template scope="{ save, cancel }">
-  		              <v-card-actions>
-  		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-  		                <v-btn flat primary @click.native="save()">Save</v-btn>
-  		              </v-card-actions>
-  		            </template>
-  		          </v-date-picker>
-  		        </v-menu>
-  	          <v-btn class="red--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
-  	          <v-btn class="green--text darken-1" @click="addIncome" @click.native="valid2 ? dialog2 = false : null" flat>Add</v-btn>
-
-  		      </v-form>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-
-  		<br>
-
-      <!-- INCOMES -->
-      <template v-for="user in this.$root.users">
-        <template v-if="user.id === $store.getters.user.id">
-          <template v-if="user.data && user.data.incomes">
-
-            <v-data-table 
-              v-bind:headers="incomeHeader" 
-              :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
-              class="spending-table">
-              <template slot="items" scope="props">
-                <td class="inc-date text-xs-left">
-                  <v-btn class="completed-todos" @click="deleteIncome(props.item.thisKey)" icon>
-                    <v-icon class="grey--text">delete</v-icon>
-                  </v-btn>
-                  {{ props.item.date }}
-                 </td>
-                <td class="inc-type text-xs-left">{{ props.item.type }}</td>
-                <td class="inc-income cost-td text-xs-right">{{ props.item.income }} <span class="cost">{{currentCurrency}}</span></td>
-              </template>
-            </v-data-table>
-
-
-          </template>      
-        </template>
-      </template>
-
+      </v-flex>
+      </v-layout>
 
     </div>
   </transition>

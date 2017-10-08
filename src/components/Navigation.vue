@@ -14,7 +14,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="blue darken-1" dark>
+    <v-toolbar class="deep-orange darken-2" dark>
       <v-flex xs9>
         <v-layout row wrap>
           <v-toolbar-title style="font-family: 'Raleway', sans-serif;">Ramona</v-toolbar-title>
