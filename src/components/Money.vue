@@ -189,8 +189,7 @@
     //   }
     // },
     mounted () {
-      this.takeOf()
-      this.incomeAppending()
+      this.computeCash()
     },
     data () {
       return {
@@ -238,41 +237,37 @@
       }
     },
     methods: {
-      uncoverSpendings () {
-
-      },
-      cashSumToNumber () {
-        this.addCapitalMode = false
-        this.cashSum = +this.cashSum
-      },
       addPurchase () {
         if (this.$refs.form.validate()) {
-          console.log('Add')
           var form = this.$refs.form
           var cost = +form.$el[0].value
+          var name = form.$el[1].value
+          var type = form.$el[2].previousSibling.textContent
+          var date = form.$el[3].value
           const key = this.$store.getters.user.key
-          this.$root.$firebaseRefs.users
-            .child(key)
-            .child('data')
-            .child('spendings').push({
-              cost: cost,
-              name: form.$el[1].value,
-              type: form.$el[2].previousSibling.textContent,
-              date: form.$el[3].value
-            })
-            .then(i => {
-              this.$root.$firebaseRefs.users
-                .child(key)
-                .child('data')
-                .child('spendings')
-                .child(i.key)
-                .update({
-                  thisKey: i.key
-                })
-            })
-
-          this.cashSum -= +cost
-          setTimeout(() => this.$refs.form.reset(), 50)
+          if (cost !== '' && name !== '' && type !== '' && date !== '') {
+            this.$root.$firebaseRefs.users
+              .child(key)
+              .child('data')
+              .child('spendings').push({
+                cost,
+                name,
+                type,
+                date
+              })
+              .then(i => {
+                this.$root.$firebaseRefs.users
+                  .child(key)
+                  .child('data')
+                  .child('spendings')
+                  .child(i.key)
+                  .update({
+                    thisKey: i.key
+                  })
+              })
+          }
+          this.computeCash()
+          setTimeout(() => this.$refs.form.reset(), 200)
         }
       },
       addIncome () {
@@ -286,9 +281,7 @@
             .child(key)
             .child('data')
             .child('incomes').push({
-              type,
-              date,
-              income
+              type, date, income
             })
             .then(i => {
               this.$root.$firebaseRefs.users
@@ -301,27 +294,24 @@
                 })
             })
         }
-        this.cashSum += +income
+        this.computeCash()
+        setTimeout(() => this.$refs.form1.reset(), 200)
       },
-      takeOf () {
+      computeCash () {
         this.$root.users.forEach(user => {
           if (user.id === this.$store.getters.user.id) {
-            if (user.data && user.data.spendings) {
-              Object.keys(user.data.spendings).forEach(i => {
-                this.cashSum -= +user.data.spendings[i].cost
-              })
-            }
-          }
-        })
-      },
-      incomeAppending () {
-        console.log(this.$root.users)
-        this.$root.users.forEach(user => {
-          if (user.id === this.$store.getters.user.id) {
-            if (user.data && user.data.incomes) {
-              Object.keys(user.data.incomes).forEach(i => {
-                this.cashSum += +user.data.incomes[i].income
-              })
+            if (user.data) {
+              this.cashSum = 0
+              if (user.data.incomes) {
+                Object.keys(user.data.incomes).forEach(i => {
+                  this.cashSum += +user.data.incomes[i].income
+                })
+              }
+              if (user.data.spendings) {
+                Object.keys(user.data.spendings).forEach(i => {
+                  this.cashSum -= +user.data.spendings[i].cost
+                })
+              }
             }
           }
         })
@@ -332,6 +322,7 @@
           .child('data')
           .child('spendings')
           .child(key).remove()
+        this.computeCash()
       },
       deleteIncome (key) {
         this.$root.$firebaseRefs.users
@@ -339,6 +330,7 @@
           .child('data')
           .child('incomes')
           .child(key).remove()
+        this.computeCash()
       }
     }
   }
