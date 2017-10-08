@@ -63,16 +63,19 @@
       </v-dialog>
 
   		<br>
+
       <template v-for="user in this.$root.users">
         <template v-if="user.id === $store.getters.user.id">
           <template v-if="user.data && user.data.spendings">
-              <v-data-table 
-                v-bind:headers="spendingHeader" 
+              <v-data-table
+                v-bind:headers="spendingHeader"
                 :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
+                item-key="index"
+                selected-key  
                 class="spending-table">
-          	    <template slot="items" scope="props">
-          	       <td class="pur-date text-xs-left">
-          	      	<v-btn class="completed-todos" @click="deletePurchase" icon>
+                <template slot="items" scope="props">
+                  <td class="pur-date text-xs-left">
+          	      	<v-btn class="completed-todos" @click="deletePurchase(props.item.thisKey)" icon>
           		        <v-icon class="grey--text">delete</v-icon>
           		      </v-btn>
           		      {{ props.item.date }}
@@ -80,6 +83,7 @@
           	      <td class="pur-name">{{ props.item.name }}</td>
           	      <td class="pur-type text-xs-left">{{ props.item.type }}</td>
           	      <td class="pur-cost cost-td text-xs-right">{{ props.item.cost }} <span class="cost">{{currentCurrency}}</span></td>
+          
               </template>      
             </v-data-table>
           </template>      
@@ -134,7 +138,7 @@
               class="spending-table">
               <template slot="items" scope="props">
                 <td class="inc-date text-xs-left">
-                  <v-btn class="completed-todos" @click="deleteIncome" icon>
+                  <v-btn class="completed-todos" @click="deleteIncome(props.item.thisKey)" icon>
                     <v-icon class="grey--text">delete</v-icon>
                   </v-btn>
                   {{ props.item.date }}
@@ -190,6 +194,7 @@
     },
     data () {
       return {
+        counter: 0,
         uncoverSpendingsData: null,
         purName: '',
         cost: '',
@@ -233,18 +238,37 @@
       }
     },
     methods: {
+      uncoverSpendings () {
+
+      },
+      cashSumToNumber () {
+        this.addCapitalMode = false
+        this.cashSum = +this.cashSum
+      },
       addPurchase () {
         if (this.$refs.form.validate()) {
-          // this.$refs.form.$el.submit()
-          var cost = +form.$el[0].value
+          console.log('Add')
           var form = this.$refs.form
+          var cost = +form.$el[0].value
+          const key = this.$store.getters.user.key
           this.$root.$firebaseRefs.users
-            .child(this.$store.getters.user.key)
-            .child('data').child('spendings').push({
+            .child(key)
+            .child('data')
+            .child('spendings').push({
               cost: cost,
               name: form.$el[1].value,
               type: form.$el[2].previousSibling.textContent,
               date: form.$el[3].value
+            })
+            .then(i => {
+              this.$root.$firebaseRefs.users
+                .child(key)
+                .child('data')
+                .child('spendings')
+                .child(i.key)
+                .update({
+                  thisKey: i.key
+                })
             })
 
           this.cashSum -= +cost
@@ -256,13 +280,25 @@
         var income = form.$el[0].value
         var type = form.$el[1].previousSibling.textContent
         var date = form.$el[2].value
+        const key = this.$store.getters.user.key
         if (income !== '' && type !== '' && date !== '') {
           this.$root.$firebaseRefs.users
-            .child(this.$store.getters.user.key)
-            .child('data').child('incomes').push({
+            .child(key)
+            .child('data')
+            .child('incomes').push({
               type,
               date,
               income
+            })
+            .then(i => {
+              this.$root.$firebaseRefs.users
+                .child(key)
+                .child('data')
+                .child('incomes')
+                .child(i.key)
+                .update({
+                  thisKey: i.key
+                })
             })
         }
         this.cashSum += +income
@@ -279,6 +315,7 @@
         })
       },
       incomeAppending () {
+        console.log(this.$root.users)
         this.$root.users.forEach(user => {
           if (user.id === this.$store.getters.user.id) {
             if (user.data && user.data.incomes) {
@@ -288,50 +325,23 @@
             }
           }
         })
-      // <template v-for="user in this.$root.users">
-      //   <template v-if="user.id === $store.getters.user.id">
-      //     <template v-if="user.data && user.data.incomes">
-
-      //       <v-data-table
-      //         v-bind:headers="incomeHeader"
-      //         :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
-      //   if ()
-        // var itemsL = Object.keys(this.incomeItems).length
-        // for (var i = 0; i < itemsL; i++) {
-        //   this.cashSum += this.incomeItems[i].income
-        // }
       },
-      deletePurchase (e) {
-        var itemsL = Object.keys(this.spendingItems).length
-        var row = e.target.parentNode.parentNode.parentNode
-        var name = row.querySelector('.pur-name').innerText
-        var type = row.querySelector('.pur-type').innerText
-        var date = row.querySelector('.pur-date').innerText.replace('delete', '').trim()
-        var cost = row.querySelector('.pur-cost').innerText.replace(this.currentCurrency, '').trim()
-        for (var i = 0; i < itemsL; i++) {
-          if (this.spendingItems[i].name) {
-            if (this.spendingItems[i].name === name && this.spendingItems[i].type === type && this.spendingItems[i].date === date) {
-              this.spendingItems.splice(i, 1)
-              this.cashSum += +cost
-            }
-          }
-        }
+      deletePurchase (key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('spendings')
+          .child(key).remove()
       },
-      deleteIncome (e) {
-        var itemsL = Object.keys(this.incomeItems).length
-        var row = e.target.parentNode.parentNode.parentNode
-        var date = row.querySelector('.inc-date').innerText.replace('delete', '').trim()
-        var type = row.querySelector('.inc-type').innerText
-        var income = row.querySelector('.inc-income').innerText.replace(this.currentCurrency, '').trim()
-        for (var i = 0; i < itemsL; i++) {
-          if (this.incomeItems[i].income === +income && this.incomeItems[i].type === type && this.incomeItems[i].date === date) {
-            this.incomeItems.splice(i, 1)
-            this.cashSum -= +income
-            return
-          }
-        }
+      deleteIncome (key) {
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('incomes')
+          .child(key).remove()
       }
     }
   }
 </script>
 
+/
