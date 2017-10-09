@@ -8,23 +8,38 @@
              
       <v-layout row wrap>
         <v-flex xs12 class="pa-2">
-        
-          <template v-for="(chip, index) in spendingsCategory">
-            <v-chip 
-              class="chipper" 
-              close
-              @input="removeCategory($event)"
-              v-model="spendingsCategory['chip' + index]"
-              >{{ chip }}</v-chip>
-          </template>
-          <v-text-field 
-            v-model="newCategory" 
-            label="Add new category"
-            @keyup.enter="addNewCategory()"
-            ></v-text-field>
+<h4>Spendings</h4>
+
+          <v-layout row wrap class="elevation-2">
+            <v-flex xs2 class="pa-2">
+              <v-text-field 
+                v-model="newSpendingCategory" 
+                label="New category"
+                @keyup.enter="addNewSpendingCategory()"
+                ></v-text-field>
+            </v-flex>
+
+            <v-flex xs10 class="pa-2">
+              <template v-for="(chip, index) in spendingsCategory">
+                <v-chip 
+                  class="chipper" 
+                  close
+                  @input="removeSpendingCategory(spendingsCategory[index][1])"
+                  v-model="spendingsCategory['chip' + index]"
+                  >{{ spendingsCategory[index][0] }}</v-chip>
+              </template>
+            </v-flex>
+
+          </v-layout>
           <br>
 
-        <v-dialog v-model="dialog" persistent>
+        
+
+
+        <!-- SPENDINGS -->
+        <div class="elevation-2">
+
+<v-dialog v-model="dialog" persistent>
           <v-btn icon slot="activator" class="grey lighten-4 green--text">
             <v-icon>add</v-icon>
           </v-btn>
@@ -35,9 +50,9 @@
             </v-card-title>
             <v-card-text>
 
-            	<v-form v-model="valid" ref="form">
+              <v-form v-model="valid" ref="form">
 
-    	          <v-text-field 
+                <v-text-field 
                   v-model="cost" 
                   label="Cost" 
                   :rules="costRules" 
@@ -52,36 +67,34 @@
                   required
                   ></v-text-field>
 
-    	          <v-select 
+                <v-select 
                   v-model="type" 
                   :rules="typeRules" 
                   label="Type" 
                   required 
-                  :items="spendingsCategory"></v-select>
-    		        
+                  :items="spendingsCategory.map(i => i[0])"></v-select>
+                
                 <v-menu lazy :close-on-content-click="false" v-model="date" transition="scale-transition" offset-y full-width :nudge-left="40" max-width="290px">
-    		          <v-text-field :rules="dateRules" slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
-    		          <v-date-picker v-model="picker" autosave no-title scrollable actions>
-    		            <template scope="{ save, cancel }">
-    		              <v-card-actions>
-    		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-    		                <v-btn flat primary @click.native="save()">Save</v-btn>
-    		              </v-card-actions>
-    		            </template>
-    		          </v-date-picker>
-    		        </v-menu>
+                  <v-text-field :rules="dateRules" slot="activator" label="Picker in menu" v-model="picker" readonly></v-text-field>
+                  <v-date-picker v-model="picker" autosave no-title scrollable actions>
+                    <template scope="{ save, cancel }">
+                      <v-card-actions>
+                        <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                        <v-btn flat primary @click.native="save()">Save</v-btn>
+                      </v-card-actions>
+                    </template>
+                  </v-date-picker>
+                </v-menu>
 
-    	          <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
+                <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
                 <v-btn class="green--text darken-1" @click="addPurchase" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
-    		      
+              
               </v-form>
             </v-card-text>
           </v-card>
         </v-dialog>
 
-        <br>
 
-        <!-- SPENDINGS -->
         <template v-for="user in this.$root.users">
           <template v-if="user.id === $store.getters.user.id">
             <template v-if="user.data && user.data.spendings">
@@ -115,7 +128,7 @@
                     <!-- <td class="pur-type text-xs-left">{{ props.item.type }}</td> -->
                     <td class="pur-type text-xs-left">
                       <v-select
-                        v-bind:items="spendingsCategory"
+                        v-bind:items="spendingsCategory.map(i => i[0])"
                         v-model="props.item.type"
                         @input="newSpendingType($event, props.item.thisKey)"
                         single-line
@@ -141,13 +154,42 @@
             </template>      
           </template>
         </template>
-
+</div>
  
+        <br>
+        <br>
+        <br>
+<h4>Incomes</h4>
 
 
         <!-- <div id="piechart" width="400" style="height: 500px;"></div> -->
 
-        <v-dialog v-model="dialog2" persistent>
+  
+
+        <v-layout row wrap class="elevation-2">
+          <v-flex xs2 class="pa-2">
+            <v-text-field 
+              v-model="newIncomeCategory" 
+              label="New category"
+              @keyup.enter="addNewIncomeCategory()"
+              ></v-text-field>
+            </v-flex>
+          <v-flex xs10 class="pa-2">
+            <template v-for="(chip, index) in incomesCategory">
+              <v-chip 
+                class="chipper" 
+                close
+                @input="removeIncomeCategory(incomesCategory[index][1])"
+                v-model="incomesCategory['chip' + index]"
+                >{{ incomesCategory[index][0] }}</v-chip>
+            </template>
+          </v-flex>
+        </v-layout>
+
+<br>
+        <!-- INCOMES -->
+        <div class="elevation-2">
+                <v-dialog v-model="dialog2" persistent>
           <v-btn icon slot="activator" class="grey lighten-4 green--text">
             <v-icon>attach_money</v-icon>
           </v-btn>
@@ -156,9 +198,9 @@
               <span class="headline">Add new income</span>
             </v-card-title>
             <v-card-text>
-            	<v-form v-model="valid2" ref="form2">
+              <v-form v-model="valid2" ref="form2">
 
-    	          <v-text-field 
+                <v-text-field 
                   label="Income cash"
                   v-model="income"
                   :rules="costRules"
@@ -170,36 +212,32 @@
                   label="Type"
                   v-model="incomeType"
                   required 
-                  :items="incomesCategory"
+                  :items="incomesCategory.map(i => i[0])"
                   ></v-select>
-    		        <v-menu lazy 
+                <v-menu lazy 
                   :close-on-content-click="false" 
                   v-model="date2" 
                   transition="scale-transition" 
                   offset-y full-width 
                   :nudge-left="40" 
                   max-width="290px">
-    		          <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
-    		          <v-date-picker v-model="picker2" autosave no-title scrollable actions>
-    		            <template scope="{ save, cancel }">
-    		              <v-card-actions>
-    		                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-    		                <v-btn flat primary @click.native="save()">Save</v-btn>
-    		              </v-card-actions>
-    		            </template>
-    		          </v-date-picker>
-    		        </v-menu>
-    	          <v-btn class="red--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
-    	          <v-btn class="green--text darken-1" @click="addIncome" @click.native="valid2 ? dialog2 = false : null" flat>Add</v-btn>
+                  <v-text-field slot="activator" label="Picker in menu" v-model="picker2" readonly></v-text-field>
+                  <v-date-picker v-model="picker2" autosave no-title scrollable actions>
+                    <template scope="{ save, cancel }">
+                      <v-card-actions>
+                        <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                        <v-btn flat primary @click.native="save()">Save</v-btn>
+                      </v-card-actions>
+                    </template>
+                  </v-date-picker>
+                </v-menu>
+                <v-btn class="red--text darken-1" flat @click.native="dialog2 = false">Close</v-btn>
+                <v-btn class="green--text darken-1" @click="addIncome" @click.native="valid2 ? dialog2 = false : null" flat>Add</v-btn>
 
-    		      </v-form>
+              </v-form>
             </v-card-text>
           </v-card>
         </v-dialog>
-
-    		<br>
-
-        <!-- INCOMES -->
         <template v-for="user in this.$root.users">
           <template v-if="user.id === $store.getters.user.id">
             <template v-if="user.data && user.data.incomes">
@@ -218,7 +256,7 @@
                    </td>
                   <td class="inc-type text-xs-left">
                     <v-select
-                      v-bind:items="incomesCategory"
+                      v-bind:items="incomesCategory.map(i => i[0])"
                       v-model="props.item.type"
                       @input="newIncomeType($event, props.item.thisKey)"
                       single-line
@@ -242,6 +280,8 @@
             </template>      
           </template>
         </template>
+        </div>
+
       </v-flex>
       </v-layout>
     </div>
@@ -281,15 +321,18 @@
     mounted () {
       this.computeCash()
       this.computeSpendingsChips()
+      this.computeIncomeships()
       this.fullCategoriesFromDB()
     },
     data () {
       return {
         select: null,
-        newCategory: null,
+        newSpendingCategory: null,
+        newIncomeCategory: null,
         spendingsCategory: [],
         spendingsChips: [],
-        incomesCategory: ['Work', 'Freelance'],
+        incomesCategory: [],
+        incomesChips: [],
         spendingsTypeSelect: null,
         counter: 0,
         uncoverSpendingsData: null,
@@ -336,15 +379,14 @@
       }
     },
     methods: {
-      addNewCategory (e) {
-        // this.spendingsCategory.push(this.newCategory)
+      addNewSpendingCategory () {
         const key = this.$store.getters.user.key
         this.$root.$firebaseRefs.users
           .child(key)
           .child('data')
           .child('spendingsCategories')
           .push({
-            catName: this.newCategory
+            catName: this.newSpendingCategory
           })
           .then(i => {
             this.$root.$firebaseRefs.users
@@ -356,27 +398,70 @@
                 thisKey: i.key
               })
           })
+        this.fullCategoriesFromDB()
+      },
+      addNewIncomeCategory () {
+        const key = this.$store.getters.user.key
+        this.$root.$firebaseRefs.users
+          .child(key)
+          .child('data')
+          .child('incomesCategories')
+          .push({
+            catName: this.newIncomeCategory
+          })
+          .then(i => {
+            this.$root.$firebaseRefs.users
+              .child(key)
+              .child('data')
+              .child('incomesCategories')
+              .child(i.key)
+              .update({
+                thisKey: i.key
+              })
+          })
+        this.fullCategoriesFromDB()
       },
       fullCategoriesFromDB () {
+        this.spendingsCategory = []
         var varSpendingsCategories = this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data')
           .child('spendingsCategories')
         varSpendingsCategories.once('value').then(snapshot => {
           snapshot.forEach(item => {
-            console.log(snapshot.val()[0])
-            // this.spendingsCategory.push(this.$root.$firebaseRefs.users
-            //   .child(this.$store.getters.user.key)
-            //   .child('data')
-            //   .child('spendingsCategories')
-            //   .child(item.key))
+            this.spendingsCategory.push([item.val().catName, item.val().thisKey])
+            console.log(this.spendingsCategory)
           })
         })
-          // .then(i => console.log(i))
-        // this.spendingsCategory
+        this.incomesCategory = []
+        var varIncomesCategories = this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('incomesCategories')
+        varIncomesCategories.once('value').then(snapshot => {
+          snapshot.forEach(item => {
+            this.incomesCategory.push([item.val().catName, item.val().thisKey])
+            console.log(this.incomesCategory)
+          })
+        })
       },
-      removeCategory (e) {
-        this.spendingsCategory.splice(this.spendingsCategory, 1)
+      removeSpendingCategory (key) {
+        console.log(key)
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('spendingsCategories')
+          .child(key).remove()
+        this.fullCategoriesFromDB()
+      },
+      removeIncomeCategory (key) {
+        console.log(key)
+        this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data')
+          .child('incomesCategories')
+          .child(key).remove()
+        this.fullCategoriesFromDB()
       },
       computeSpendingsChips () {
         this.spendingsCategory.forEach((i, index) => {
@@ -384,6 +469,14 @@
           var prop = 'chip' + index
           obj[prop] = true
           this.spendingsChips.push(obj)
+        })
+      },
+      computeIncomeships () {
+        this.incomesCategory.forEach((i, index) => {
+          var obj = {}
+          var prop = 'chip' + index
+          obj[prop] = true
+          this.incomesCategory.push(obj)
         })
       },
       addPurchase () {

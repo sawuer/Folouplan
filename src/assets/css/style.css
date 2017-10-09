@@ -182,5 +182,5 @@ table tr:nth-child(even) {
 	padding-top: 0;
 }
 .chip {
-	opacity: .6 !important;
+	opacity: .5 !important;
 }
