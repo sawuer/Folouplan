@@ -101,7 +101,7 @@
                   <v-data-table
                     pagination.sync
                     v-bind:headers="spendingHeader"
-                    :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
+                    :rows-per-page-items="[5, 20, 50, { text: 'All', value: -1 }]"
                     :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
                     item-key="index"
                     class="spending-table">
@@ -241,7 +241,7 @@
 
               <v-data-table 
                 v-bind:headers="incomeHeader" 
-                :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
+                :rows-per-page-items="[5, 20, 50, { text: 'All', value: -1 }]"
                 :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
                 class="spending-table">
                 <template slot="items" scope="props">
@@ -290,8 +290,8 @@
 
     mounted () {
       this.computeCash()
-      this.computeSpendingsChips()
-      this.computeIncomesChips()
+      // this.computeSpendingsChips()
+      // this.computeIncomesChips()
       this.fullCategoriesFromDB()
     },
     data () {
@@ -299,7 +299,6 @@
         pathCurrentUserData: this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data'),
-        select: null,
         newSpendingCategory: null,
         newIncomeCategory: null,
         spendingsCategory: [],
@@ -309,9 +308,9 @@
         spendingsTypeSelect: null,
         counter: 0,
         uncoverSpendingsData: null,
-        purName: '',
+        purName: null,
         cost: null,
-        type: '',
+        type: null,
         income: null,
         incomeType: null,
         purRules: [
@@ -339,15 +338,15 @@
         cashSum: 0,
         currentCurrency: 'тг',
         spendingHeader: [
-          { text: 'Date', align: 'left', sortable: false, value: 'date' },
-          { text: 'Item', align: 'left', sortable: false, value: 'name' },
-          { text: 'Type', align: 'left', sortable: false, value: 'type' },
-          { text: 'Cost', align: 'right', sortable: false, value: 'cost' }
+          { text: 'Date', align: 'left', sortable: true, value: 'date' },
+          { text: 'Item', align: 'left', sortable: true, value: 'name' },
+          { text: 'Type', align: 'left', sortable: true, value: 'type' },
+          { text: 'Cost', align: 'right', sortable: true, value: 'cost' }
         ],
         incomeHeader: [
-          { text: 'Date', align: 'left', sortable: false, aria_sort: 'descending', value: 'date' },
-          { text: 'Type', align: 'left', sortable: false, value: 'type' },
-          { text: 'Income', align: 'right', sortable: false, value: 'income' }
+          { text: 'Date', align: 'left', sortable: true, aria_sort: 'descending', value: 'date' },
+          { text: 'Type', align: 'left', sortable: true, value: 'type' },
+          { text: 'Income', align: 'right', sortable: true, value: 'income' }
         ]
       }
     },
@@ -429,9 +428,10 @@
           var obj = {}
           var prop = 'chip' + index
           obj[prop] = true
-          this.incomesCategory.push(obj)
+          this.incomesChips.push(obj)
         })
       },
+
       addPurchase () {
         if (this.$refs.form.validate()) {
           var form = this.$refs.form
@@ -440,24 +440,22 @@
           var type = form.$el[2].previousSibling.textContent
           var date = form.$el[3].value
           const key = this.$store.getters.user.key
-          if (money !== '' && name !== '' && type !== '' && date !== '') {
-            this.$root.$firebaseRefs.users
-              .child(key)
-              .child('data')
-              .child('spendings').push({
-                money, name, type, date
-              })
-              .then(i => {
-                this.$root.$firebaseRefs.users
-                  .child(key)
-                  .child('data')
-                  .child('spendings')
-                  .child(i.key)
-                  .update({
-                    thisKey: i.key
-                  })
-              })
-          }
+          this.$root.$firebaseRefs.users
+            .child(key)
+            .child('data')
+            .child('spendings').push({
+              money, name, type, date
+            })
+            .then(i => {
+              this.$root.$firebaseRefs.users
+                .child(key)
+                .child('data')
+                .child('spendings')
+                .child(i.key)
+                .update({
+                  thisKey: i.key
+                })
+            })
           this.computeCash()
           setTimeout(() => this.$refs.form.reset(), 200)
         }
@@ -469,24 +467,22 @@
           var type = form.$el[1].previousSibling.textContent
           var date = form.$el[2].value
           const key = this.$store.getters.user.key
-          if (money !== '' && type !== '' && date !== '') {
-            this.$root.$firebaseRefs.users
-              .child(key)
-              .child('data')
-              .child('incomes').push({
-                type, date, money
-              })
-              .then(i => {
-                this.$root.$firebaseRefs.users
-                  .child(key)
-                  .child('data')
-                  .child('incomes')
-                  .child(i.key)
-                  .update({
-                    thisKey: i.key
-                  })
-              })
-          }
+          this.$root.$firebaseRefs.users
+            .child(key)
+            .child('data')
+            .child('incomes').push({
+              type, date, money
+            })
+            .then(i => {
+              this.$root.$firebaseRefs.users
+                .child(key)
+                .child('data')
+                .child('incomes')
+                .child(i.key)
+                .update({
+                  thisKey: i.key
+                })
+            })
           this.computeCash()
           setTimeout(() => this.$refs.form2.reset(), 200)
         }
