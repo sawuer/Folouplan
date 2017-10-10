@@ -108,7 +108,7 @@
                     <template slot="items" scope="props">
                       
                       <td class="pur-date text-xs-left">
-                        <v-btn class="completed-todos" @click="deletePurchase(props.item.thisKey)" icon>
+                        <v-btn class="completed-todos" @click="deleteItem(props.item.thisKey, 'spendings')" icon>
                           <v-icon class="grey--text">delete</v-icon>
                         </v-btn>
                         {{ props.item.date }}
@@ -139,11 +139,11 @@
                       
                       <td class="pur-cost cost-td text-xs-right">
                         <v-edit-dialog> 
-                          {{ props.item.cost }}
+                          {{ props.item.money }}
                           <v-text-field
                             slot="input"
-                            @keyup.enter="newMoneyCount($event, props.item.cost, props.item.thisKey, 'spendings')"
-                            :value="props.item.cost"
+                            @keyup.enter="newMoneyCount($event, props.item.thisKey, 'spendings')"
+                            :value="props.item.money"
                           ></v-text-field>
                         </v-edit-dialog>
                         <span class="cost">{{currentCurrency}}</span>
@@ -246,7 +246,7 @@
                 class="spending-table">
                 <template slot="items" scope="props">
                   <td class="inc-date text-xs-left">
-                    <v-btn class="completed-todos" @click="deleteIncome(props.item.thisKey)" icon>
+                    <v-btn class="completed-todos" @click="deleteItem(props.item.thisKey, 'incomes')" icon>
                       <v-icon class="grey--text">delete</v-icon>
                     </v-btn>
                     {{ props.item.date }}
@@ -262,11 +262,11 @@
                   </td>
                   <td class="inc-income cost-td text-xs-right">
                     <v-edit-dialog> 
-                      {{ props.item.income }}
+                      {{ props.item.money }}
                       <v-text-field
                         slot="input"
-                        @keyup.enter="newMoneyCount($event, props.item.income, props.item.thisKey, 'incomes')"
-                        :value="props.item.income"
+                        @keyup.enter="newMoneyCount($event, props.item.thisKey, 'incomes')"
+                        :value="props.item.money"
                       ></v-text-field>
                     </v-edit-dialog>
                     <span class="cost">{{currentCurrency}}</span></td>
@@ -448,17 +448,17 @@
       addPurchase () {
         if (this.$refs.form.validate()) {
           var form = this.$refs.form
-          var cost = +form.$el[0].value
+          var money = +form.$el[0].value
           var name = form.$el[1].value
           var type = form.$el[2].previousSibling.textContent
           var date = form.$el[3].value
           const key = this.$store.getters.user.key
-          if (cost !== '' && name !== '' && type !== '' && date !== '') {
+          if (money !== '' && name !== '' && type !== '' && date !== '') {
             this.$root.$firebaseRefs.users
               .child(key)
               .child('data')
               .child('spendings').push({
-                cost, name, type, date
+                money, name, type, date
               })
               .then(i => {
                 this.$root.$firebaseRefs.users
@@ -478,16 +478,16 @@
       addIncome () {
         if (this.$refs.form2.validate()) {
           var form = this.$refs.form2
-          var income = form.$el[0].value
+          var money = form.$el[0].value
           var type = form.$el[1].previousSibling.textContent
           var date = form.$el[2].value
           const key = this.$store.getters.user.key
-          if (income !== '' && type !== '' && date !== '') {
+          if (money !== '' && type !== '' && date !== '') {
             this.$root.$firebaseRefs.users
               .child(key)
               .child('data')
               .child('incomes').push({
-                type, date, income
+                type, date, money
               })
               .then(i => {
                 this.$root.$firebaseRefs.users
@@ -511,12 +511,12 @@
               this.cashSum = 0
               if (user.data.incomes) {
                 Object.keys(user.data.incomes).forEach(i => {
-                  this.cashSum += +user.data.incomes[i].income
+                  this.cashSum += +user.data.incomes[i].money
                 })
               }
               if (user.data.spendings) {
                 Object.keys(user.data.spendings).forEach(i => {
-                  this.cashSum -= +user.data.spendings[i].cost
+                  this.cashSum -= +user.data.spendings[i].money
                 })
               }
             }
@@ -543,39 +543,22 @@
           })
       },
       // Ref
-      newMoneyCount (e, cost, key, collection) {
+      newMoneyCount (e, key, collection) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data')
           .child(collection)
           .child(key).update({
-            [collection === 'spendings' ? 'cost' : 'income']: e.target.value
+            money: e.target.value
           })
         this.computeCash()
       },
-      newSpendingIncome (e, income, key) {
+      // Ref
+      deleteItem (key, collection) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data')
-          .child('incomes')
-          .child(key).update({
-            income: e.target.value
-          })
-        this.computeCash()
-      },
-      deletePurchase (key) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child('spendings')
-          .child(key).remove()
-        this.computeCash()
-      },
-      deleteIncome (key) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child('incomes')
+          .child(collection)
           .child(key).remove()
         this.computeCash()
       }
