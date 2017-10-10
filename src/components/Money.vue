@@ -24,7 +24,7 @@
                 <v-chip 
                   class="chipper" 
                   close
-                  @input="removeSpendingCategory(spendingsCategory[index][1])"
+                  @input="removeCategory(spendingsCategory[index][1], 'spendingsCategories')"
                   v-model="spendingsCategory['chip' + index]"
                   >{{ spendingsCategory[index][0] }}</v-chip>
               </template>
@@ -175,7 +175,7 @@
               <v-chip 
                 class="chipper" 
                 close
-                @input="removeIncomeCategory(incomesCategory[index][1])"
+                @input="removeCategory(incomesCategory[index][1], 'incomesCategories')"
                 v-model="incomesCategory['chip' + index]"
                 >{{ incomesCategory[index][0] }}</v-chip>
             </template>
@@ -291,11 +291,14 @@
     mounted () {
       this.computeCash()
       this.computeSpendingsChips()
-      this.computeIncomeships()
+      this.computeIncomesChips()
       this.fullCategoriesFromDB()
     },
     data () {
       return {
+        pathCurrentUserData: this.$root.$firebaseRefs.users
+          .child(this.$store.getters.user.key)
+          .child('data'),
         select: null,
         newSpendingCategory: null,
         newIncomeCategory: null,
@@ -393,39 +396,23 @@
       },
       fullCategoriesFromDB () {
         this.spendingsCategory = []
-        var varSpendingsCategories = this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child('spendingsCategories')
+        var varSpendingsCategories = this.pathCurrentUserData.child('spendingsCategories')
         varSpendingsCategories.once('value').then(snapshot => {
           snapshot.forEach(item => {
             this.spendingsCategory.push([item.val().catName, item.val().thisKey])
           })
         })
         this.incomesCategory = []
-        var varIncomesCategories = this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child('incomesCategories')
+        var varIncomesCategories = this.pathCurrentUserData.child('incomesCategories')
         varIncomesCategories.once('value').then(snapshot => {
           snapshot.forEach(item => {
             this.incomesCategory.push([item.val().catName, item.val().thisKey])
           })
         })
       },
-      removeSpendingCategory (key) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child('spendingsCategories')
-          .child(key).remove()
-        this.fullCategoriesFromDB()
-      },
-      removeIncomeCategory (key) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child('incomesCategories')
+      removeCategory (key, coll) {
+        this.pathCurrentUserData
+          .child(coll)
           .child(key).remove()
         this.fullCategoriesFromDB()
       },
@@ -437,7 +424,7 @@
           this.spendingsChips.push(obj)
         })
       },
-      computeIncomeships () {
+      computeIncomesChips () {
         this.incomesCategory.forEach((i, index) => {
           var obj = {}
           var prop = 'chip' + index
@@ -506,59 +493,46 @@
       },
       computeCash () {
         this.$root.users.forEach(user => {
-          if (user.id === this.$store.getters.user.id) {
-            if (user.data) {
-              this.cashSum = 0
-              if (user.data.incomes) {
-                Object.keys(user.data.incomes).forEach(i => {
-                  this.cashSum += +user.data.incomes[i].money
-                })
-              }
-              if (user.data.spendings) {
-                Object.keys(user.data.spendings).forEach(i => {
-                  this.cashSum -= +user.data.spendings[i].money
-                })
-              }
+          if (user.id === this.$store.getters.user.id && user.data) {
+            this.cashSum = 0
+            if (user.data.incomes) {
+              Object.keys(user.data.incomes).forEach(i => {
+                this.cashSum += +user.data.incomes[i].money
+              })
+            }
+            if (user.data.spendings) {
+              Object.keys(user.data.spendings).forEach(i => {
+                this.cashSum -= +user.data.spendings[i].money
+              })
             }
           }
         })
       },
       newSpendingTitle (e, spending, key) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
+        this.pathCurrentUserData
           .child('spendings')
           .child(key).update({
             name: e.target.value
           })
       },
-      // Ref
-      newType (type, key, collection) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child(collection)
+      newType (type, key, coll) {
+        this.pathCurrentUserData
+          .child(coll)
           .child(key).update({
             type: type
           })
       },
-      // Ref
-      newMoneyCount (e, key, collection) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child(collection)
+      newMoneyCount (e, key, coll) {
+        this.pathCurrentUserData
+          .child(coll)
           .child(key).update({
             money: e.target.value
           })
         this.computeCash()
       },
-      // Ref
-      deleteItem (key, collection) {
-        this.$root.$firebaseRefs.users
-          .child(this.$store.getters.user.key)
-          .child('data')
-          .child(collection)
+      deleteItem (key, coll) {
+        this.pathCurrentUserData
+          .child(coll)
           .child(key).remove()
         this.computeCash()
       }
