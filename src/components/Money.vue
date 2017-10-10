@@ -142,7 +142,7 @@
                           {{ props.item.cost }}
                           <v-text-field
                             slot="input"
-                            @keyup.enter="newSpendingCost($event, props.item.cost, props.item.thisKey)"
+                            @keyup.enter="newMoneyCount($event, props.item.cost, props.item.thisKey, 'spendings')"
                             :value="props.item.cost"
                           ></v-text-field>
                         </v-edit-dialog>
@@ -265,7 +265,7 @@
                       {{ props.item.income }}
                       <v-text-field
                         slot="input"
-                        @keyup.enter="newSpendingIncome($event, props.item.income, props.item.thisKey)"
+                        @keyup.enter="newMoneyCount($event, props.item.income, props.item.thisKey, 'incomes')"
                         :value="props.item.income"
                       ></v-text-field>
                     </v-edit-dialog>
@@ -532,6 +532,7 @@
             name: e.target.value
           })
       },
+      // Ref
       newType (type, key, collection) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
@@ -541,13 +542,14 @@
             type: type
           })
       },
-      newSpendingCost (e, cost, key) {
+      // Ref
+      newMoneyCount (e, cost, key, collection) {
         this.$root.$firebaseRefs.users
           .child(this.$store.getters.user.key)
           .child('data')
-          .child('spendings')
+          .child(collection)
           .child(key).update({
-            cost: e.target.value
+            [collection === 'spendings' ? 'cost' : 'income']: e.target.value
           })
         this.computeCash()
       },
