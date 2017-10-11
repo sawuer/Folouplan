@@ -1,6 +1,6 @@
-# my-project
+# Sowyer. Live manager.
 
-> A Vue.js project
+> A life manager to manage a list of cases, finances, to keep a diary and compile a mind map. 
 
 ## Build Setup
 
