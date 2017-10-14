@@ -87,7 +87,7 @@
                   </v-menu>
 
                   <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-                  <v-btn class="green--text darken-1" @click="addPurchase" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
+                  <v-btn class="green--text darken-1" @click="addSpending" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
                 
                 </v-form>
               </v-card-text>
@@ -290,8 +290,6 @@
 
     mounted () {
       this.computeCash()
-      // this.computeSpendingsChips()
-      // this.computeIncomesChips()
       this.fullCategoriesFromDB()
     },
     data () {
@@ -302,9 +300,7 @@
         newSpendingCategory: null,
         newIncomeCategory: null,
         spendingsCategory: [],
-        spendingsChips: [],
         incomesCategory: [],
-        incomesChips: [],
         spendingsTypeSelect: null,
         counter: 0,
         uncoverSpendingsData: null,
@@ -394,24 +390,7 @@
           .child(key).remove()
         this.fullCategoriesFromDB()
       },
-      computeSpendingsChips () {
-        this.spendingsCategory.forEach((i, index) => {
-          var obj = {}
-          var prop = 'chip' + index
-          obj[prop] = true
-          this.spendingsChips.push(obj)
-        })
-      },
-      computeIncomesChips () {
-        this.incomesCategory.forEach((i, index) => {
-          var obj = {}
-          var prop = 'chip' + index
-          obj[prop] = true
-          this.incomesChips.push(obj)
-        })
-      },
-
-      addPurchase () {
+      addSpending () {
         if (this.$refs.form.validate()) {
           var form = this.$refs.form
           var money = +form.$el[0].value
@@ -514,5 +493,3 @@
     }
   }
 </script>
-
-/
