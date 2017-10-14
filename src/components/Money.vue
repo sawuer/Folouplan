@@ -15,7 +15,7 @@
               <v-text-field 
                 v-model="newSpendingCategory" 
                 label="New category"
-                @keyup.enter="addNewSpendingCategory()"
+                @keyup.enter="addCategory('spendingsCategories', 'newSpendingCategory')"
                 ></v-text-field>
             </v-flex>
 
@@ -167,7 +167,7 @@
             <v-text-field 
               v-model="newIncomeCategory" 
               label="New category"
-              @keyup.enter="addNewIncomeCategory()"
+              @keyup.enter="addCategory('incomesCategories', 'newIncomeCategory')"
               ></v-text-field>
             </v-flex>
           <v-flex xs10 class="pa-2">
@@ -351,41 +351,20 @@
       }
     },
     methods: {
-      addNewSpendingCategory () {
+      addCategory (coll, catName) {
         const key = this.$store.getters.user.key
         this.$root.$firebaseRefs.users
           .child(key)
           .child('data')
-          .child('spendingsCategories')
+          .child(coll)
           .push({
-            catName: this.newSpendingCategory
+            catName: this[catName]
           })
           .then(i => {
             this.$root.$firebaseRefs.users
               .child(key)
               .child('data')
-              .child('spendingsCategories')
-              .child(i.key)
-              .update({
-                thisKey: i.key
-              })
-          })
-        this.fullCategoriesFromDB()
-      },
-      addNewIncomeCategory () {
-        const key = this.$store.getters.user.key
-        this.$root.$firebaseRefs.users
-          .child(key)
-          .child('data')
-          .child('incomesCategories')
-          .push({
-            catName: this.newIncomeCategory
-          })
-          .then(i => {
-            this.$root.$firebaseRefs.users
-              .child(key)
-              .child('data')
-              .child('incomesCategories')
+              .child(coll)
               .child(i.key)
               .update({
                 thisKey: i.key
