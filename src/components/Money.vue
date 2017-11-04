@@ -2,13 +2,20 @@
   <transition enter-active-class="animated fadeIn">
     <div>
       <div class="all-sum elevation-1">
-        <span class="text-xs-right">Current cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
+         <v-layout row wrap>
+          <v-flex xs6 class="pa-2">
+            <span class="text-xs-right lighten-4 green--text">CAPITAL: <b>{{capital}} {{currentCurrency}}</b></span>
+          </v-flex>
+          <v-flex xs6 class="pa-2">
+            <span class="text-xs-right">Current cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
+          </v-flex>
+         </v-layout>
       </div>
 
              
       <v-layout row wrap>
         <v-flex xs12 class="pa-2">
-          <h4>Spendings</h4>
+          <h5>Spendings</h5>
 
           <v-layout row wrap class="elevation-2">
             <v-flex xs2 class="pa-2">
@@ -37,7 +44,7 @@
 
 
         <!-- SPENDINGS -->
-        <div class="elevation-2">
+        <div class="">
 
           <v-dialog v-model="dialog" persistent>
             <v-btn icon slot="activator" class="grey lighten-4 green--text">
@@ -101,16 +108,20 @@
                   <v-data-table
                     pagination.sync
                     v-bind:headers="spendingHeader"
-                    :rows-per-page-items="[5, 20, 50, { text: 'All', value: -1 }]"
+                    :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
                     :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
                     item-key="index"
                     class="spending-table">
                     <template slot="items" scope="props">
-                      
+
+                      <tr :style="props.item.inFuture ? 'opacity: 0.5;' : ''">
                       <td class="pur-date text-xs-left">
-                        <v-btn class="completed-todos" @click="deleteItem(props.item.thisKey, 'spendings')" icon>
+                        <v-btn title="delete" class="completed-todos" @click="deleteItem(props.item.thisKey, 'spendings')" icon>
                           <v-icon class="grey--text">delete</v-icon>
                         </v-btn>
+                        <!-- <v-btn title="In future" class="completed-todos" @click="setInFuture(props.item.thisKey, 'spendings')" icon>
+                          <v-icon class="grey--text">access_time</v-icon>
+                        </v-btn> -->
                         {{ props.item.date }}
                       </td>
 
@@ -148,7 +159,7 @@
                         </v-edit-dialog>
                         <span class="cost">{{currentCurrency}}</span>
                       </td>
-              
+                      </tr>
                   </template>      
                 </v-data-table>
               </template>      
@@ -159,7 +170,8 @@
         <br>
         <br>
         <br>
-        <h4>Incomes</h4>
+        <br>
+        <h5>Incomes</h5>
 
 
         <v-layout row wrap class="elevation-2">
@@ -185,10 +197,10 @@
         <br>
 
         <!-- INCOMES -->
-        <div class="elevation-2">
+        <div class="">
           <v-dialog v-model="dialog2" persistent>
           <v-btn icon slot="activator" class="grey lighten-4 green--text">
-            <v-icon>attach_money</v-icon>
+            <v-icon>add</v-icon>
           </v-btn>
           <v-card>
             <v-card-title>
@@ -241,7 +253,7 @@
 
               <v-data-table 
                 v-bind:headers="incomeHeader" 
-                :rows-per-page-items="[5, 20, 50, { text: 'All', value: -1 }]"
+                :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
                 :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
                 class="spending-table">
                 <template slot="items" scope="props">
@@ -277,9 +289,9 @@
             </template>      
           </template>
         </template>
-        </div>
+      </div>
 
-      </v-flex>
+        </v-flex>
       </v-layout>
     </div>
   </transition>
@@ -290,6 +302,7 @@
 
     mounted () {
       this.computeCash()
+      this.computeCapital()
       this.fullCategoriesFromDB()
     },
     data () {
@@ -332,6 +345,7 @@
         date: false,
         date2: false,
         cashSum: 0,
+        capital: 0,
         currentCurrency: 'тг',
         spendingHeader: [
           { text: 'Date', align: 'left', sortable: true, value: 'date' },
@@ -415,6 +429,7 @@
                 })
             })
           this.computeCash()
+          this.computeCapital()
           setTimeout(() => this.$refs.form.reset(), 200)
         }
       },
@@ -442,6 +457,7 @@
                 })
             })
           this.computeCash()
+          this.computeCapital()
           setTimeout(() => this.$refs.form2.reset(), 200)
         }
       },
@@ -457,6 +473,18 @@
             if (user.data.spendings) {
               Object.keys(user.data.spendings).forEach(i => {
                 this.cashSum -= +user.data.spendings[i].money
+              })
+            }
+          }
+        })
+      },
+      computeCapital () {
+        this.$root.users.forEach(user => {
+          if (user.id === this.$store.getters.user.id && user.data) {
+            this.capital = 0
+            if (user.data.spendings) {
+              Object.keys(user.data.spendings).forEach(i => {
+                this.capital += user.data.spendings[i].type === 'Capital' ? +user.data.spendings[i].money : 0
               })
             }
           }
@@ -483,13 +511,38 @@
             money: e.target.value
           })
         this.computeCash()
+        this.computeCapital()
       },
       deleteItem (key, coll) {
         this.pathCurrentUserData
           .child(coll)
           .child(key).remove()
         this.computeCash()
+        this.computeCapital()
       }
+      // setInFuture (key, coll) {
+        // var path = this.pathCurrentUserData.child(coll).child(key)
+        // var inFut
+        // path.on('value', (snapshot) => {
+        //   inFut = snapshot.val().inFuture
+        //   console.log(snapshot.val())
+        // })
+        // if (inFut) {
+        // console.log('true')
+        // this.pathCurrentUserData
+        //   .child(coll)
+        //   .child(key).update({
+        //     inFuture: false
+        //   })
+        // } else {
+        //   console.log('false')
+        //   this.pathCurrentUserData
+        //     .child(coll)
+        //     .child(key).update({
+        //       inFuture: false
+        //     })
+        // }
+      // }
     }
   }
 </script>

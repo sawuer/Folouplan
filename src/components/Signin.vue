@@ -56,7 +56,7 @@
         }).then(i => {
           setTimeout(() => {
             if (this.$store.getters.user !== null) {
-              this.$router.push('/todolist')
+              this.$router.push('/money')
             } else {
               this.$router.push('/signin')
             }

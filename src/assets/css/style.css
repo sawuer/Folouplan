@@ -110,13 +110,15 @@ nav {
 	position: fixed;
 	right: 0;
 	background: #fff;
-	padding: 7px 15px 4px 15px;
+	padding: 0 15px;
 	top: 50px;
 	z-index: 1;
 	font-size: 16px;
 	border-bottom-left-radius: 2px;
+	white-space: nowrap;
 	/*box-shadow: 0 2px 3px 0 rgba(0,0,0,.1);*/
 }
+
 .application .theme--light.input-group--selection-controls .icon, 
 .application .theme--light.input-group--selection-controls:not(.input-group--active) .input-group__input {
 	color: rgba(0,0,0,.20);
@@ -184,3 +186,23 @@ table tr:nth-child(even) {
 .chip {
 	opacity: .5 !important;
 }
+td .btn--icon {
+	height: 20px;
+	width: 20px;
+}
+td .btn__content .icon {
+	font-size: 15px;
+}
+table.table tbody td, table.table tbody th {
+	height: auto !important;
+}
+
+.chip {
+	margin: 5px !important;
+}
+
+
+
+
+
+
