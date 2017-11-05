@@ -1,6 +1,6 @@
-# Sowyer. Live manager.
+# Followplan. Live manager.
 
-> A life manager to manage a list of cases, finances, to keep a diary and compile a mind map. 
+> A life manager to manage a todos, finances, notes. 
 
 ## Build Setup
 
@@ -27,4 +27,3 @@ npm run e2e
 npm test
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -18,8 +18,8 @@
       <v-flex xs9>
         <v-layout row wrap>
           <v-toolbar-title style="font-family: 'Raleway', sans-serif;">
-            <div style="float: left;"><b>Sowyer</b></div>
-            <div style="font-size: 12px; float: left; padding-right: 12px; font-weigth: lighter; transform: translate(12px, 8px);">your life under control</div>
+            <div style="float: left;"><b>Followplan</b></div>
+           <!-- <div style="font-size: 12px; float: left; padding-right: 12px; font-weigth: lighter; transform: translate(12px, 8px);">your life under control</div> -->
           </v-toolbar-title>
         </v-layout>
       </v-flex>  
@@ -59,7 +59,7 @@
           menuItems = [
             { title: 'Todolist', path: '/todolist', icon: 'storage' },
             { title: 'Money', path: '/money', icon: 'attach_money' },
-            { title: 'Diary', path: '/diary', icon: 'book' }
+            { title: 'Notes', path: '/notes', icon: 'book' }
           ]
         }
         return menuItems

@@ -18,7 +18,7 @@ export default new Router({
     { path: '/todolist', component: Todo },
     { path: '/signup', component: Auth },
     { path: '/money', component: Money },
-    { path: '/diary', component: Diary },
+    { path: '/notes', component: Diary },
     { path: '/signin', component: Signin },
     { path: '/challenges', component: Challenges },
     { path: '/configs', componnent: Configs }
