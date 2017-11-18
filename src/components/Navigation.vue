@@ -14,7 +14,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="elevation-2 deep-orange darken-2" dark>
+    <v-toolbar class="elevation-1 deep-orange darken-2" dark>
       <v-flex xs9>
         <v-layout row wrap>
           <v-toolbar-title style="font-family: 'Raleway', sans-serif;">
@@ -58,8 +58,8 @@
         if (this.userIsAuthenticated) {
           menuItems = [
             { title: 'Todolist', path: '/todolist', icon: 'storage' },
-            { title: 'Money', path: '/money', icon: 'attach_money' },
-            { title: 'Notes', path: '/notes', icon: 'book' }
+            { title: 'Money', path: '/money', icon: 'attach_money' }
+            // { title: 'Notes', path: '/notes', icon: 'book' }
           ]
         }
         return menuItems

@@ -1,7 +1,12 @@
 <template>
   <div>
     <div v-if="!loaded">
-      <v-progress-circular id="main-preloader" indeterminate v-bind:size="70" v-bind:width="7" class="blue--text lighten-1--text"></v-progress-circular>
+      <v-progress-circular 
+        id="main-preloader" 
+        indeterminate 
+        v-bind:size="70" 
+        v-bind:width="7" 
+        class="deep-orange--text"></v-progress-circular>
     </div>
     <div v-else>
       <div id="app">

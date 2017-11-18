@@ -1,7 +1,7 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <div>
-      <div class="all-sum elevation-1">
+      <div class="all-sum grey-border">
          <v-layout row wrap>
           <v-flex xs6 class="pa-2">
             <span class="text-xs-right lighten-4 green--text">CAPITAL: <b>{{capital}} {{currentCurrency}}</b></span>
@@ -17,11 +17,11 @@
         <v-flex xs12 class="pa-2">
           <h5>Spendings</h5>
 
-          <v-layout row wrap class="elevation-2">
+          <v-layout row wrap class="grey-border category-container">
             <v-flex xs2 class="pa-2">
               <v-text-field 
+                single-line
                 v-model="newSpendingCategory" 
-                label="New category"
                 @keyup.enter="addCategory('spendingsCategories', 'newSpendingCategory')"
                 ></v-text-field>
             </v-flex>
@@ -44,7 +44,7 @@
 
 
         <!-- SPENDINGS -->
-        <div class="">
+        <div class="table-section">
 
           <v-dialog v-model="dialog" persistent>
             <v-btn icon slot="activator" class="grey lighten-4 green--text">
@@ -69,7 +69,7 @@
                   <v-text-field 
                     v-model="purName" 
                     :rules="purRules" 
-                    :counter="25"  
+                    :counter="40"  
                     label="Purchase name" 
                     required
                     ></v-text-field>
@@ -111,17 +111,13 @@
                     :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
                     :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
                     item-key="index"
-                    class="spending-table">
+                    class="spending-table table-even">
                     <template slot="items" scope="props">
 
-                      <tr :style="props.item.inFuture ? 'opacity: 0.5;' : ''">
                       <td class="pur-date text-xs-left">
                         <v-btn title="delete" class="completed-todos" @click="deleteItem(props.item.thisKey, 'spendings')" icon>
                           <v-icon class="grey--text">delete</v-icon>
                         </v-btn>
-                        <!-- <v-btn title="In future" class="completed-todos" @click="setInFuture(props.item.thisKey, 'spendings')" icon>
-                          <v-icon class="grey--text">access_time</v-icon>
-                        </v-btn> -->
                         {{ props.item.date }}
                       </td>
 
@@ -136,7 +132,6 @@
                         </v-edit-dialog> 
                       </td>
 
-                      <!-- <td class="pur-type text-xs-left">{{ props.item.type }}</td> -->
                       <td class="pur-type text-xs-left">
                         <v-select
                           v-bind:items="spendingsCategory.map(i => i[0])"
@@ -145,7 +140,6 @@
                           single-line
                           auto
                         ></v-select>
-                        <!-- {{ props.item.type }} -->
                       </td>
                       
                       <td class="pur-cost cost-td text-xs-right">
@@ -165,6 +159,7 @@
               </template>      
             </template>
           </template>
+
         </div>
  
         <br>
@@ -174,11 +169,11 @@
         <h5>Incomes</h5>
 
 
-        <v-layout row wrap class="elevation-2">
+        <v-layout row wrap class="grey-border category-container">
           <v-flex xs2 class="pa-2">
             <v-text-field 
+              single-line
               v-model="newIncomeCategory" 
-              label="New category"
               @keyup.enter="addCategory('incomesCategories', 'newIncomeCategory')"
               ></v-text-field>
             </v-flex>
@@ -197,7 +192,7 @@
         <br>
 
         <!-- INCOMES -->
-        <div class="">
+        <div class="table-section">
           <v-dialog v-model="dialog2" persistent>
           <v-btn icon slot="activator" class="grey lighten-4 green--text">
             <v-icon>add</v-icon>
@@ -255,7 +250,7 @@
                 v-bind:headers="incomeHeader" 
                 :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
                 :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
-                class="spending-table">
+                class="spending-table table-even">
                 <template slot="items" scope="props">
                   <td class="inc-date text-xs-left">
                     <v-btn class="completed-todos" @click="deleteItem(props.item.thisKey, 'incomes')" icon>
@@ -299,7 +294,6 @@
 
 <script>
   export default {
-
     mounted () {
       this.computeCash()
       this.computeCapital()
@@ -324,7 +318,7 @@
         incomeType: null,
         purRules: [
           (v) => !!v || 'You didn\'t fill out the puchase name',
-          (v) => v && v.length <= 25 || 'Purchase name must be less than 20 characters'
+          (v) => v && v.length <= 40 || 'Purchase name must be less than 40 characters'
         ],
         costRules: [
           (v) => /^\d+$/.test(v) || 'There must be only numbers',

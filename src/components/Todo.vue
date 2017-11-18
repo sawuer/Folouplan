@@ -37,7 +37,7 @@
               </template>
             </v-list>
           <br>
-          <v-expansion-panel>
+          <v-expansion-panel class="elevation-0 grey-border">
             <v-expansion-panel-content>
               <div slot="header">
                 <v-icon>delete_forever</v-icon>
