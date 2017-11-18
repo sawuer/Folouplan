@@ -103,10 +103,10 @@ nav {
 }
 .all-sum {
 	position: fixed;
-	right: 0;
+	right: -1px;
+	top: 49px;
 	background: #fff;
 	padding: 0 15px;
-	top: 50px;
 	z-index: 1;
 	font-size: 16px;
 	border-bottom-left-radius: 2px;
@@ -213,9 +213,16 @@ table.table tbody td, table.table tbody th {
   position: absolute;
   bottom: 6px;
   left: 4px;
-
 }
 
 .category-container .input-group {
 	padding-top: 0;
+}
+
+.spending-table th {
+	padding-top: 0 !important;
+}
+
+.table-name {
+	margin-bottom: 5px;
 }

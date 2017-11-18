@@ -3,10 +3,10 @@
     <div>
       <div class="all-sum grey-border">
          <v-layout row wrap>
-          <v-flex xs6 class="pa-2">
+          <v-flex xs6 class="pa-1">
             <span class="text-xs-right lighten-4 green--text">CAPITAL: <b>{{capital}} {{currentCurrency}}</b></span>
           </v-flex>
-          <v-flex xs6 class="pa-2">
+          <v-flex xs6 class="pa-1">
             <span class="text-xs-right">Current cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
           </v-flex>
          </v-layout>
@@ -15,7 +15,7 @@
              
       <v-layout row wrap>
         <v-flex xs12 class="pa-2">
-          <h5>Spendings</h5>
+          <h5 class="table-name">Spendings</h5>
 
           <v-layout row wrap class="grey-border category-container">
             <v-flex xs2 class="pa-2">
@@ -38,7 +38,6 @@
             </v-flex>
 
           </v-layout>
-          <br>
 
         
 
@@ -164,9 +163,7 @@
  
         <br>
         <br>
-        <br>
-        <br>
-        <h5>Incomes</h5>
+        <h5 class="table-name">Incomes</h5>
 
 
         <v-layout row wrap class="grey-border category-container">
@@ -189,7 +186,6 @@
           </v-flex>
         </v-layout>
 
-        <br>
 
         <!-- INCOMES -->
         <div class="table-section">
