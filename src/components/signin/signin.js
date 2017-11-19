@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import template from './signin.html'
 
 export default {
@@ -15,8 +15,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'signUserIn'
+    ]),
     onSignin () {
-      this.$store.dispatch('signUserIn', {
+      this.signUserIn({
         email: this.email,
         password: this.password
       }).then(i => {

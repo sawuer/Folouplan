@@ -13,6 +13,7 @@
 
 .table-section {
 	position: relative;
+	min-height: 40px;
 }
 
 .table-section .dialog__container {

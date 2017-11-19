@@ -1,4 +1,4 @@
-// import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import template from './navigation.html'
 import user from './../user/user'
 
@@ -6,20 +6,21 @@ export default {
   template,
   name: 'navigation',
   components: { user },
-  // computed: {
-  //   ...mapGetters([
-  //     'user'
-  //   ])
-  // },
   mounted () {
     this.clickOnNavItem()
   },
   methods: {
+    ...mapActions([
+      'setURL'
+    ]),
     clickOnNavItem () {
-      this.$store.dispatch('setURL')
+      this.setURL()
     }
   },
   computed: {
+    ...mapGetters([
+      'user'
+    ]),
     menuItems () {
       let menuItems = [
         { title: 'Sign up', path: '/signup', icon: 'face' },
@@ -35,7 +36,7 @@ export default {
       return menuItems
     },
     userIsAuthenticated () {
-      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      return this.user !== null && this.user !== undefined
     }
   }
 }

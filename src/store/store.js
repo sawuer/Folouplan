@@ -3,12 +3,6 @@ import Vue from 'vue'
 import * as firebase from 'firebase'
 Vue.use(Vuex)
 
-// var hardCodeUser = {
-//   email: 'ruslan.timurziyev@gmail.com',
-//   id: 'V2trMkzu0LckVpvGC8ZibNWPAko2',
-//   key: '-Ky4uln2SRRZ6prMW0m6'
-// }
-
 export const store = new Vuex.Store({
   state: {
     currentURL: null,
