@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App'
+import app from './app'
 import router from './router'
 import VueFire from 'vuefire'
 import * as Firebase from 'firebase'
@@ -37,6 +37,6 @@ new Vue({
   store,
   firebase: { users },
   router,
-  template: '<App/>',
-  components: { App }
+  template: '<app/>',
+  components: { app }
 })

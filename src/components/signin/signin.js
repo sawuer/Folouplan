@@ -3,7 +3,6 @@ import template from './signin.html'
 
 export default {
   template,
-  name: 'Auth',
   computed: {
     ...mapGetters([
       'user'
