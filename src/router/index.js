@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Todo from '@/components/Todo'
 import Auth from '@/components/Auth'
-import Money from '@/components/Money'
+import money from '@/components/money/money'
 import Signin from '@/components/Signin'
 
 Vue.use(Router)
@@ -13,7 +13,7 @@ export default new Router({
   routes: [
     { path: '/todolist', component: Todo },
     { path: '/signup', component: Auth },
-    { path: '/money', component: Money },
+    { path: '/money', component: money },
     { path: '/signin', component: Signin }
   ]
 })

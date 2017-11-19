@@ -1,0 +1,41 @@
+.chip {
+	margin: 5px !important;
+	opacity: .5 !important;
+}
+
+.table-section {
+	position: relative;
+}
+
+.table-section .dialog__container {
+  position: absolute;
+  bottom: 6px;
+  left: 4px;
+}
+
+.category-container .input-group {
+	padding-top: 0;
+}
+
+.category-container {
+	padding: 0 10px;
+}
+
+.spending-table th {
+	padding-top: 0 !important;
+}
+
+.table-name {
+	margin-bottom: 5px;
+}
+
+td .btn--icon {
+	height: 16px;
+	width: 16px;
+}
+td .btn__content .icon {
+	font-size: 13px;
+}
+table.table tbody td, table.table tbody th {
+	height: auto !important;
+}
