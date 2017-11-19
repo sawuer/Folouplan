@@ -52,7 +52,7 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            { title: 'Todolist', path: '/todolist', icon: 'storage' },
+            { title: 'Targets', path: '/targets', icon: 'storage' },
             { title: 'Money', path: '/money', icon: 'attach_money' }
             // { title: 'Notes', path: '/notes', icon: 'book' }
           ]

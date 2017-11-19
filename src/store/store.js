@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import * as Firebase from 'firebase'
+import * as firebase from 'firebase'
 Vue.use(Vuex)
 
 // var hardCodeUser = {
@@ -41,23 +41,23 @@ export const store = new Vuex.Store({
       commit('setUsersInFirebase', users)
     },
     signUserUp ({ dispatch }, userData) {
-      Firebase.auth()
+      firebase.auth()
         .createUserWithEmailAndPassword(userData.email, userData.password)
         .then(user => {
           dispatch('setNewUserId', user.uid)
         })
     },
     signUserIn ({ commit }, userData) {
-      Firebase.auth()
+      firebase.auth()
         .signInWithEmailAndPassword(userData.email, userData.password)
         .then(user => {
           this.state.usersInFirebase.once('value').then(snapshot => {
-            snapshot.forEach(userSnapshot => {
-              if (userSnapshot.val().id === user.uid) {
+            snapshot.forEach(i => {
+              if (i.val().id === user.uid) {
                 commit('setUser', {
                   id: user.uid,
-                  email: Firebase.auth().currentUser.email,
-                  key: userSnapshot.key
+                  email: firebase.auth().currentUser.email,
+                  key: i.key
                 })
               }
             })
@@ -66,7 +66,7 @@ export const store = new Vuex.Store({
     },
     logOut ({ commit }) {
       commit('setUser', null)
-      Firebase.auth().signOut()
+      firebase.auth().signOut()
     }
   },
   getters: {

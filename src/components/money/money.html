@@ -14,13 +14,12 @@
     <v-layout row wrap>
       <v-flex xs12 class="pa-2">
         <h2 class="table-name">Spendings</h2>
-
-        <v-layout row wrap class="grey-border category-container">
-            <v-text-field 
-              single-line
-              v-model="spendingTypeUpdate" 
-              @keyup.enter="addCategory('spendingsCategories', 'spendingTypeUpdate')"
-              ></v-text-field>
+        <v-layout row wrap class="category-container">
+          <v-text-field 
+            single-line
+            v-model="spendingTypeUpdate" 
+            @keyup.enter="addCategory('spendingsCategories', 'spendingTypeUpdate')"
+            ></v-text-field>
           <v-flex xs10 class="pa-2">
             <template v-for="(chip, index) in spendingsCategory">
               <v-chip 
@@ -35,17 +34,14 @@
 
       <!-- SPENDINGS -->
       <div class="table-section">
-
         <v-dialog v-model="dialog" persistent>
           <v-btn icon slot="activator" class="grey lighten-4 green--text">
             <v-icon>add</v-icon>
           </v-btn>
-
           <v-card>
             <v-card-title>
               <span class="headline">Add new spend</span>
             </v-card-title>
-
             <v-card-text>
               <v-form v-model="valid" ref="form">
 
@@ -82,10 +78,8 @@
                     </template>
                   </v-date-picker>
                 </v-menu>
-
                 <v-btn class="red--text darken-1" flat @click.native="dialog = false">Close</v-btn>
                 <v-btn class="green--text darken-1" @click="addSpending" @click.native="valid ? dialog = false : null" flat>Add</v-btn>
-              
               </v-form>
             </v-card-text>
           </v-card>
@@ -149,11 +143,10 @@
           </template>
         </template>
       </div>
-
       <br>
       <br>
       <h2 class="table-name">Incomes</h2>
-      <v-layout row wrap class="grey-border category-container">
+      <v-layout row wrap class="category-container">
           <v-text-field 
             single-line
             v-model="incomeTypeUpdate" 
