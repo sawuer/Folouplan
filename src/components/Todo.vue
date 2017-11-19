@@ -1,6 +1,7 @@
 <template>
   <transition enter-active-class="animated fadeIn">
     <v-container fluid grid-list-md>
+              <h5 class="table-name">Targets</h5>
 
       <v-layout row wrap>
         <v-flex xs8 class="pa-2">

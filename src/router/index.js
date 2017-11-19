@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// Components
 import Todo from '@/components/Todo'
 import Auth from '@/components/Auth'
 import Money from '@/components/Money'
@@ -16,6 +15,5 @@ export default new Router({
     { path: '/signup', component: Auth },
     { path: '/money', component: Money },
     { path: '/signin', component: Signin }
-    // { path: '/notes', component: Diary },
   ]
 })

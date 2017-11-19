@@ -37,7 +37,7 @@ nav {
 	position: fixed !important;
 }
 main {
-	padding-top: 50px;
+	padding-top: 40px;
 }
 .floatR {
 	float: right;
@@ -76,6 +76,16 @@ main {
 .modal-id {
 	display: none;
 }
+.menu__content .list {
+	padding: 0;
+}
+.user-email {
+	padding: 0 16px;
+}
+.menu__content {
+	border: 1px solid #eee;
+	border-radius: 1px;
+}
 .dialog, .menu__content {
 	box-shadow: none !important;
 }
@@ -86,10 +96,10 @@ main {
 	min-width: 33px !important;
 }
 .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~main, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~main {
-	padding-left: 150px !important;
+	padding-left: 55px !important;
 }
 .navigation-drawer {
-	width: 150px !important;
+	width: 55px !important;
 }
 .cash-text {
 	float: right;
@@ -104,9 +114,8 @@ nav {
 .all-sum {
 	position: fixed;
 	right: -1px;
-	top: 49px;
+	top: 39px;
 	background: #fff;
-	padding: 0 15px;
 	z-index: 1;
 	font-size: 16px;
 	border-bottom-left-radius: 2px;
@@ -137,7 +146,7 @@ nav {
 }
 
 .toolbar__content {
-	height: 50px !important
+	height: 40px !important
 }
 
 .table-even tr:nth-child(even) {
@@ -149,8 +158,12 @@ nav {
 }
 
 .navigation-drawer--permanent.navigation-drawer--clipped, .navigation-drawer--permanent.navigation-drawer--floating, .navigation-drawer--persistent.navigation-drawer--clipped, .navigation-drawer--persistent.navigation-drawer--floating {
-	margin-top: 50px !important;
-	max-height: calc(100vh - 50px) !important;
+	margin-top: 40px !important;
+	max-height: calc(100vh - 40px) !important;
+}
+
+table.table tbody td:first-child, table.table tbody td:not(:first-child), table.table tbody th:first-child, table.table tbody th:not(:first-child), table.table thead td:first-child, table.table thead td:not(:first-child), table.table thead th:first-child, table.table thead th:not(:first-child) {
+	padding: 0 15px;
 }
 
 .dropdown-bg li {
@@ -186,11 +199,11 @@ nav {
 	opacity: .5 !important;
 }
 td .btn--icon {
-	height: 20px;
-	width: 20px;
+	height: 16px;
+	width: 16px;
 }
 td .btn__content .icon {
-	font-size: 15px;
+	font-size: 13px;
 }
 table.table tbody td, table.table tbody th {
 	height: auto !important;
@@ -217,6 +230,10 @@ table.table tbody td, table.table tbody th {
 
 .category-container .input-group {
 	padding-top: 0;
+}
+
+.category-container {
+	padding: 0 10px;
 }
 
 .spending-table th {

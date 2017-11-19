@@ -3,10 +3,10 @@
     <div>
       <div class="all-sum grey-border">
          <v-layout row wrap>
-          <v-flex xs6 class="pa-1">
-            <span class="text-xs-right lighten-4 green--text">CAPITAL: <b>{{capital}} {{currentCurrency}}</b></span>
+          <v-flex class="pa-2">
+            <span class="text-xs-right lighten-4 green--text">My CAPITAL: <b>{{capital}} {{currentCurrency}}</b></span>
           </v-flex>
-          <v-flex xs6 class="pa-1">
+          <v-flex class="pa-2">
             <span class="text-xs-right">Current cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
           </v-flex>
          </v-layout>
@@ -18,14 +18,11 @@
           <h5 class="table-name">Spendings</h5>
 
           <v-layout row wrap class="grey-border category-container">
-            <v-flex xs2 class="pa-2">
               <v-text-field 
                 single-line
                 v-model="newSpendingCategory" 
                 @keyup.enter="addCategory('spendingsCategories', 'newSpendingCategory')"
                 ></v-text-field>
-            </v-flex>
-
             <v-flex xs10 class="pa-2">
               <template v-for="(chip, index) in spendingsCategory">
                 <v-chip 
@@ -36,6 +33,7 @@
                   >{{ spendingsCategory[index][0] }}</v-chip>
               </template>
             </v-flex>
+
 
           </v-layout>
 
@@ -167,13 +165,11 @@
 
 
         <v-layout row wrap class="grey-border category-container">
-          <v-flex xs2 class="pa-2">
             <v-text-field 
               single-line
               v-model="newIncomeCategory" 
               @keyup.enter="addCategory('incomesCategories', 'newIncomeCategory')"
               ></v-text-field>
-            </v-flex>
           <v-flex xs10 class="pa-2">
             <template v-for="(chip, index) in incomesCategory">
               <v-chip 
@@ -474,7 +470,7 @@
             this.capital = 0
             if (user.data.spendings) {
               Object.keys(user.data.spendings).forEach(i => {
-                this.capital += user.data.spendings[i].type === 'Capital' ? +user.data.spendings[i].money : 0
+                this.capital += user.data.spendings[i].type === 'капитал' ? +user.data.spendings[i].money : 0
               })
             }
           }

@@ -11,7 +11,9 @@
                 <v-icon>more_vert</v-icon>
               </v-btn>
               <v-list>
-                {{ $store.getters.user.email }}
+                <div class="user-email">
+                  {{ $store.getters.user.email }}
+                </div>
                 <v-list-tile v-for="item in emailDropdown" :key="item.title" @click="">
                   <v-list-tile-title>
                     <span @click="logOut">{{ item.title }}</span>
