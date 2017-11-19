@@ -1,5 +1,5 @@
 <template src="./money.html"></template>
-<style src="./money.css"></style>
+<!-- <style src="./money.css"></style> -->
 
 <script>
   export default {
@@ -194,18 +194,13 @@
         })
       },
       newSpendingTitle (e, spending, key) {
-        this.pathCurrentUserData
-          .child('spendings')
+        this.pathCurrentUserData.child('spendings')
           .child(key).update({
             name: e.target.value
           })
       },
       newType (type, key, coll) {
-        this.pathCurrentUserData
-          .child(coll)
-          .child(key).update({
-            type: type
-          })
+        this.pathCurrentUserData.child(coll).child(key).update({ type })
       },
       newMoneyCount (e, key, coll) {
         this.pathCurrentUserData
