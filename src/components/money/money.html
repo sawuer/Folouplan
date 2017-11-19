@@ -3,10 +3,10 @@
     <div class="money-account grey-border">
       <v-layout row wrap>
         <v-flex class="money-accountItem">
-          <span class="text-xs-right lighten-4 green--text">Capital: <b>{{capital}} {{currentCurrency}}</b></span>
+          <span class="text-xs-right lighten-4 green--text">Capital: <b>{{capital}} {{currency}}</b></span>
         </v-flex>
         <v-flex class="money-accountItem">
-          <span class="text-xs-right">Cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
+          <span class="text-xs-right">Cash: <b>{{cash}} {{currency}}</b></span>
         </v-flex>
       </v-layout>
     </div>
@@ -17,8 +17,8 @@
         <v-layout row wrap class="category-container">
           <v-text-field 
             single-line
-            v-model="spendingTypeUpdate" 
-            @keyup.enter="addCategory('spendingsCategories', 'spendingTypeUpdate')"
+            v-model="newSpendingCategory" 
+            @keyup.enter="addCategory('spendingsCategories', 'newSpendingCategory')"
             ></v-text-field>
           <v-flex xs10 class="pa-2">
             <template v-for="(chip, index) in spendingsCategory">
@@ -109,7 +109,7 @@
                         {{ props.item.name }}
                         <v-text-field
                           slot="input"
-                          @keyup.enter="newSpendingTitle($event, props.item.name, props.item.thisKey)"
+                          @keyup.enter="newSpendingName($event, props.item.name, props.item.thisKey)"
                           :value="props.item.name"
                         ></v-text-field>
                       </v-edit-dialog> 
@@ -134,7 +134,7 @@
                           :value="props.item.money"
                         ></v-text-field>
                       </v-edit-dialog>
-                      <span class="cost">{{currentCurrency}}</span>
+                      <span class="cost">{{currency}}</span>
                     </td>
                     </tr>
                 </template>      
@@ -146,20 +146,22 @@
       <br>
       <br>
       <h2 class="table-name">Incomes</h2>
+
+
       <v-layout row wrap class="category-container">
-          <v-text-field 
-            single-line
-            v-model="incomeTypeUpdate" 
-            @keyup.enter="addCategory('incomeCategories', 'incomeTypeUpdate')"
-            ></v-text-field>
+        <v-text-field 
+          single-line
+          v-model="newIncomeCategory" 
+          @keyup.enter="addCategory('incomesCategories', 'newIncomeCategory')"
+          ></v-text-field>
         <v-flex xs10 class="pa-2">
-          <template v-for="(chip, index) in incomeCategories">
+          <template v-for="(chip, index) in incomesCategories">
             <v-chip 
               class="chipper" 
               close
-              @input="removeCategory(incomeCategories[index][1], 'incomeCategories')"
-              v-model="incomeCategories['chip' + index]"
-              >{{ incomeCategories[index][0] }}</v-chip>
+              @input="removeCategory(incomesCategories[index][1], 'incomesCategories')"
+              v-model="incomesCategories['chip' + index]"
+              >{{ incomesCategories[index][0] }}</v-chip>
           </template>
         </v-flex>
       </v-layout>
@@ -189,7 +191,7 @@
                   label="Type"
                   v-model="incomeType"
                   required 
-                  :items="incomeCategories.map(i => i[0])"
+                  :items="incomesCategories.map(i => i[0])"
                   ></v-select>
                 <v-menu lazy 
                   :close-on-content-click="false" 
@@ -231,7 +233,7 @@
                    </td>
                   <td class="inc-type text-xs-left">
                     <v-select
-                      v-bind:items="incomeCategories.map(i => i[0])"
+                      v-bind:items="incomesCategories.map(i => i[0])"
                       v-model="props.item.type"
                       @input="newType($event, props.item.thisKey, 'incomes')"
                       single-line
@@ -247,7 +249,7 @@
                         :value="props.item.money"
                       ></v-text-field>
                     </v-edit-dialog>
-                    <span class="cost">{{currentCurrency}}</span></td>
+                    <span class="cost">{{currency}}</span></td>
                 </template>
               </v-data-table>
             </template>      

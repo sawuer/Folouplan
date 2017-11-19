@@ -15,20 +15,19 @@ export default {
   },
   data () {
     return {
-      pathCurrentUserData: this.$root.$firebaseRefs.users
-        .child(this.$store.getters.user.key)
-        .child('data'),
+      users: this.$root.$firebaseRefs.users,
+      userData: this.$root.$firebaseRefs.users.child(this.$store.getters.user.key).child('data'),
       spendingAmount: null,
       spendingName: null,
       spendingsType: null,
       spendingsCategory: [],
       spendingsTypeSelect: null,
-      spendingTypeUpdate: null,
+      newSpendingCategory: null,
 
       incomeAmount: null,
       incomeType: null,
-      incomeCategories: [],
-      incomeTypeUpdate: null,
+      incomesCategories: [],
+      newIncomeCategory: null,
       itemNameRules: [
         (v) => !!v || 'You didn\'t fill out the puchase name',
         (v) => v && v.length <= 40 || 'Purchase name must be less than 40 characters'
@@ -51,9 +50,9 @@ export default {
       picker2: null,
       date: false,
       date2: false,
-      cashSum: 0,
+      cash: 0,
       capital: 0,
-      currentCurrency: 'тг',
+      currency: 'тг',
       spendingHeader: [
         { text: 'date', align: 'left', sortable: true, value: 'date' },
         { text: 'item', align: 'left', sortable: true, value: 'name' },
@@ -88,25 +87,24 @@ export default {
             })
         })
       this.fullCategoriesFromDB()
+      this[catName] = null
     },
     fullCategoriesFromDB () {
       this.spendingsCategory = []
-      var varSpendingsCategories = this.pathCurrentUserData.child('spendingsCategories')
-      varSpendingsCategories.once('value').then(snapshot => {
-        snapshot.forEach(item => {
-          this.spendingsCategory.push([item.val().catName, item.val().thisKey])
+      this.userData.child('spendingsCategories').once('value').then(i => {
+        i.forEach(j => {
+          this.spendingsCategory.push([j.val().catName, j.val().thisKey])
         })
       })
-      this.incomeCategories = []
-      var varIncomesCategories = this.pathCurrentUserData.child('incomesCategories')
-      varIncomesCategories.once('value').then(snapshot => {
-        snapshot.forEach(item => {
-          this.incomeCategories.push([item.val().catName, item.val().thisKey])
+      this.incomesCategories = []
+      this.userData.child('incomesCategories').once('value').then(i => {
+        i.forEach(j => {
+          this.incomesCategories.push([j.val().catName, j.val().thisKey])
         })
       })
     },
     removeCategory (key, coll) {
-      this.pathCurrentUserData.child(coll).child(key).remove()
+      this.userData.child(coll).child(key).remove()
       this.fullCategoriesFromDB()
     },
     addSpending () {
@@ -167,56 +165,47 @@ export default {
       }
     },
     deleteItem (key, coll) {
-      this.pathCurrentUserData
-        .child(coll)
-        .child(key).remove()
+      this.userData.child(coll).child(key).remove()
       this.computeCash()
       this.computeCapital()
     },
     computeCash () {
-      this.$root.users.forEach(user => {
-        if (user.id === this.user.id && user.data) {
-          this.cashSum = 0
-          if (user.data.incomes) {
-            Object.keys(user.data.incomes).forEach(i => {
-              this.cashSum += +user.data.incomes[i].money
-            })
-          }
-          if (user.data.spendings) {
-            Object.keys(user.data.spendings).forEach(i => {
-              this.cashSum -= +user.data.spendings[i].money
-            })
-          }
+      this.users.child(this.user.key).once('value').then(i => {
+        this.cash = 0
+        if (i.val().data.incomes) {
+          Object.keys(i.val().data.incomes).forEach(j => {
+            this.cash += +i.val().data.incomes[j].money
+          })
+        }
+        if (i.val().data.spendings) {
+          Object.keys(i.val().data.spendings).forEach(j => {
+            this.cash -= +i.val().data.spendings[j].money
+          })
         }
       })
     },
     computeCapital () {
-      this.$root.users.forEach(user => {
-        if (user.id === this.user.id && user.data) {
-          this.capital = 0
-          if (user.data.spendings) {
-            Object.keys(user.data.spendings).forEach(i => {
-              this.capital += user.data.spendings[i].type === 'капитал' ? +user.data.spendings[i].money : 0
-            })
-          }
+      this.users.child(this.user.key).once('value').then(i => {
+        this.capital = 0
+        if (i.val().data.spendings) {
+          Object.keys(i.val().data.spendings).forEach(j => {
+            this.capital += i.val().data.spendings[j].type === 'капитал' ? +i.val().data.spendings[j].money : 0
+          })
         }
       })
     },
-    newSpendingTitle (e, spending, key) {
-      this.pathCurrentUserData.child('spendings')
-        .child(key).update({
-          name: e.target.value
-        })
+    newSpendingName (e, spending, key) {
+      this.userData.child('spendings').child(key).update({
+        name: e.target.value
+      })
     },
     newType (type, key, coll) {
-      this.pathCurrentUserData.child(coll).child(key).update({ type })
+      this.userData.child(coll).child(key).update({ type })
     },
     newMoneyCount (e, key, coll) {
-      this.pathCurrentUserData
-        .child(coll)
-        .child(key).update({
-          money: e.target.value
-        })
+      this.userData.child(coll).child(key).update({
+        money: e.target.value
+      })
       this.computeCash()
       this.computeCapital()
     }
