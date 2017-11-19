@@ -208,6 +208,14 @@ table.table tbody td:first-child, table.table tbody td:not(:first-child), table.
 }
 
 
+.accounts {
+	float: left;
+}
+
+
+.money-accountItem {
+	float: left;
+}
 
 
 .grey-border {

@@ -2,14 +2,67 @@
   <div class="money">
     <div class="money-account grey-border">
       <v-layout row wrap>
-        <v-flex class="money-accountItem">
+       <!--  <v-flex class="money-accountItem">
           <span class="text-xs-right lighten-4 green--text">Capital: <b>{{capital}} {{currency}}</b></span>
+        </v-flex> -->
+        <v-flex>
+          
+
+          <v-dialog v-model="addAccountDialog" persistent>
+            <v-btn icon slot="activator" class="grey lighten-4 green--text">
+              <v-icon>add</v-icon>
+            </v-btn>
+            <v-card>
+              <v-card-title>
+                <span class="headline">Add new account</span>
+              </v-card-title>
+              <v-card-text>
+                <v-form v-model="valid" ref="form">
+
+            <!--       <v-text-field 
+                    v-model="addAccountAmount" 
+                    label="Count amount" 
+                    :rules="amountRules" 
+                    required 
+                    ></v-text-field> -->
+
+                  <v-select 
+                    v-model="addAccountType" 
+                    :rules="typeRules" 
+                    label="Count name" 
+                    required 
+                    :items="spendingsCategory.map(i => i[0])"></v-select>
+                  
+                  
+                  <v-btn class="red--text darken-1" flat @click.native="addAccountDialog = false">Close</v-btn>
+                  <v-btn class="green--text darken-1" 
+                    @click="addAccount" @click.native="valid ? addAccountDialog = false : null" flat>Add</v-btn>
+                </v-form>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
         </v-flex>
-        <v-flex class="money-accountItem">
-          <span class="text-xs-right">Cash: <b>{{cash}} {{currency}}</b></span>
-        </v-flex>
+
+
+
+        <div class="counts">
+          <div class="accounts" v-html="accountsTemplate"></div>
+          <div class="money-accountItem">
+            <span class="text-xs-right">Cash: <b>{{cash}} {{currency}}</b></span>
+          </div>
+        </div>
+
       </v-layout>
     </div>
+
+
+
+
+
+
+
+
+
 
     <v-layout row wrap>
       <v-flex xs12 class="pa-2">
@@ -182,7 +235,7 @@
                 <v-text-field 
                   label="Income amount"
                   v-model="incomeAmount"
-                  :rules="amountRules"
+                  :rules="onlyNumberRule"
                   required 
                   ></v-text-field>
                 <v-select 

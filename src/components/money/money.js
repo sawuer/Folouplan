@@ -5,8 +5,9 @@ export default {
   template,
   mounted () {
     this.fullCategoriesFromDB()
-    this.computeCapital()
+    // this.computeCapital()
     this.computeCash()
+    this.computeAccounts()
   },
   computed: {
     ...mapGetters([
@@ -36,6 +37,9 @@ export default {
         (v) => /^\d+$/.test(v) || 'There must be only numbers',
         (v) => !!v || 'You didn\'t fill out the cost'
       ],
+      onlyNumberRule: [
+        (v) => /^\d+$/.test(v) || 'There must be only numbers'
+      ],
       typeRules: [
         (v) => !!v || 'You didn\'t fill out the type'
       ],
@@ -44,6 +48,10 @@ export default {
       ],
       dialog: false,
       dialog2: false,
+      addAccountDialog: false,
+      accountsTemplate: '',
+      // addAccountAmount: null,
+      addAccountType: null,
       valid: false,
       valid2: false,
       picker: null,
@@ -51,7 +59,7 @@ export default {
       date: false,
       date2: false,
       cash: 0,
-      capital: 0,
+      // capital: 0,
       currency: 'тг',
       spendingHeader: [
         { text: 'date', align: 'left', sortable: true, value: 'date' },
@@ -67,6 +75,37 @@ export default {
     }
   },
   methods: {
+    addAccount () {
+      this.$root.$firebaseRefs.users
+        .child(this.user.key)
+        .child('data')
+        .child('accounts')
+        .push({
+          name: this.addAccountType
+        })
+      this.computeAccounts()
+    },
+    computeAccounts () {
+      var currency = this.currency
+      this.users.child(this.user.key).once('value').then(i => {
+        this.accountsTemplate = ''
+        if (i.val().data.accounts) {
+          Object.keys(i.val().data.accounts).forEach(j => {
+            var newAccountCount = 0
+            Object.keys(i.val().data.spendings).forEach(k => {
+              if (i.val().data.accounts[j].name === i.val().data.spendings[k].type) {
+                newAccountCount += +i.val().data.spendings[k].money
+              }
+            })
+            this.accountsTemplate += `
+              <div class="flex money-accountItem">
+                <span class="text-xs-right">${i.val().data.accounts[j].name}: <b>${newAccountCount} ${currency}</b></span>
+              </div>
+            `
+          })
+        }
+      })
+    },
     addCategory (coll, catName) {
       const key = this.user.key
       this.$root.$firebaseRefs.users
@@ -132,7 +171,7 @@ export default {
               })
           })
         this.computeCash()
-        this.computeCapital()
+        // this.computeCapital()
         setTimeout(() => this.$refs.form.reset(), 200)
       }
     },
@@ -160,14 +199,14 @@ export default {
               })
           })
         this.computeCash()
-        this.computeCapital()
+        // this.computeCapital()
         setTimeout(() => this.$refs.form2.reset(), 200)
       }
     },
     deleteItem (key, coll) {
       this.userData.child(coll).child(key).remove()
       this.computeCash()
-      this.computeCapital()
+      // this.computeCapital()
     },
     computeCash () {
       this.users.child(this.user.key).once('value').then(i => {
@@ -184,16 +223,16 @@ export default {
         }
       })
     },
-    computeCapital () {
-      this.users.child(this.user.key).once('value').then(i => {
-        this.capital = 0
-        if (i.val().data.spendings) {
-          Object.keys(i.val().data.spendings).forEach(j => {
-            this.capital += i.val().data.spendings[j].type === 'капитал' ? +i.val().data.spendings[j].money : 0
-          })
-        }
-      })
-    },
+    // computeCapital () {
+    //   this.users.child(this.user.key).once('value').then(i => {
+    //     this.capital = 0
+    //     if (i.val().data.spendings) {
+    //       Object.keys(i.val().data.spendings).forEach(j => {
+    //         this.capital += i.val().data.spendings[j].type === 'капитал' ? +i.val().data.spendings[j].money : 0
+    //       })
+    //     }
+    //   })
+    // },
     newSpendingName (e, spending, key) {
       this.userData.child('spendings').child(key).update({
         name: e.target.value
@@ -207,7 +246,7 @@ export default {
         money: e.target.value
       })
       this.computeCash()
-      this.computeCapital()
+      // this.computeCapital()
     }
   }
 }
