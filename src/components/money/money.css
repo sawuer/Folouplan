@@ -7,10 +7,10 @@
 	font-size: 16px;
 }
 
-.chip {
-	margin: 5px !important;
-	opacity: .5 !important;
+.money-accountItem {
+	padding: 2px 10px;
 }
+
 
 .table-section {
 	position: relative;

@@ -3,8 +3,16 @@
 a {
 	text-decoration: none;
 }
+
+.picker__title {
+	background: #CE3110 !important;
+}
+.chip {
+	margin: 3px !important;
+	opacity: .45 !important;
+}
 .input-group__details:after {
-	background: #FF2C00 !important;
+	background: #CE3110 !important;
 }
 #app .chip--removable {
 	padding: 0 1px 0 8px;
@@ -157,7 +165,7 @@ main {
 }
 .table-even th,
 .table-even td {
-	border: 1px solid rgba(0,0,0,.12);
+	border: 1px solid rgba(0,0,0,.05);
 }
 
 .navigation-drawer--permanent.navigation-drawer--clipped, .navigation-drawer--permanent.navigation-drawer--floating, .navigation-drawer--persistent.navigation-drawer--clipped, .navigation-drawer--persistent.navigation-drawer--floating {

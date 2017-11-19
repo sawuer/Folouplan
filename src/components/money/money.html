@@ -2,11 +2,11 @@
   <div class="money">
     <div class="money-account grey-border">
       <v-layout row wrap>
-        <v-flex class="pa-2">
-          <span class="text-xs-right lighten-4 green--text">My CAPITAL: <b>{{capital}} {{currentCurrency}}</b></span>
+        <v-flex class="money-accountItem">
+          <span class="text-xs-right lighten-4 green--text">Capital: <b>{{capital}} {{currentCurrency}}</b></span>
         </v-flex>
-        <v-flex class="pa-2">
-          <span class="text-xs-right">Current cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
+        <v-flex class="money-accountItem">
+          <span class="text-xs-right">Cash: <b>{{cashSum}} {{currentCurrency}}</b></span>
         </v-flex>
       </v-layout>
     </div>
