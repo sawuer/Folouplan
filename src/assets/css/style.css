@@ -3,6 +3,15 @@
 a {
 	text-decoration: none;
 }
+#app .chip--removable {
+	padding: 0 5px 0 10px;
+}
+#app nav {
+	position: fixed;
+}
+main {
+	padding-top: 40px;
+}
 .application--light .navigation-drawer {
 	border-right: 1px solid #f1f1f1;
 	background: #f5f5f5 !important;
@@ -35,12 +44,7 @@ a {
 .completed-todos {
 	opacity: .6;
 }
-nav {
-	position: fixed !important;
-}
-main {
-	padding-top: 40px;
-}
+
 .floatR {
 	float: right;
 }

@@ -57,6 +57,7 @@
           setTimeout(() => {
             if (this.$store.getters.user !== null) {
               this.$router.push('/money')
+              console.log(this.$store.getters.user)
             } else {
               this.$router.push('/signin')
             }
