@@ -77,21 +77,14 @@ export default {
   methods: {
     addAccount () {
       this.$root.$firebaseRefs.users
-        .child(this.user.key)
-        .child('data')
-        .child('accounts')
-        .push({
+        .child(this.user.key).child('data').child('accounts').push({
           name: this.addAccountType
         })
       this.computeAccounts()
     },
     deleteAccount (key) {
       this.$root.$firebaseRefs.users
-        .child(this.user.key)
-        .child('data')
-        .child('accounts')
-        .child(key)
-        .remove()
+        .child(this.user.key).child('data').child('accounts').child(key).remove()
       this.computeAccounts()
     },
     putAccounts () {
@@ -124,7 +117,6 @@ export default {
                 <span class="text-xs-right">${i.val().data.accounts[j].name}: <b>${newAccountCount} ${currency}</b></span>
               </div>
             `
-            // console.log(i.val().data.accounts[j].name, newAccountCount)
           })
         }
       })
@@ -247,7 +239,6 @@ export default {
         }
       })
     },
-
     newSpendingName (e, spending, key) {
       this.userData.child('spendings').child(key).update({
         name: e.target.value

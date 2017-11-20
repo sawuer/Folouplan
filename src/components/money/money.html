@@ -18,7 +18,7 @@
                     :rules="typeRules" 
                     label="Count name" 
                     required 
-                    :items="spendingsCategory.map(i => i[0])"></v-select>
+                    :items="spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])"></v-select>
                   <v-btn class="red--text darken-1" flat @click.native="addAccountDialog = false">Close</v-btn>
                   <v-btn class="green--text" 
                     @click="addAccount" @click.native="valid ? addAccountDialog = false : null" flat>Add</v-btn>

@@ -207,7 +207,9 @@ table.table tbody td:first-child, table.table tbody td:not(:first-child), table.
 	padding-top: 0;
 }
 
-
+.card {
+	margin-bottom: 0;
+}
 .accounts {
 	float: left;
 }
