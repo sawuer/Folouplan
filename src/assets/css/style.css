@@ -231,6 +231,10 @@ table.table tbody td:first-child, table.table tbody td:not(:first-child), table.
 	font-size: 16px;
 }
 
+.account-confgs {
+	float: left;
+}
+
 
 
 

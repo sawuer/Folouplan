@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <v-flex>
           <v-dialog v-model="addAccountDialog" persistent>
-            <v-btn icon slot="activator" class="grey lighten-4 green--text">
+            <v-btn icon slot="activator" class="">
               <v-icon>add</v-icon>
             </v-btn>
             <v-card>
@@ -27,10 +27,9 @@
             </v-card>
           </v-dialog>
         </v-flex>
-        <div class="counts">
-
-          <v-menu bottom left>
-            <v-btn icon slot="activator" dark>
+        <v-flex>
+           <v-menu bottom left>
+            <v-btn class="account-confgs" icon slot="activator">
               <v-icon>more_vert</v-icon>
             </v-btn>
             <v-list>
@@ -42,7 +41,9 @@
               </v-list-tile>
             </v-list>
           </v-menu>
+        </v-flex>
 
+        <div class="counts">
           <div class="accounts" v-html="accountsTemplate"></div>
           <div class="money-accountItem">
             <span class="text-xs-right">Cash: <b>{{cash}} {{currency}}</b></span>
