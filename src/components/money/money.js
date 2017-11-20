@@ -5,9 +5,10 @@ export default {
   template,
   mounted () {
     this.fullCategoriesFromDB()
-    // this.computeCapital()
     this.computeCash()
     this.computeAccounts()
+
+    this.putAccounts()
   },
   computed: {
     ...mapGetters([
@@ -50,7 +51,7 @@ export default {
       dialog2: false,
       addAccountDialog: false,
       accountsTemplate: '',
-      // addAccountAmount: null,
+      accounts: [],
       addAccountType: null,
       valid: false,
       valid2: false,
@@ -59,7 +60,6 @@ export default {
       date: false,
       date2: false,
       cash: 0,
-      // capital: 0,
       currency: 'тг',
       spendingHeader: [
         { text: 'date', align: 'left', sortable: true, value: 'date' },
@@ -85,6 +85,28 @@ export default {
         })
       this.computeAccounts()
     },
+    deleteAccount (key) {
+      this.$root.$firebaseRefs.users
+        .child(this.user.key)
+        .child('data')
+        .child('accounts')
+        .child(key)
+        .remove()
+      this.computeAccounts()
+    },
+    putAccounts () {
+      this.users.child(this.user.key).once('value').then(i => {
+        if (i.val().data.accounts) {
+          this.accounts = []
+          Object.keys(i.val().data.accounts).forEach(j => {
+            this.accounts.push({
+              name: i.val().data.accounts[j].name,
+              key: j
+            })
+          })
+        }
+      })
+    },
     computeAccounts () {
       var currency = this.currency
       this.users.child(this.user.key).once('value').then(i => {
@@ -102,9 +124,11 @@ export default {
                 <span class="text-xs-right">${i.val().data.accounts[j].name}: <b>${newAccountCount} ${currency}</b></span>
               </div>
             `
+            // console.log(i.val().data.accounts[j].name, newAccountCount)
           })
         }
       })
+      this.putAccounts()
     },
     addCategory (coll, catName) {
       const key = this.user.key
@@ -145,6 +169,7 @@ export default {
     removeCategory (key, coll) {
       this.userData.child(coll).child(key).remove()
       this.fullCategoriesFromDB()
+      this.computeAccounts()
     },
     addSpending () {
       if (this.$refs.form.validate()) {
@@ -171,7 +196,7 @@ export default {
               })
           })
         this.computeCash()
-        // this.computeCapital()
+        this.computeAccounts()
         setTimeout(() => this.$refs.form.reset(), 200)
       }
     },
@@ -199,14 +224,13 @@ export default {
               })
           })
         this.computeCash()
-        // this.computeCapital()
         setTimeout(() => this.$refs.form2.reset(), 200)
       }
     },
     deleteItem (key, coll) {
       this.userData.child(coll).child(key).remove()
       this.computeCash()
-      // this.computeCapital()
+      this.computeAccounts()
     },
     computeCash () {
       this.users.child(this.user.key).once('value').then(i => {
@@ -223,16 +247,7 @@ export default {
         }
       })
     },
-    // computeCapital () {
-    //   this.users.child(this.user.key).once('value').then(i => {
-    //     this.capital = 0
-    //     if (i.val().data.spendings) {
-    //       Object.keys(i.val().data.spendings).forEach(j => {
-    //         this.capital += i.val().data.spendings[j].type === 'капитал' ? +i.val().data.spendings[j].money : 0
-    //       })
-    //     }
-    //   })
-    // },
+
     newSpendingName (e, spending, key) {
       this.userData.child('spendings').child(key).update({
         name: e.target.value
@@ -240,13 +255,14 @@ export default {
     },
     newType (type, key, coll) {
       this.userData.child(coll).child(key).update({ type })
+      this.computeAccounts()
     },
     newMoneyCount (e, key, coll) {
       this.userData.child(coll).child(key).update({
         money: e.target.value
       })
       this.computeCash()
-      // this.computeCapital()
+      this.computeAccounts()
     }
   }
 }
