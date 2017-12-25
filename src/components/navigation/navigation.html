@@ -1,18 +1,12 @@
 <div class="navigation">
-  <ul class="navigation-list">
-    <li class="navigation-item">
-      <user></user>
-    </li>
-
-    <li class="navigation-item" 
-      v-for="item in menuItems"
-      >
-      <router-link 
-        @click="clickOnNavItem" 
-        :to="item.path"
-        :key="item.title">
-        {{ item.icon }}
-      </router-link>
-    </li>
-  </ul>
+  <button>
+    <user></user>
+  </button>
+  <router-link v-for="item in menuItems"
+    @click="clickOnNavItem" 
+    :to="item.path"
+    :key="item.title"
+  >
+    <button>{{ item.icon }}</button>
+  </router-link>
 </div>
