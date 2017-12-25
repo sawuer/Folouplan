@@ -1,12 +1,6 @@
-<div class="user" 
-  v-if="this.$store.getters.user !== null">
-  <button>more_vert</button>
+<div class="user">
   <div class="user-email">
     {{ $store.getters.user.email }}
   </div>
-  <div v-for="item in emailDropdown" :key="item.title" @click="">
-    <div>
-      <span @click="logOut">{{ item.title }}</span>
-    </div>
-  </div>
+  <button @click="logOut">Logout</button>
 </div>
