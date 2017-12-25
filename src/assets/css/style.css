@@ -1,4 +1,5 @@
 @import './../../components/money/money.css';
+@import './../../components/modal/modal.css';
 
 a {
 	text-decoration: none;
@@ -9,7 +10,7 @@ a {
 }
 .chip {
 	margin: 3px !important;
-	opacity: .45 !important;
+	opacity: .6 !important;
 }
 .input-group__details:after {
 	background: #CE3110 !important;
@@ -165,7 +166,7 @@ main {
 }
 .table-even th,
 .table-even td {
-	border: 1px solid rgba(0,0,0,.05);
+	border-color: rgba(0,0,0,.05);
 }
 
 .navigation-drawer--permanent.navigation-drawer--clipped, .navigation-drawer--permanent.navigation-drawer--floating, .navigation-drawer--persistent.navigation-drawer--clipped, .navigation-drawer--persistent.navigation-drawer--floating {

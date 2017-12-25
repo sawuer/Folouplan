@@ -77,7 +77,7 @@
           <v-layout row wrap>
             <v-flex>
               <v-form transition="fade-transition" v-model="todoFormValid" ref="todoForm">
-                <v-text-field id="todo" label="Todo" v-model="todo" :rules="nameRules" :counter="50" required></v-text-field>
+                <v-text-field id="todo" label="Todo" v-model="todo" :rules="nameRules" :counter="100" required></v-text-field>
                 <v-dialog persistent v-model="modalDate" lazy color="green--title" full-width>
                   <v-text-field slot="activator" label="Date" v-model="datePicker" readonly></v-text-field>
                   <v-date-picker v-model="datePicker" autosave year-icon scrollables>

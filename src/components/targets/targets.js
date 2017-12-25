@@ -19,7 +19,7 @@ export default {
       todoFormValid: false,
       nameRules: [
         (v) => !!v || 'You didn\'t fill out the field',
-        (v) => v && v.length <= 50 || 'Todo must be less than 50 characters'
+        (v) => v && v.length <= 100 || 'Todo must be less than 100 characters'
       ]
     }
   },

@@ -3,29 +3,23 @@
     <div class="money-account grey-border">
       <v-layout row wrap>
         <v-flex>
-          <v-dialog v-model="addAccountDialog" persistent>
-            <v-btn icon slot="activator" class="">
-              <v-icon>add</v-icon>
-            </v-btn>
-            <v-card>
-              <v-card-title>
-                <span class="headline">Add new account</span>
-              </v-card-title>
-              <v-card-text>
-                <v-form v-model="valid" ref="form">
-                  <v-select 
-                    v-model="addAccountType" 
-                    :rules="typeRules" 
-                    label="Count name" 
-                    required 
-                    :items="spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])"></v-select>
-                  <v-btn class="red--text darken-1" flat @click.native="addAccountDialog = false">Close</v-btn>
-                  <v-btn class="green--text" 
-                    @click="addAccount" @click.native="valid ? addAccountDialog = false : null" flat>Add</v-btn>
+
+
+          <modal>
+            <div slot="modal-form">
+              <v-form v-model="valid" ref="form">
+                <v-select 
+                  v-model="addAccountType" 
+                  :rules="typeRules" 
+                  label="Count name" 
+                  required 
+                  :items="spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])"></v-select>
                 </v-form>
-              </v-card-text>
-            </v-card>
-          </v-dialog>
+                <v-btn class="green--text" 
+                  @click="addAccount" flat>Add</v-btn>
+            </div>
+          </modal>
+
         </v-flex>
         <v-flex>
            <v-menu bottom left>
@@ -64,7 +58,7 @@
         <v-layout row wrap class="category-container">
           <v-text-field 
             single-line
-            label="Add new category"
+            label=""
             v-model="newSpendingCategory" 
             @keyup.enter="addCategory('spendingsCategories', 'newSpendingCategory')"
             ></v-text-field>
@@ -73,7 +67,7 @@
               <v-chip 
                 class="chipper" 
                 close
-                @input="removeCategory(spendingsCategory[index][1], 'spendingsCategories')"
+                @input="removeCategory(spendingsCategory[index][1], 'spendingsCategories', spendingsCategory[index][0])"
                 v-model="spendingsCategory['chip' + index]"
                 >{{ spendingsCategory[index][0] }}</v-chip>
             </template>
@@ -88,7 +82,7 @@
           </v-btn>
           <v-card>
             <v-card-title>
-              <span class="headline">Add new spend</span>
+              <span class="headline">Add new tranzaction</span>
             </v-card-title>
             <v-card-text>
               <v-form v-model="valid" ref="form">
@@ -139,7 +133,7 @@
                 <v-data-table
                   pagination.sync
                   v-bind:headers="spendingHeader"
-                  :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
+                  :rows-per-page-items="[5, 20, 50, { text: 'All', value: -1 }]"
                   :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
                   item-key="index"
                   class="spending-table table-even">
@@ -199,7 +193,7 @@
       <v-layout row wrap class="category-container">
         <v-text-field 
           single-line
-          label="Add new category"
+          label=""
           v-model="newIncomeCategory" 
           @keyup.enter="addCategory('incomesCategories', 'newIncomeCategory')"
           ></v-text-field>
@@ -270,7 +264,7 @@
             <template v-if="user.data && user.data.incomes">
               <v-data-table 
                 v-bind:headers="incomeHeader" 
-                :rows-per-page-items="[10, 20, 50, { text: 'All', value: -1 }]"
+                :rows-per-page-items="[5, 20, 50, { text: 'All', value: -1 }]"
                 :items="Object.keys(user.data.incomes).map(i => user.data.incomes[i])"
                 class="spending-table table-even">
                 <template slot="items" scope="props">

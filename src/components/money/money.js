@@ -1,8 +1,12 @@
 import { mapGetters } from 'vuex'
+import modal from '../modal/modal.js'
 import template from './money.html'
 
 export default {
   template,
+  components: {
+    modal
+  },
   mounted () {
     this.fullCategoriesFromDB()
     this.computeCash()
@@ -25,7 +29,6 @@ export default {
       spendingsCategory: [],
       spendingsTypeSelect: null,
       newSpendingCategory: null,
-
       incomeAmount: null,
       incomeType: null,
       incomesCategories: [],
@@ -49,7 +52,7 @@ export default {
       ],
       dialog: false,
       dialog2: false,
-      addAccountDialog: false,
+      // addAccountDialog: false,
       accountsTemplate: '',
       accounts: [],
       addAccountType: null,
@@ -239,6 +242,7 @@ export default {
         }
       })
     },
+
     newSpendingName (e, spending, key) {
       this.userData.child('spendings').child(key).update({
         name: e.target.value
