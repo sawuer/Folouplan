@@ -5,17 +5,12 @@ export default {
   template: `
     <div>
       <div v-if="!loaded">
-        <v-progress-circular 
-          id="main-preloader" 
-          indeterminate 
-          v-bind:size="70" 
-          v-bind:width="7" 
-          class="deep-orange--text"
-          ></v-progress-circular>
+        loading...
       </div>
       <div v-else>
-        <div id="app">
-          <navigation></navigation>
+        <navigation></navigation>
+        <div class="pages">
+          <router-view></router-view>
         </div>
       </div>
     </div>
