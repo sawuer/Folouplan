@@ -1,24 +1,18 @@
-<div class="navigation" id="navigation">
-  
-
-  
-  
-  
-  <main>
-    <v-list dense class="pt-0">
+<div class="navigation">
+  <ul class="navigation-list">
+    <li class="navigation-item">
       <user></user>
-      <v-list-tile 
+    </li>
+
+    <li class="navigation-item" 
+      v-for="item in menuItems"
+      >
+      <router-link 
         @click="clickOnNavItem" 
-        router-link 
-        :to=item.path 
-        v-for="item in menuItems" 
+        :to="item.path"
         :key="item.title">
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
-    </v-list>
-    
- 
-  </main>
+        {{ item.icon }}
+      </router-link>
+    </li>
+  </ul>
 </div>
