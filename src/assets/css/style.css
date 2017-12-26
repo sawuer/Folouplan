@@ -1,6 +1,7 @@
 @import './../../components/money/money.css';
 @import './../../components/modal/modal.css';
 @import './../../components/navigation/navigation.css';
+@import './../../components/transactions/transactions.css';
 
 body {
 	font-family: sans-serif;

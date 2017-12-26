@@ -1,19 +1,10 @@
 <div class="modal">
-  <v-btn icon @click="setShow()">
-    <v-icon>add</v-icon>
-  </v-btn>
+  <button icon @click="setShow()">add</button>
   <div class="modal-shadow" v-if="show">
     <div class="modal-body">
-      <v-card>
-        <v-card-title>
-          <span class="headline">Add new account</span>
-        </v-card-title>
-        <v-card-text>
-          <slot name="modal-form"></slot>
-          <v-btn class="red--text darken-1" flat 
-            @click="setShow">Close</v-btn>
-        </v-card-text>
-      </v-card>
+      <span class="headline">Add new account</span>
+      <slot name="modal-form"></slot>
+      <button @click="setShow">Close</button>
     </div>
   </div>
 </div>

@@ -1,83 +1,20 @@
 import { mapGetters } from 'vuex'
-import template from './money.html'
-
-import transactions from '../transactions/transactions.js'
 import modal from '../modal/modal.js'
+import template from './transactions.html'
 
 export default {
   template,
   components: {
-    transactions,
     modal
   },
   mounted () {
-    this.fullCategoriesFromDB()
-    this.computeCash()
-    this.computeAccounts()
-
-    this.putAccounts()
   },
   computed: {
     ...mapGetters([
-      'user'
     ])
   },
   data () {
     return {
-      users: this.$root.$firebaseRefs.users,
-      userData: this.$root.$firebaseRefs.users.child(this.$store.getters.user.key).child('data'),
-      spendingAmount: null,
-      spendingName: null,
-      spendingsType: null,
-      spendingsCategory: [],
-      spendingsTypeSelect: null,
-      newSpendingCategory: null,
-      incomeAmount: null,
-      incomeType: null,
-      incomesCategories: [],
-      newIncomeCategory: null,
-      itemNameRules: [
-        (v) => !!v || 'You didn\'t fill out the puchase name',
-        (v) => v && v.length <= 40 || 'Purchase name must be less than 40 characters'
-      ],
-      amountRules: [
-        (v) => /^\d+$/.test(v) || 'There must be only numbers',
-        (v) => !!v || 'You didn\'t fill out the cost'
-      ],
-      onlyNumberRule: [
-        (v) => /^\d+$/.test(v) || 'There must be only numbers'
-      ],
-      typeRules: [
-        (v) => !!v || 'You didn\'t fill out the type'
-      ],
-      dateRules: [
-        (v) => !!v || 'You didn\'t fill out the date'
-      ],
-      dialog: false,
-      dialog2: false,
-      // addAccountDialog: false,
-      accountsTemplate: '',
-      accounts: [],
-      addAccountType: null,
-      valid: false,
-      valid2: false,
-      picker: null,
-      picker2: null,
-      date: false,
-      date2: false,
-      cash: 0,
-      currency: 'тг',
-      spendingHeader: [
-        { text: 'date', align: 'left', sortable: true, value: 'date' },
-        { text: 'item', align: 'left', sortable: true, value: 'name' },
-        { text: 'type', align: 'left', sortable: true, value: 'type' },
-        { text: 'amount', align: 'right', sortable: true, value: 'cost' }
-      ],
-      incomeHeader: [
-        { text: 'date', align: 'left', sortable: true, aria_sort: 'descending', value: 'date' },
-        { text: 'type', align: 'left', sortable: true, value: 'type' },
-        { text: 'amount', align: 'right', sortable: true, value: 'income' }
-      ]
     }
   },
   methods: {

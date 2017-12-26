@@ -23,8 +23,8 @@ export default {
     ]),
     menuItems () {
       let menuItems = [
-        { title: 'Sign up', path: '/signup', icon: 'up' },
-        { title: 'Sign in', path: '/signin', icon: 'in' }
+        { title: 'Sign up', path: '/signup', icon: 'face' },
+        { title: 'Sign in', path: '/signin', icon: 'lock_on' }
       ]
       if (this.userIsAuthenticated) {
         menuItems = [

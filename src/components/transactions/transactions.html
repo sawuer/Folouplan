@@ -1,0 +1,84 @@
+<div class="transactions">
+
+  <template v-for="user in this.$root.users">
+    <template v-if="user.id === $store.getters.user.id">
+      <template v-if="user.data && user.data.spendings">
+        <table class="transactions-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="transaction in Object.keys(user.data.spendings).map(i => user.data.spendings[i])">
+              <td>{{ transaction.date }}</td>
+              <td>{{ transaction.name }}</td>
+              <td>{{ transaction.type }}</td>
+              <td>{{ transaction.money }} <span class="cost">{{currency}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+              <!-- <v-data-table
+                pagination.sync
+                v-bind:headers="spendingHeader"
+                :rows-per-page-items="[5, 20, 50, { text: 'All', value: -1 }]"
+                :items="Object.keys(user.data.spendings).map(i => user.data.spendings[i])"
+                item-key="index"
+                class="spending-table table-even">
+                <template slot="items" scope="props">
+
+                  <td class="pur-date text-xs-left">
+                    <button title="delete" class="completed-todos" @click="deleteItem(props.item.thisKey, 'spendings')" icon>
+                      <v-icon class="grey--text">delete</v-icon>
+                    </button>
+                    {{ props.item.date }}
+                  </td>
+
+                  <td class="pur-name">
+                    <v-edit-dialog> 
+                      {{ props.item.name }}
+                      <v-text-field
+                        slot="input"
+                        @keyup.enter="newSpendingName($event, props.item.name, props.item.thisKey)"
+                        :value="props.item.name"
+                      ></v-text-field>
+                    </v-edit-dialog> 
+                  </td>
+
+                  <td class="pur-type text-xs-left">
+                    <v-select
+                      v-bind:items="spendingsCategory.map(i => i[0])"
+                      v-model="props.item.type"
+                      @input="newType($event, props.item.thisKey, 'spendings')"
+                      single-line
+                      auto
+                    ></v-select>
+                  </td>
+                  
+                  <td class="pur-cost cost-td text-xs-right">
+                    <v-edit-dialog> 
+                      {{ props.item.money }}
+                      <v-text-field
+                        slot="input"
+                        @keyup.enter="newMoneyCount($event, props.item.thisKey, 'spendings')"
+                        :value="props.item.money"
+                      ></v-text-field>
+                    </v-edit-dialog>
+                    <span class="cost">{{currency}}</span>
+                  </td>
+                  </tr>
+              </template>      
+            </v-data-table> -->
+
+          </template>      
+        </template>
+      </template>
+
+    </div>
+  </div>
