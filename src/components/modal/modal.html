@@ -1,8 +1,12 @@
 <div class="modal">
-  <button icon @click="setShow()">add</button>
+  <div @click="setShow()">
+    <slot name="button-name"></slot>
+  </div>
   <div class="modal-shadow" v-if="show">
     <div class="modal-body">
-      <span class="headline">Add new account</span>
+      <span class="headline">
+        <slot name="modal-title"></slot>
+      </span>
       <slot name="modal-form"></slot>
       <button @click="setShow">Close</button>
     </div>

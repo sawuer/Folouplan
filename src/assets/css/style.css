@@ -4,7 +4,8 @@
 @import './../../components/transactions/transactions.css';
 
 body {
-	font-family: sans-serif;
+	font-family: "Open Sans", sans-serif;
+	margin: 0;
 }
 
 a {
@@ -13,10 +14,7 @@ a {
 }
 
 .pages {
-	position: absolute;
-	left: 150px;
-	width: calc(100% - 150px);
-	top: 0;
+	margin-left: 50px;
 }
 
 button {
@@ -31,9 +29,11 @@ button:hover {
 }
 
 h2 {
-	font-size: 20px;
+	font-size: 22px;
+	margin: 0 0 15px 0;
+	font-weight: lighter;
 }
 
 .pages {
-	padding: 10px;
+	padding: 20px;
 }

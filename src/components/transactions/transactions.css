@@ -1,0 +1,20 @@
+.transactions {}
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+.transactions-td {
+  padding: 5px 10px;
+  text-align: left;
+  font-size: 14px;
+}
+.transactions-th {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+}
+.transactions-tr:nth-child(even) {
+  background: #f7f7f7;
+}

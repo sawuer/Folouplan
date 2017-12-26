@@ -1,26 +1,115 @@
 <div class="transactions">
-
   <template v-for="user in this.$root.users">
+    <h2>Transactions</h2>
     <template v-if="user.id === $store.getters.user.id">
-      <template v-if="user.data && user.data.spendings">
+      <template v-if="user.data && user.data.transactions">
+        
         <table class="transactions-table">
           <thead>
-            <tr>
-              <th>Date</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Amount</th>
+            <tr class="transactions-tr">
+              <th class="transactions-th">Date</th>
+              <th class="transactions-th">Name</th>
+              <th class="transactions-th">Type</th>
+              <th class="transactions-th">Amount</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="transaction in Object.keys(user.data.spendings).map(i => user.data.spendings[i])">
-              <td>{{ transaction.date }}</td>
-              <td>{{ transaction.name }}</td>
-              <td>{{ transaction.type }}</td>
-              <td>{{ transaction.money }} <span class="cost">{{currency}}</span></td>
+            <tr class="transactions-tr" 
+              v-for="transaction in Object.keys(user.data.transactions).map(i => user.data.transactions[i])"
+              >
+              <td class="transactions-td">{{ transaction.date }}</td>
+              <td class="transactions-td">{{ transaction.name }}</td>
+              <td class="transactions-td">{{ transaction.type }}</td>
+              <td class="transactions-td">{{ transaction.amount }}</td>
             </tr>
           </tbody>
         </table>
+
+        
+        <modal>
+          <div slot="button-name">
+            <button>Add transaction</button>
+          </div>
+          <div slot="modal-title">Add transaction</div>
+          <div slot="modal-form">
+            <form ref="transactionForm">
+              <input
+                v-model="transactionAmount"
+                type="number"
+                label="Amount" 
+                required 
+                ></input>
+              
+              <input
+                v-model="transactionName"
+                type="text"
+                label="Name" 
+                required
+                ></input>
+              
+              <input 
+                v-model="transactionDate"
+                type="date"
+                label="Date" 
+                required
+                ></input>
+
+              
+              <!-- <select
+                v-model="addAccountType" 
+                label="Type" 
+                required 
+                >
+                  <option 
+                    v-for="category in spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])" 
+                    value="category">{{category}}</option>
+              </select> -->
+            </form>
+            <button v-on:click="addTransaction">Add</button>
+          </div>
+        </modal>
+
+      </template>      
+    </template>
+  </template>
+</div>
+
+
+
+
+
+
+
+
+
+  <!-- <modal>
+    <div slot="modal-form">
+      <form ref="form">
+        <select
+          v-model="addAccountType" 
+          label="Count name" 
+          required 
+          >
+            <option 
+              v-for="account in spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])" 
+              value="account">{{account}}</option>
+        </select>
+      </form>
+      <button 
+        @click="addAccount" flat>Add</button>
+    </div>
+  </modal> -->
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -43,11 +132,11 @@
                   <td class="pur-name">
                     <v-edit-dialog> 
                       {{ props.item.name }}
-                      <v-text-field
+                      <input
                         slot="input"
                         @keyup.enter="newSpendingName($event, props.item.name, props.item.thisKey)"
                         :value="props.item.name"
-                      ></v-text-field>
+                      ></input>
                     </v-edit-dialog> 
                   </td>
 
@@ -64,21 +153,14 @@
                   <td class="pur-cost cost-td text-xs-right">
                     <v-edit-dialog> 
                       {{ props.item.money }}
-                      <v-text-field
+                      <input
                         slot="input"
                         @keyup.enter="newMoneyCount($event, props.item.thisKey, 'spendings')"
                         :value="props.item.money"
-                      ></v-text-field>
+                      ></input>
                     </v-edit-dialog>
                     <span class="cost">{{currency}}</span>
                   </td>
                   </tr>
               </template>      
             </v-data-table> -->
-
-          </template>      
-        </template>
-      </template>
-
-    </div>
-  </div>

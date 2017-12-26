@@ -11,11 +11,11 @@ export default {
     modal
   },
   mounted () {
-    this.fullCategoriesFromDB()
-    this.computeCash()
-    this.computeAccounts()
+    // this.fullCategoriesFromDB()
+    // this.computeCash()
+    // this.computeAccounts()
 
-    this.putAccounts()
+    // this.putAccounts()
   },
   computed: {
     ...mapGetters([
@@ -36,48 +36,10 @@ export default {
       incomeType: null,
       incomesCategories: [],
       newIncomeCategory: null,
-      itemNameRules: [
-        (v) => !!v || 'You didn\'t fill out the puchase name',
-        (v) => v && v.length <= 40 || 'Purchase name must be less than 40 characters'
-      ],
-      amountRules: [
-        (v) => /^\d+$/.test(v) || 'There must be only numbers',
-        (v) => !!v || 'You didn\'t fill out the cost'
-      ],
-      onlyNumberRule: [
-        (v) => /^\d+$/.test(v) || 'There must be only numbers'
-      ],
-      typeRules: [
-        (v) => !!v || 'You didn\'t fill out the type'
-      ],
-      dateRules: [
-        (v) => !!v || 'You didn\'t fill out the date'
-      ],
-      dialog: false,
-      dialog2: false,
-      // addAccountDialog: false,
       accountsTemplate: '',
       accounts: [],
       addAccountType: null,
-      valid: false,
-      valid2: false,
-      picker: null,
-      picker2: null,
-      date: false,
-      date2: false,
-      cash: 0,
-      currency: 'тг',
-      spendingHeader: [
-        { text: 'date', align: 'left', sortable: true, value: 'date' },
-        { text: 'item', align: 'left', sortable: true, value: 'name' },
-        { text: 'type', align: 'left', sortable: true, value: 'type' },
-        { text: 'amount', align: 'right', sortable: true, value: 'cost' }
-      ],
-      incomeHeader: [
-        { text: 'date', align: 'left', sortable: true, aria_sort: 'descending', value: 'date' },
-        { text: 'type', align: 'left', sortable: true, value: 'type' },
-        { text: 'amount', align: 'right', sortable: true, value: 'income' }
-      ]
+      cash: 0
     }
   },
   methods: {
@@ -168,35 +130,6 @@ export default {
       this.userData.child(coll).child(key).remove()
       this.fullCategoriesFromDB()
       this.computeAccounts()
-    },
-    addSpending () {
-      if (this.$refs.form.validate()) {
-        var form = this.$refs.form
-        var money = +form.$el[0].value
-        var name = form.$el[1].value
-        var type = form.$el[2].previousSibling.textContent
-        var date = form.$el[3].value
-        const key = this.user.key
-        this.$root.$firebaseRefs.users
-          .child(key)
-          .child('data')
-          .child('spendings').push({
-            money, name, type, date
-          })
-          .then(i => {
-            this.$root.$firebaseRefs.users
-              .child(key)
-              .child('data')
-              .child('spendings')
-              .child(i.key)
-              .update({
-                thisKey: i.key
-              })
-          })
-        this.computeCash()
-        this.computeAccounts()
-        setTimeout(() => this.$refs.form.reset(), 200)
-      }
     },
     addIncome () {
       if (this.$refs.form2.validate()) {

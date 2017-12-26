@@ -1,8 +1,28 @@
 .navigation {
-  width: 150px;
+  width: 50px;
   position: fixed;
   left: 0;
   top: 0;
-  background: #eee;
+  background: #00C90D;
   height: 100%;
+}
+.navigation-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #fff;
+  border-radius: 0;
+}
+
+.navigation a {
+  overflow: hidden;
+  display: block;
+}
+.navigation-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+
+.router-link-active .navigation-btn {
+  background: rgba(255,255,255,0.3);
 }
