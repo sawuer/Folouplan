@@ -66,7 +66,8 @@ export const store = new Vuex.Store({
   getters: {
     currentURL: state => state.currentURL,
     user: state => state.user,
-    newUserId: state => state.newUserId
+    newUserId: state => state.newUserId,
+    usersInFirebase: state => state.usersInFirebase
   }
 })
 

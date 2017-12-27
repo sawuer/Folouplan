@@ -6,7 +6,9 @@
       v-model="email"
       placeholder="Email"
       ></input>
-    <error v-if="valid.wrongEmailRule">Invalid email</error>
+    <error v-if="validFull.email">Empty email field</error>
+    <error v-if="validCorrect.email">Invalid email</error>
+    <!-- <error v-if="exists.email">This email does'nt exist</error> -->
       
     <input
       class="_input"
