@@ -30,6 +30,7 @@ export default {
         menuItems = [
           { title: 'Targets', path: '/targets', icon: 'storage' },
           { title: 'Money', path: '/money', icon: 'attach_money' }
+          // { title: 'Settings', path: '/settings', icon: 'settings' }
           // { title: 'Notes', path: '/notes', icon: 'book' }
         ]
       }

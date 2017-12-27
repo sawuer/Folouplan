@@ -9,4 +9,17 @@
       <i class="material-icons">{{item.icon}}</i>
     </button>
   </router-link>
+
+
+  <router-link
+    v-if="this.$store.getters.user !== null"
+    class="navigation-bottomBtn"
+    @click="clickOnNavItem" 
+    :to="'/settings'"
+    :key="'Settings'"
+    >
+    <button class="navigation-btn">
+      <i class="material-icons">settings</i>
+    </button>
+  </router-link>
 </div>

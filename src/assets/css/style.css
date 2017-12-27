@@ -39,7 +39,6 @@ a {
 	background: #00b30a;
 }
 
-
 ._input {
 	font-size: 14px;
 	border-radius: 2px;
@@ -52,16 +51,16 @@ a {
 }
 
 ._title {
-	font-size: 22px;
+	font-size: 24px;
 	margin: 0 0 15px 0;
 }
 
 ._subtitle {
-	font-size: 18px;
+	font-size: 20px;
 	margin: 0 0 15px 0;
 }
 
-.pages {
+._page {
 	margin-left: 50px;
-	padding: 20px 30px;
+	padding: 20px 25px;
 }

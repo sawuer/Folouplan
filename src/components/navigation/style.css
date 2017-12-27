@@ -12,6 +12,8 @@
   border: none;
   color: #fff;
   border-radius: 0;
+  padding: 7px 0;
+  cursor: pointer;
 }
 
 .navigation a {
@@ -25,4 +27,10 @@
 
 .router-link-active .navigation-btn {
   background: rgba(255,255,255,0.3);
+}
+
+.navigation-bottomBtn {
+  position: absolute;
+  bottom: 0;
+  width: 50px;
 }

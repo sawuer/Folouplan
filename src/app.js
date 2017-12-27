@@ -6,13 +6,11 @@ export default {
   template: `
     <div>
       <div v-if="!loaded">
-        
         <preloader></preloader>
-
       </div>
       <div v-else>
         <navigation></navigation>
-        <div class="pages">
+        <div class="_page">
           <router-view></router-view>
         </div>
       </div>
@@ -26,7 +24,7 @@ export default {
     var self = this
     setTimeout(() => {
       self.loaded = true
-    }, 1500)
+    }, 2000)
   },
   data () {
     return {
