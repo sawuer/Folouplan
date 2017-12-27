@@ -15,14 +15,30 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      valid: {
+        wrongEmailRule: false,
+        wrongPassword: false
+      }
     }
   },
   methods: {
     ...mapActions([
       'signUserIn'
     ]),
+    isEmailCorrect (email, state) {
+      if (/([\w-\\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/g.test(email)) {
+        return true
+      }
+      return false
+    },
     onSignin () {
+      if (this.isEmailCorrect(this.email)) {
+        this.valid.wrongEmailRule = false
+      } else {
+        this.valid.wrongEmailRule = true
+        return
+      }
       this.signUserIn({
         email: this.email,
         password: this.password

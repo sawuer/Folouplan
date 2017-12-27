@@ -2,12 +2,11 @@
   <h2 class="_title">Sign in</h2>
   <form @submit.prevent="onSignin">
     <input
-    class="_input"
+      class="_input"
       v-model="email"
-      type="email"
       placeholder="Email"
       ></input>
-    <error>This email doesn't exist</error>
+    <error v-if="valid.wrongEmailRule">Invalid email</error>
       
     <input
       class="_input"
@@ -15,7 +14,7 @@
       type="password"
       placeholder="Password"
       ></input>
-    <error>Wrong password</error>
+    <!-- <error>Wrong password</error> -->
 
     <button class="_btn _btn--primary" type="submit">Sign in</button>
     <button class="_btn" @click="clearForm">Clear</button>
