@@ -16,7 +16,7 @@
       type="password"
       placeholder="Password"
       ></input>
-    <!-- <error>Wrong password</error> -->
+    <error v-if="validFull.password">Empty password field</error>
 
     <button class="_btn _btn--primary" type="submit">Sign in</button>
     <button class="_btn" @click="clearForm">Clear</button>

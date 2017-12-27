@@ -1,8 +1,8 @@
 import { mapGetters, mapActions } from 'vuex'
 import error from '../error/error.js'
+import template from './signin.html'
 import methods from './methods.js'
 import data from './data.js'
-import template from './signin.html'
 
 export default {
   template,
