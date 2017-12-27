@@ -1,9 +1,15 @@
-import emailValidate from './methods/emailValidate.js'
-import onSignin from './methods/onSignin.js'
+import { mapActions } from 'vuex'
+import emailValidate from './emailValidate.js'
+import passwordValidate from './passwordValidate.js'
+import onSignin from './onSignin.js'
 
 export default {
   emailValidate,
+  passwordValidate,
   onSignin,
+  ...mapActions([
+    'signUserIn'
+  ]),
   isEmailFull (email) {
     if (email !== '') {
       return true
@@ -32,14 +38,5 @@ export default {
   clearForm () {
     this.email = ''
     this.password = ''
-  },
-  passwordValidate () {
-    if (this.isPasswordFull(this.password)) {
-      this.validFull.password = false
-    } else {
-      this.validFull.password = true
-      return false
-    }
-    return true
   }
 }

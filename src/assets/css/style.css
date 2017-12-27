@@ -1,9 +1,10 @@
 @import './../../components/money/money.css';
 @import './../../components/modal/modal.css';
-@import './../../components/signin/signin.css';
+@import './../../components/signin/style.css';
 @import './../../components/navigation/navigation.css';
 @import './../../components/transactions/transactions.css';
 @import './../../components/error/error.css';
+@import './../../components/preloader/style.css';
 
 body {
 	font-family: "Open Sans", sans-serif;

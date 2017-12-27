@@ -1,11 +1,14 @@
 import navigation from './components/navigation/navigation'
+import preloader from './components/preloader/preloader'
 
 export default {
   name: 'app',
   template: `
     <div>
       <div v-if="!loaded">
-        loading...
+        
+        <preloader></preloader>
+
       </div>
       <div v-else>
         <navigation></navigation>
@@ -16,7 +19,8 @@ export default {
     </div>
   `,
   components: {
-    navigation
+    navigation,
+    preloader
   },
   mounted () {
     var self = this
