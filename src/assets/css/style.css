@@ -1,7 +1,9 @@
 @import './../../components/money/money.css';
 @import './../../components/modal/modal.css';
+@import './../../components/signin/signin.css';
 @import './../../components/navigation/navigation.css';
 @import './../../components/transactions/transactions.css';
+@import './../../components/error/error.css';
 
 body {
 	font-family: "Open Sans", sans-serif;
@@ -13,27 +15,46 @@ a {
 	color: #000;
 }
 
-.pages {
-	margin-left: 50px;
-}
 
-button {
+._btn {
 	border: 1px solid #ddd;
 	border-radius: 2px;
-	padding: 5px 10px;
+	padding: 7px 10px;
 	outline: none;
+	font-size: 14px;
 	cursor: pointer;
+	width: 80px;
+	margin: 10px 0;
 }
-button:hover {
-	background: #f5f5f5;
+._btn:hover {
+	background: #eee;
+}
+._btn--primary {
+	background: #00C90D;
+	color: #fff;
+}
+._btn--primary:hover {
+	background: #00b30a;
 }
 
-h2 {
+
+._input {
+	font-size: 14px;
+	border-radius: 2px;
+	border: 1px solid #ddd;
+	padding: 7px 10px;
+	width: 250px;
+	display: block;
+	box-sizing: border-box;
+	margin: 10px 0;
+}
+
+._title {
 	font-size: 22px;
 	margin: 0 0 15px 0;
-	font-weight: lighter;
 }
 
 .pages {
-	padding: 20px;
+	margin-left: 50px;
+	padding: 20px 30px;
 }

@@ -18,4 +18,6 @@
   z-index: 110;
   padding: 20px;
   box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 0 10px 0px rgba(0,0,0,.5);
 }

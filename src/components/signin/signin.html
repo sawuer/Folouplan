@@ -1,26 +1,23 @@
 <div class="signin">
-  <h2 class="signin-title">Sign in</h2>
-  <form class="signin-form" @submit.prevent="onSignin">
+  <h2 class="_title">Sign in</h2>
+  <form @submit.prevent="onSignin">
     <input
-      name="email"
-      id="email"
-      label="E-mail"
+    class="_input"
       v-model="email"
       type="email"
-      required
-    ></input>
-
+      placeholder="Email"
+      ></input>
+    <error>This email doesn't exist</error>
+      
     <input
-      name="password"
-      label="Password"
+      class="_input"
       v-model="password"
-      id="password"
       type="password"
-      required
-    ></input>      
-    <button 
-      type="submit" 
-      >Sign in</button>
-    <button @click="clear">clear</button>
+      placeholder="Password"
+      ></input>
+    <error>Wrong password</error>
+
+    <button class="_btn _btn--primary" type="submit">Sign in</button>
+    <button class="_btn" @click="clearForm">Clear</button>
   </form>
 </div>

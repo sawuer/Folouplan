@@ -1,8 +1,12 @@
 import { mapGetters, mapActions } from 'vuex'
+import error from '../error/error.js'
 import template from './signin.html'
 
 export default {
   template,
+  components: {
+    error
+  },
   computed: {
     ...mapGetters([
       'user'
@@ -22,8 +26,8 @@ export default {
       this.signUserIn({
         email: this.email,
         password: this.password
-      }).then(i => {
-        setTimeout(() => {
+      }).then(_ => {
+        setTimeout(_ => {
           if (this.user !== null) {
             this.$router.push('/money')
           } else {
@@ -32,7 +36,7 @@ export default {
         }, 1500)
       })
     },
-    clear () {
+    clearForm () {
       this.email = ''
       this.password = ''
     }
