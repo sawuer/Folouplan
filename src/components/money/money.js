@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import template from './money.html'
+import template from './template.html'
 
 import transactions from '../transactions/transactions.js'
 import modal from '../modal/modal.js'

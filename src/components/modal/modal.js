@@ -1,4 +1,4 @@
-import template from './modal.html'
+import template from './template.html'
 
 export default {
   template,

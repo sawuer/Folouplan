@@ -1,6 +1,6 @@
 import { mapGetters } from 'vuex'
 import modal from '../modal/modal.js'
-import template from './transactions.html'
+import template from './template.html'
 
 export default {
   template,

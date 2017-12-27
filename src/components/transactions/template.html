@@ -28,7 +28,7 @@
         
         <modal>
           <div slot="button-name">
-            <button>Add transaction</button>
+            <button class="_btn _btn--primary">Add transaction</button>
           </div>
           <div slot="modal-title">Add transaction</div>
           <div slot="modal-form">
@@ -65,7 +65,8 @@
                     value="category">{{category}}</option>
               </select> -->
             </form>
-            <button v-on:click="addTransaction">Add</button>
+            <button class="_btn _btn--primary"
+              v-on:click="addTransaction">Add</button>
           </div>
         </modal>
 

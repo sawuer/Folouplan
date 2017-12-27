@@ -1,5 +1,5 @@
 import { mapGetters, mapActions } from 'vuex'
-import template from './navigation.html'
+import template from './template.html'
 import user from './../user/user'
 
 export default {

@@ -1,10 +1,11 @@
-@import './../../components/money/money.css';
-@import './../../components/modal/modal.css';
+@import './../../components/money/style.css';
+@import './../../components/modal/style.css';
 @import './../../components/signin/style.css';
-@import './../../components/navigation/navigation.css';
-@import './../../components/transactions/transactions.css';
-@import './../../components/error/error.css';
+@import './../../components/navigation/style.css';
+@import './../../components/transactions/style.css';
+@import './../../components/error/style.css';
 @import './../../components/preloader/style.css';
+@import './../../components/user/style.css';
 
 body {
 	font-family: "Open Sans", sans-serif;
@@ -24,7 +25,7 @@ a {
 	outline: none;
 	font-size: 14px;
 	cursor: pointer;
-	width: 80px;
+	min-width: 80px;
 	margin: 10px 0;
 }
 ._btn:hover {

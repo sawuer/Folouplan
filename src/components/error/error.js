@@ -1,4 +1,4 @@
-import template from './error.html'
+import template from './template.html'
 
 export default {
   template

@@ -1,14 +1,8 @@
-// import { mapGetters } from 'vuex'
-import template from './user.html'
+import template from './template.html'
 
 export default {
   template,
   name: 'user',
-  data () {
-    return {
-      emailDropdown: [{ title: 'Logout' }]
-    }
-  },
   methods: {
     logOut () {
       this.$store.dispatch('logOut')
