@@ -30,10 +30,11 @@
           <div slot="button-name">
             <button class="_btn _btn--primary">Add transaction</button>
           </div>
-          <div slot="modal-title">Add transaction</div>
+          <h3 class="_subtitle" slot="modal-title">Add transaction</h3>
           <div slot="modal-form">
             <form ref="transactionForm">
               <input
+                class="_input"
                 v-model="transactionAmount"
                 type="number"
                 label="Amount" 
@@ -41,6 +42,7 @@
                 ></input>
               
               <input
+                class="_input"
                 v-model="transactionName"
                 type="text"
                 label="Name" 
@@ -48,6 +50,7 @@
                 ></input>
               
               <input 
+                class="_input"
                 v-model="transactionDate"
                 type="date"
                 label="Date" 
@@ -65,7 +68,7 @@
                     value="category">{{category}}</option>
               </select> -->
             </form>
-            <button class="_btn _btn--primary"
+            <button class="_btn _btn--primary transactions-addNew"
               v-on:click="addTransaction">Add</button>
           </div>
         </modal>

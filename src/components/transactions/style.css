@@ -18,3 +18,7 @@
 .transactions-tr:nth-child(even) {
   background: #f7f7f7;
 }
+.transactions-addNew {
+  float: left;
+  margin-right: 5px !important;
+}

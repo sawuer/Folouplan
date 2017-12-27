@@ -20,7 +20,6 @@ export default {
     var usersRef = this.$root.$firebaseRefs.users
     usersRef.once('value', snapshot => {
       console.log(snapshot.val())
-      // userExistsCallback(userId, exists);
     })
   },
   isEmailCorrect (email) {

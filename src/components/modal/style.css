@@ -11,10 +11,10 @@
 .modal-body {
   position: absolute;
   background: #fff;
-  top: 50%;
+  top: 70px;
   left: 50%;
-  width: 350px;
-  transform: translate(-50%, -50%);
+  width: 290px;
+  transform: translate(-50%);
   z-index: 110;
   padding: 20px;
   box-sizing: border-box;
