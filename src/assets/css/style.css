@@ -38,6 +38,13 @@ a {
 ._btn--primary:hover {
 	background: #00b30a;
 }
+._btn--warning {
+	background: #fd5433;
+	color: #fff;
+}
+._btn--warning:hover {
+	background: #fd4422;
+}
 
 ._input {
 	font-size: 14px;

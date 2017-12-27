@@ -1,15 +1,13 @@
 <div class="navigation">
-  <!-- <user v-if="this.$store.getters.user !== null"></user> -->
   <router-link v-for="item in menuItems"
     @click="clickOnNavItem" 
     :to="item.path"
     :key="item.title"
-  >
+    >
     <button class="navigation-btn">
       <i class="material-icons">{{item.icon}}</i>
     </button>
   </router-link>
-
 
   <router-link
     v-if="this.$store.getters.user !== null"
