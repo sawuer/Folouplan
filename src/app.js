@@ -21,10 +21,9 @@ export default {
     preloader
   },
   mounted () {
-    var self = this
     setTimeout(() => {
-      self.loaded = true
-    }, 2000)
+      this.loaded = true
+    }, 1500)
   },
   data () {
     return {

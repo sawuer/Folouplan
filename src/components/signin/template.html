@@ -6,8 +6,8 @@
       v-model="email"
       placeholder="Email"
       ></input>
-    <error v-if="validFull.email">Empty email field</error>
-    <error v-if="validCorrect.email">Invalid email</error>
+    <error v-if="validFull.email" :message="'Empty email field'"></error>
+    <error v-if="validCorrect.email" :message="'Invalid email'"></error>
     <!-- <error v-if="exists.email">This email does'nt exist</error> -->
       
     <input
@@ -16,7 +16,7 @@
       type="password"
       placeholder="Password"
       ></input>
-    <error v-if="validFull.password">Empty password field</error>
+    <error v-if="validFull.password" :message="'Empty password field'"></error>
 
     <button class="_btn _btn--primary" type="submit">Sign in</button>
     <button class="_btn" @click="clearForm">Clear</button>
