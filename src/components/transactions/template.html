@@ -37,25 +37,30 @@
                 class="_input"
                 v-model="transactionAmount"
                 type="number"
-                ></input>
+                placeholder="Amount"
+              ></input>
               
               <input
                 class="_input"
                 v-model="transactionName"
                 type="text"
-                ></input>
+                placeholder="Name"
+              ></input>
               
               <input 
                 class="_input"
                 v-model="transactionDate"
                 type="date"
-                ></input>
+              ></input>
 
 
-              <selector 
+              <selector
+                class="transaction-type"
                 :items="['Other', 'Food', 'Some']"
-                :default="'Type'"
-              ></selector>
+                :default="'Other'"
+              >
+              </selector>
+              <!-- <template>{{ document.querySelector('.sel')}}</template> -->
 
               <!-- <select
                 class="_input"
@@ -78,9 +83,11 @@
               </select> -->
             </form>
             <button class="_btn _btn--primary transactions-addNew"
-              v-on:click="addTransaction">Add</button>
+              v-on:click="addTransaction"
+            >Add</button>
           </div>
         </modal>
+        <!-- document.querySelector('.sel .selector-selected').innerText -->
 
       </template>      
     </template>

@@ -19,7 +19,6 @@ export default {
     return {
       transactionDate: null,
       transactionName: null,
-      transactionType: null,
       transactionAmount: null
     }
   },
@@ -112,9 +111,9 @@ export default {
     //   this.fullCategoriesFromDB()
     //   this.computeAccounts()
     // },
-    addTransaction () {
+    addTransaction (type) {
       // const key = this.$root.$firebaseRefs.users.key
-      console.log(this.$root.$firebaseRefs.users)
+      // console.log(this.$root.$firebaseRefs.users)
       this.$root.$firebaseRefs.users
         .child(this.$store.getters.user.key)
         .child('data')
@@ -122,7 +121,7 @@ export default {
           name: this.transactionName,
           date: this.transactionDate,
           amount: this.transactionAmount,
-          type: this.transactionType
+          type: document.querySelector('.transaction-type .selector-selected').innerText
         })
 
         // users: this.$root.$firebaseRefs.users,
