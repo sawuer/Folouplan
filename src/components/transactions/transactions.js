@@ -1,11 +1,13 @@
 import { mapGetters } from 'vuex'
 import modal from '../modal/modal.js'
+import selector from '../selector/selector.js'
 import template from './template.html'
 
 export default {
   template,
   components: {
-    modal
+    modal,
+    selector
   },
   mounted () {
   },

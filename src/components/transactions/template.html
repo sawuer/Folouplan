@@ -37,27 +37,36 @@
                 class="_input"
                 v-model="transactionAmount"
                 type="number"
-                label="Amount" 
-                required 
                 ></input>
               
               <input
                 class="_input"
                 v-model="transactionName"
                 type="text"
-                label="Name" 
-                required
                 ></input>
               
               <input 
                 class="_input"
                 v-model="transactionDate"
                 type="date"
-                label="Date" 
-                required
                 ></input>
 
-              
+
+              <selector 
+                :items="['Other', 'Food', 'Some']"
+                :default="'Type'"
+              ></selector>
+
+              <!-- <select
+                class="_input"
+                v-model="transactionType" 
+                >
+                <option value="Food">Food</option>
+                <option value="Other">Other</option>
+                <option value="Home">Home</option>
+                   <option 
+                    v-for="category in spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])" 
+                    value="category">{{category}}</option> -->
               <!-- <select
                 v-model="addAccountType" 
                 label="Type" 

@@ -1,0 +1,36 @@
+.selector-selected {
+  font-size: 14px;
+	border-radius: 2px;
+	border: 1px solid #ddd;
+	padding: 7px 10px;
+  width: 250px;
+  cursor: pointer;
+  height: 33px;
+	display: block;
+	box-sizing: border-box;
+  margin: 10px 0;
+  position: relative;
+}
+
+.selector-list {
+  font-size: 14px;
+	border-radius: 2px;
+	border: 1px solid #ddd;
+  width: 250px;
+	box-sizing: border-box;
+  margin: 10px 0;
+  position: absolute;
+  bottom: 3px;
+  background: #fff;
+  box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+}
+
+.selector-item {
+  padding: 7px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.selector-item:last-child {
+  border-bottom: none;
+}
