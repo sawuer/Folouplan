@@ -2,23 +2,44 @@
 .transactions-table {
   width: 100%;
   border-collapse: collapse;
+  border: 1px solid #eee;
   margin-bottom: 10px;
+  border-radius: 3px;
 }
-.transactions-td {
-  padding: 5px 10px;
-  text-align: left;
-  font-size: 14px;
-}
+.transactions-td,
 .transactions-th {
   text-align: left;
-  padding: 10px;
-  border-bottom: 1px solid #f1f1f1;
   font-size: 14px;
 }
-.transactions-tr:nth-child(even) {
-  background: #f7f7f7;
+.transactions-td {
+  padding: 3px 5px;
+}
+.transactions-th {
+  padding: 10px;
+  background: #f8f8f8;
+}
+.transactions-tr {
+  border-bottom: 1px solid #eee;
 }
 .transactions-addNew {
   float: left;
   margin-right: 5px !important;
+}
+.transactions-deleteBtn {
+  background: none;
+  color: #ccc;
+  cursor: pointer;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  outline: none;
+  transition: all 400ms;
+}
+.transactions-deleteBtn:hover {
+  background: #f5f5f5;
+}
+
+.transactions-deleteIcon {
+  font-size: 18px;
 }

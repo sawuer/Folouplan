@@ -28,8 +28,8 @@ export default {
       ]
       if (this.userIsAuthenticated) {
         menuItems = [
-          { title: 'Targets', path: '/targets', icon: 'storage' },
-          { title: 'Money', path: '/money', icon: 'attach_money' }
+          { title: 'Money', path: '/money', icon: 'attach_money' },
+          { title: 'Targets', path: '/targets', icon: 'storage' }
           // { title: 'Settings', path: '/settings', icon: 'settings' }
           // { title: 'Notes', path: '/notes', icon: 'book' }
         ]

@@ -7,6 +7,7 @@
         <table class="transactions-table">
           <thead>
             <tr class="transactions-tr">
+              <th class="transactions-th"></th>
               <th class="transactions-th">Date</th>
               <th class="transactions-th">Name</th>
               <th class="transactions-th">Type</th>
@@ -17,6 +18,12 @@
             <tr class="transactions-tr" 
               v-for="transaction in Object.keys(user.data.transactions).map(i => user.data.transactions[i])"
               >
+              <td class="transactions-td">
+                <button class="transactions-deleteBtn"
+                  @click="deleteTransaction(transaction.thisKey)">
+                  <i class="material-icons transactions-deleteIcon">delete</i>
+                </button>
+              </td>
               <td class="transactions-td">{{ transaction.date }}</td>
               <td class="transactions-td">{{ transaction.name }}</td>
               <td class="transactions-td">{{ transaction.type }}</td>

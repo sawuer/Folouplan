@@ -112,10 +112,9 @@ export default {
     //   this.computeAccounts()
     // },
     addTransaction (type) {
-      // const key = this.$root.$firebaseRefs.users.key
-      // console.log(this.$root.$firebaseRefs.users)
+      const key = this.$store.getters.user.key
       this.$root.$firebaseRefs.users
-        .child(this.$store.getters.user.key)
+        .child(key)
         .child('data')
         .child('transactions').push({
           name: this.transactionName,
@@ -123,55 +122,24 @@ export default {
           amount: this.transactionAmount,
           type: document.querySelector('.transaction-type .selector-selected').innerText
         })
-
-        // users: this.$root.$firebaseRefs.users,
-        // userData: this.$root.$firebaseRefs.users.child(this.$store.getters.user.key).child('data'),
-        // .then(i => {
-        //   this.$root.$firebaseRefs.users
-        //     .child(key)
-        //     .child('data')
-        //     .child('spendings')
-        //     .child(i.key)
-        //     .update({
-        //       thisKey: i.key
-        //     })
-        // })
-      //   this.computeCash()
-      //   this.computeAccounts()
-      //   setTimeout(() => this.$refs.form.reset(), 200)
-      // }
+        .then(it => {
+          this.$root.$firebaseRefs.users
+            .child(key)
+            .child('data')
+            .child('transactions')
+            .child(it.key)
+            .update({
+              thisKey: it.key
+            })
+        })
     },
-    // addIncome () {
-    //   if (this.$refs.form2.validate()) {
-    //     var form = this.$refs.form2
-    //     var money = form.$el[0].value
-    //     var type = form.$el[1].previousSibling.textContent
-    //     var date = form.$el[2].value
-    //     const key = this.user.key
-    //     this.$root.$firebaseRefs.users
-    //       .child(key)
-    //       .child('data')
-    //       .child('incomes').push({
-    //         type, date, money
-    //       })
-    //       .then(i => {
-    //         this.$root.$firebaseRefs.users
-    //           .child(key)
-    //           .child('data')
-    //           .child('incomes')
-    //           .child(i.key)
-    //           .update({
-    //             thisKey: i.key
-    //           })
-    //       })
-    //     this.computeCash()
-    //     setTimeout(() => this.$refs.form2.reset(), 200)
-    //   }
-    // },
-    deleteItem (key, coll) {
-      this.userData.child(coll).child(key).remove()
-      this.computeCash()
-      this.computeAccounts()
+    deleteTransaction (key) {
+      this.$root.$firebaseRefs.users
+        .child(this.$store.getters.user.key)
+        .child('data')
+        .child('transactions')
+        .child(key)
+        .remove()
     }
     // computeCash () {
     //   this.users.child(this.user.key).once('value').then(i => {
@@ -188,22 +156,5 @@ export default {
     //     }
     //   })
     // },
-
-    // newSpendingName (e, spending, key) {
-    //   this.userData.child('spendings').child(key).update({
-    //     name: e.target.value
-    //   })
-    // },
-    // newType (type, key, coll) {
-    //   this.userData.child(coll).child(key).update({ type })
-    //   this.computeAccounts()
-    // },
-    // newMoneyCount (e, key, coll) {
-    //   this.userData.child(coll).child(key).update({
-    //     money: e.target.value
-    //   })
-    //   this.computeCash()
-    //   this.computeAccounts()
-    // }
   }
 }
