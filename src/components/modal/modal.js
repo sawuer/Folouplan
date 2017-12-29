@@ -1,6 +1,7 @@
 import template from './template.html'
 
 export default {
+  props: ['title'],
   template,
   data () {
     return {

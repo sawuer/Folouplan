@@ -1,12 +1,8 @@
 <div class="modal">
-  <div @click="setShow()">
-    <slot name="button-name"></slot>
-  </div>
+  <button class="_btn _btn--primary" @click="setShow()" v-text="title"></button>
   <div class="modal-shadow" v-if="show">
     <div class="modal-body">
-      <span class="headline">
-        <slot name="modal-title"></slot>
-      </span>
+      <h3 class="modal-title" v-text="title"></h3>
       <slot name="modal-form"></slot>
       <button class="_btn" 
         @click="setShow">Close</button>

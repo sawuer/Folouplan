@@ -33,11 +33,7 @@
         </table>
 
         
-        <modal>
-          <div slot="button-name">
-            <button class="_btn _btn--primary">Add transaction</button>
-          </div>
-          <h3 class="_subtitle" slot="modal-title">Add transaction</h3>
+        <modal :title="'Add transaction'">
           <div slot="modal-form">
             <form ref="transactionForm">
               <input
@@ -65,36 +61,14 @@
                 class="transaction-type"
                 :items="['Other', 'Food', 'Some']"
                 :default="'Other'"
-              >
-              </selector>
-              <!-- <template>{{ document.querySelector('.sel')}}</template> -->
-
-              <!-- <select
-                class="_input"
-                v-model="transactionType" 
-                >
-                <option value="Food">Food</option>
-                <option value="Other">Other</option>
-                <option value="Home">Home</option>
-                   <option 
-                    v-for="category in spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])" 
-                    value="category">{{category}}</option> -->
-              <!-- <select
-                v-model="addAccountType" 
-                label="Type" 
-                required 
-                >
-                  <option 
-                    v-for="category in spendingsCategory.filter(j => Object.keys(accounts).map(k => accounts[k].name).indexOf(j[0]) === -1 ).map(i => i[0])" 
-                    value="category">{{category}}</option>
-              </select> -->
+              ></selector>
+              
             </form>
             <button class="_btn _btn--primary transactions-addNew"
               v-on:click="addTransaction"
             >Add</button>
           </div>
         </modal>
-        <!-- document.querySelector('.sel .selector-selected').innerText -->
 
       </template>      
     </template>
