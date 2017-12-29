@@ -8,10 +8,9 @@ export default function () {
   }).then(_ => {
     setTimeout(_ => {
       if (this.user !== null) {
-        this.$router.push('/money')
-      } else {
-        this.$router.push('/signin')
+        return this.$router.push('/money')
       }
+      this.$router.push('/signin')
     }, 1500)
   })
 }

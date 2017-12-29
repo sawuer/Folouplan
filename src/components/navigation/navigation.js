@@ -11,10 +11,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'setURL'
+      // 'setURL'
     ]),
     clickOnNavItem () {
-      this.setURL()
+      // this.setURL()
     }
   },
   computed: {

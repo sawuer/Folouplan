@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import modal from '../modal/modal.js'
 import selector from '../selector/selector.js'
 import template from './template.html'
@@ -10,9 +10,11 @@ export default {
     selector
   },
   mounted () {
+    this.setUserData()
   },
   computed: {
     ...mapGetters([
+      'userData'
     ])
   },
   data () {
@@ -23,6 +25,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'setUserData'
+    ]),
     // addAccount () {
     //   this.$root.$firebaseRefs.users
     //     .child(this.user.key).child('data').child('accounts').push({

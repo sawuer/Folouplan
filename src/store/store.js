@@ -5,15 +5,13 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    currentURL: null,
     user: null,
     usersInFirebase: null,
-    newUserId: null
+    newUserId: null,
+    userData: null,
+    wrongUser: false
   },
   mutations: {
-    setURL (state) {
-      state.currentURL = window.location.href.slice(window.location.href.lastIndexOf('/'))
-    },
     setUser (state, val) {
       state.user = val
     },
@@ -22,30 +20,42 @@ export const store = new Vuex.Store({
     },
     setNewUserId (state, val) {
       state.newUserId = val
+    },
+    setUserData (state, val) {
+      state.userData = val
+    },
+    setWrongUser (state, val) {
+      state.wrongUser = val
     }
   },
   actions: {
-    setNewUserId ({ commit }, value) {
-      commit('setNewUserId', value)
+    setUserData ({commit, state}, value) {
+      return firebase.database()
+        .ref('/users/' + state.user.key)
+        .once('value')
+        .then(snapshot => {
+          commit('setUserData', snapshot.val())
+        })
     },
-    setURL ({ commit }) {
-      commit('setURL')
-    },
+    // setNewUserId ({ commit }, value) {
+      // commit('setNewUserId', value)
+    // },
     setUsersInFirebase ({ commit }, users) {
       commit('setUsersInFirebase', users)
     },
-    signUserUp ({ dispatch }, userData) {
+    signUserUp ({ commit }, userData) {
       firebase.auth()
         .createUserWithEmailAndPassword(userData.email, userData.password)
         .then(user => {
-          dispatch('setNewUserId', user.uid)
+          // dispatch('setNewUserId', user.uid)
+          commit('setNewUserId', user.uid)
         })
     },
-    signUserIn ({ commit }, userData) {
+    signUserIn ({ commit, state }, userData) {
       firebase.auth()
         .signInWithEmailAndPassword(userData.email, userData.password)
         .then(user => {
-          this.state.usersInFirebase.once('value').then(snapshot => {
+          return this.state.usersInFirebase.once('value').then(snapshot => {
             snapshot.forEach(i => {
               if (i.val().id === user.uid) {
                 commit('setUser', {
@@ -53,9 +63,14 @@ export const store = new Vuex.Store({
                   email: firebase.auth().currentUser.email,
                   key: i.key
                 })
+                commit('setWrongUser', false)
               }
             })
           })
+        })
+        .catch(err => {
+          commit('setWrongUser', true)
+          throw new Error(err)
         })
     },
     logOut ({ commit }) {
@@ -66,8 +81,9 @@ export const store = new Vuex.Store({
   getters: {
     currentURL: state => state.currentURL,
     user: state => state.user,
-    newUserId: state => state.newUserId,
-    usersInFirebase: state => state.usersInFirebase
+    usersInFirebase: state => state.usersInFirebase,
+    userData: state => state.userData,
+    wrongUser: state => state.wrongUser
   }
 })
 

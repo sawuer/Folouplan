@@ -1,9 +1,6 @@
 <div class="transactions">
-  <template v-for="user in this.$root.users">
     <h2 class="_title">Transactions</h2>
-    <template v-if="user.id === $store.getters.user.id">
-      <template v-if="user.data && user.data.transactions">
-        
+
         <table class="transactions-table">
           <thead>
             <tr class="transactions-tr">
@@ -16,8 +13,7 @@
           </thead>
           <tbody>
             <tr class="transactions-tr" 
-              v-for="transaction in Object.keys(user.data.transactions).map(i => user.data.transactions[i])"
-              >
+              v-for="transaction in userData.transactions">
               <td class="transactions-td">
                 <button class="transactions-deleteBtn"
                   @click="deleteTransaction(transaction.thisKey)">
@@ -70,9 +66,6 @@
           </div>
         </modal>
 
-      </template>      
-    </template>
-  </template>
 </div>
 
 

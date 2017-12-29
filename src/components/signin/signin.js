@@ -6,10 +6,12 @@ import data from './data.js'
 
 export default {
   template,
+  name: 'Signin',
   methods,
   data: () => data,
   components: { error },
   computed: mapGetters([
-    'user'
+    'user',
+    'wrongUser'
   ])
 }

@@ -25,7 +25,7 @@ new Vue({
   mounted () {
     this.$store.dispatch('setUsersInFirebase', users)
     if (this.$store.getters.user !== null && this.$store.getters.user !== undefined) {
-      this.$router.push(this.$store.getters.currentURL)
+      // this.$router.push(this.$store.getters.currentURL)
     } else {
       this.$router.push('/signin')
     }

@@ -16,12 +16,6 @@ export default {
     }
     return false
   },
-  isEmailExists () {
-    var usersRef = this.$root.$firebaseRefs.users
-    usersRef.once('value', snapshot => {
-      console.log(snapshot.val())
-    })
-  },
   isEmailCorrect (email) {
     if (/([\w-\\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/g.test(email)) {
       return true
