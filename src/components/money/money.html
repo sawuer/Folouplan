@@ -1,6 +1,7 @@
 <transition enter-active-class="animated fadeIn">
   <div class="money">
-    <div class="money-account grey-border">
+
+    <div class="money-account">
       <v-layout row wrap>
         <v-flex>
           <v-dialog v-model="addAccountDialog" persistent>
@@ -60,7 +61,7 @@
 
     <v-layout row wrap>
       <v-flex xs12 class="pa-2">
-        <h2 class="table-name">Tranzactions</h2>
+        <h4>Tranzactions</h4>
         <v-layout row wrap class="category-container">
           <v-text-field 
             single-line
@@ -80,7 +81,7 @@
           </v-flex>
         </v-layout>
 
-      <!-- SPENDINGS -->
+      <!-- Transactions -->
       <div class="table-section">
         <v-dialog v-model="dialog" persistent>
           <v-btn icon slot="activator" class="grey lighten-4 green--text">
@@ -88,7 +89,7 @@
           </v-btn>
           <v-card>
             <v-card-title>
-              <span class="headline">Add new spend</span>
+              <span class="headline">Create new transaction</span>
             </v-card-title>
             <v-card-text>
               <v-form v-model="valid" ref="form">
@@ -193,7 +194,7 @@
       </div>
       <br>
       <br>
-      <h2 class="table-name">Incomes</h2>
+      <h4>Incomes</h4>
 
 
       <v-layout row wrap class="category-container">

@@ -1,33 +1,19 @@
 @import './../../components/money/money.css';
+@import './../../components/targets/targets.css';
 
-a {
-	text-decoration: none;
-}
 
+/* Vuetify css global changes */
 .picker__title {
-	background: #CE3110 !important;
-}
-.chip {
-	margin: 3px !important;
-	opacity: .45 !important;
+	background: rgb(10, 218, 10) !important;
 }
 .input-group__details:after {
-	background: #CE3110 !important;
-}
-#app .chip--removable {
-	padding: 0 1px 0 8px;
-}
-#app .chip {
-	height: auto;
-}
-#app .chip__close {
-	margin: 0;
+	background: rgb(10, 218, 10) !important;
 }
 #app nav {
 	position: fixed;
 }
 main {
-	padding-top: 40px;
+	padding-top: 64px;
 }
 .application--light .navigation-drawer {
 	border-right: 1px solid #f1f1f1;
@@ -42,159 +28,36 @@ main {
 .application--light .input-group:not(.input-group--error) .input-group__details:before {
 	background: rgba(0,0,0,0.10) !important;
 }
-.user-name {
-	padding-right: 10px;
-	font-weight: bold;
-}
 #main-preloader {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
-.application--light .list .list__tile:not(.list__tile--active) {
-	border-bottom: 1px solid #eee;
-}
-.delete-todo {
-	width: 43px !important;
-}
-.completed-todos {
-	opacity: .6;
-}
 
-.floatR {
-	float: right;
-}
-.user-wrapper {
-	display: block;
-	padding-top: 14px;
-}
-.list__tile--link {
-	font-size: 13px !important;
-}
 .list__tile--active {
-	border-bottom: 1px solid #eee !important;
 	background: #fefefe;
 	color: rgba(0,0,0,.87) !important;
 }
-.card {
-	margin-bottom: 20px;
-}
-.diary-item {
-	padding: 30px 0 15px 0;
-	border-bottom: 1px solid #eee;
-	overflow: hidden;
-}
-.diary-p {
-	margin-bottom: 0;
-	padding: 5px 0;
 
-}
-.diary-delete {
-	float: right;
-}
-.navigation-drawer {
-	transition: none !important;
-}
-.modal-id {
-	display: none;
-}
-.menu__content .list {
-	padding: 0;
-}
-.user-email {
-	padding: 0 16px;
-}
-.menu__content {
-	border: 1px solid #eee;
-	border-radius: 1px;
-}
-.dialog, .menu__content {
-	box-shadow: none !important;
-}
-.cost-td {
-	font-weight: bold !important;
-}
-.list__tile .avatar, .list__tile__action {
-	min-width: 33px !important;
-}
 .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right)~main, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating)~.toolbar, .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~.footer:not(.footer--fixed):not(.footer--absolute), .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right)~main {
 	padding-left: 55px !important;
 }
 .navigation-drawer {
 	width: 55px !important;
 }
-.cash-text {
-	float: right;
-	padding: 10px 0;
-}
-
-.light-text {
-	font-weight: lighter !important;
-}
 
 
-.application .theme--light.input-group--selection-controls .icon, 
-.application .theme--light.input-group--selection-controls:not(.input-group--active) .input-group__input {
-	color: rgba(0,0,0,.20);
-}
-
-.input-group--text-field input, 
-.input-group--text-field textare,
-.input-group--select .input-group__selections__comma {
-	font-size: 13px !important;
-}
-
-.all-sum h5 {
-	margin-bottom: 0;
-}
-.all-sum .input-group {
-	padding-top: 0;
-}
-
-.spending-table tbody td:first-child {
+tbody td:first-child {
 	padding: 0 !important;
 }
 
-.toolbar__content {
-	height: 40px !important
-}
-
-.table-even tr:nth-child(even) {
-	background: #f8f8f8;
-}
-.table-even th,
-.table-even td {
-	border: 1px solid rgba(0,0,0,.05);
-}
 
 .navigation-drawer--permanent.navigation-drawer--clipped, .navigation-drawer--permanent.navigation-drawer--floating, .navigation-drawer--persistent.navigation-drawer--clipped, .navigation-drawer--persistent.navigation-drawer--floating {
-	margin-top: 40px !important;
-	max-height: calc(100vh - 40px) !important;
+	margin-top: 64px !important;
+	max-height: calc(100vh - 64px) !important;
 }
 
-table.table tbody td:first-child, table.table tbody td:not(:first-child), table.table tbody th:first-child, table.table tbody th:not(:first-child), table.table thead td:first-child, table.table thead td:not(:first-child), table.table thead th:first-child, table.table thead th:not(:first-child) {
-	padding: 0 15px;
-}
-
-.dropdown-bg li {
-	background: #fff !important;
-}
-
-#completedTodos li {
-	transition: all .4s;
-}
-
-.application--light .small-dialog__actions, .application--light .small-dialog__content {
-		box-shadow: 0 2px 10px 0 rgba(0,0,0,.2) !important;
-}
-
-.post {
-	border: 1px solid #e5e5e5;
-	overflow: hidden;
-	margin-bottom: 25px;
-	padding: 15px;
-}
 
 .inc-type i,
 .pur-type i,
@@ -207,38 +70,11 @@ table.table tbody td:first-child, table.table tbody td:not(:first-child), table.
 	padding-top: 0;
 }
 
-.card {
-	margin-bottom: 0;
+.iput-group--text-field input, 
+.input-group--text-field textare,
+.input-group--select .input-group__selections__comma {
+	font-size: 13px !important;
 }
-.accounts {
-	float: left;
-}
-
-
-.money-accountItem {
-	float: left;
-}
-
-
-.grey-border {
-	border: 1px solid rgba(0,0,0,.1);
-}
-
-.money-account .btn--icon {
-	width: 20px;
-	height: 20px;
-	background: none;
-}
-.money-account .material-icons {
-	font-size: 16px;
-}
-
-.account-confgs {
-	float: left;
-}
-
-
-
 
 
 
