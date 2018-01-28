@@ -4,9 +4,9 @@
   </v-btn>
   <v-list>
     <div class="user-email">{{ $store.getters.user.email }}</div>
-    <v-list-tile v-for="item in emailDropdown" :key="item.title" @click="">
+    <v-list-tile>
       <v-list-tile-title>
-        <span @click="logOut">{{ item.title }}</span>
+        <span @click="exit">Exit</span>
       </v-list-tile-title>
     </v-list-tile>
   </v-list>
