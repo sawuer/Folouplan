@@ -8,18 +8,12 @@
       </v-list-tile>
     </v-list>
   </v-navigation-drawer>
-  <v-toolbar class="elevation-0 deep-orange darken-2" dark>
-    <v-flex xs9>
-      <v-layout row wrap>
-        <v-toolbar-title style="font-family: 'Raleway', sans-serif;">
-          <div style="float: left;"><b>Follouplan</b></div>
-         <!-- <div style="font-size: 12px; float: left; padding-right: 12px; font-weigth: lighter; transform: translate(12px, 8px);">your life under control</div> -->
-        </v-toolbar-title>
-      </v-layout>
-    </v-flex>  
-    <v-flex xs3>
-      <user></user>
-    </v-flex>
+  <v-toolbar dark class="elevation-0 light-green lighten-1">
+    <v-toolbar-title style="font-family: 'Raleway'">
+      Folouplan
+    </v-toolbar-title>
+    <v-spacer></v-spacer>
+    <user v-if="this.$store.getters.user"></user>
   </v-toolbar>
   <main>
     <v-container fluid>
