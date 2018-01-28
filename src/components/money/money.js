@@ -7,7 +7,6 @@ export default {
     this.fullCategoriesFromDB()
     this.computeCash()
     this.computeAccounts()
-
     this.putAccounts()
   },
   computed: {
@@ -31,7 +30,7 @@ export default {
       incomesCategories: [],
       newIncomeCategory: null,
       itemNameRules: [
-        (v) => !!v || 'You didn\'t fill out the puchase name',
+        (v) => !!v || 'You didn\'t fill out the purchase name',
         (v) => v && v.length <= 40 || 'Purchase name must be less than 40 characters'
       ],
       amountRules: [

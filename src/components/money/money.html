@@ -1,6 +1,5 @@
 <transition enter-active-class="animated fadeIn">
-  <div class="money">
-
+  <div>
     <div class="money-account">
       <v-layout row wrap>
         <v-flex>
@@ -47,7 +46,7 @@
         <div class="counts">
           <div class="accounts" v-html="accountsTemplate"></div>
           <div class="money-account_item">
-            <span>Cash: <b>{{cash}} {{currency}}</b></span>
+            <span>all: <b>{{cash}} {{currency}}</b></span>
           </div>
         </div>
       </v-layout>
@@ -64,7 +63,7 @@
         <h2 class="money-title">Transactions</h2>
         
         <v-layout row wrap>
-          <v-flex xs4>
+          <v-flex xs3>
             <v-text-field 
               single-line
               label="Add new category"
@@ -73,7 +72,7 @@
             ></v-text-field>
             <v-btn @click="addCategory('spendingsCategories', 'newSpendingCategory')">Add</v-btn>
           </v-flex>
-          <v-flex xs8 class="pa-2">
+          <v-flex xs9 class="pa-2">
             <template v-for="(chip, index) in spendingsCategory">
               <v-chip 
                 class="chipper" 
@@ -204,7 +203,7 @@
         <h4 class="money-title">Incomes</h4>
 
         <v-layout row wrap>
-          <v-flex xs4>
+          <v-flex xs3>
             <v-text-field 
               single-line
               label="Add new category"
@@ -213,14 +212,14 @@
             ></v-text-field>
             <v-btn @click="addCategory('incomesCategories', 'newIncomeCategory')">Add</v-btn>
           </v-flex>
-          <v-flex xs8 class="pa-2">
+          <v-flex xs9 class="pa-2">
             <template v-for="(chip, index) in incomesCategories">
               <v-chip 
                 class="chipper" 
                 close
                 @input="removeCategory(incomesCategories[index][1], 'incomesCategories')"
                 v-model="incomesCategories['chip' + index]"
-                >{{ incomesCategories[index][0] }}</v-chip>
+              >{{ incomesCategories[index][0] }}</v-chip>
             </template>
           </v-flex>
         </v-layout>
