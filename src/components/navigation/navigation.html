@@ -1,7 +1,10 @@
 <v-app id="navigation" toolbar>
   <v-navigation-drawer permanent floating light>
     <v-list dense class="pt-0">
-      <v-list-tile @click="clickOnNavItem" router-link :to=item.path v-for="item in menuItems" :key="item.title">
+      <v-list-tile router-link 
+        v-for="item in menuItems" 
+        :to=item.path 
+        :key="item.title">
         <v-list-tile-action>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-tile-action>
