@@ -113,7 +113,7 @@ export default {
               }
             })
             this.accountsTemplate += `
-              <div class="flex money-accountItem">
+              <div class="money-account_item">
                 <span class="text-xs-right">${i.val().data.accounts[j].name}: <b>${newAccountCount} ${currency}</b></span>
               </div>
             `
